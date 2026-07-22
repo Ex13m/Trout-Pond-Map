@@ -32,8 +32,14 @@
     nordic: IMG_CDN + 'hf_20260722_151007_e5cc4c5c-1d19-4cbe-a9af-b14877af0604_min.webp',
     release: IMG_CDN + 'hf_20260722_151008_22db8205-27e8-41c8-b3ac-f8195c6f4d94_min.webp'
   };
+  function biomeKey(v) {
+    return Object.prototype.hasOwnProperty.call(BIOME_IMG, v.biome) ? v.biome : 'forest';
+  }
   function venueImage(v) {
-    return BIOME_IMG[v.biome] || BIOME_IMG.forest;
+    return BIOME_IMG[biomeKey(v)];
+  }
+  function safeUrl(u) {
+    return (typeof u === 'string' && /^https?:\/\//i.test(u)) ? u : null;
   }
 
   var WMO = {
@@ -81,11 +87,17 @@
   var map = L.map('map', { zoomControl: true, attributionControl: true, tap: true })
     .setView([49.5, 9.5], 5);
 
-  var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/' + (dark ? 'dark_all' : 'rastertiles/voyager') + '/{z}/{x}/{y}{r}.png', {
+  var darkMq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function tileUrl(isDark) {
+    return 'https://{s}.basemaps.cartocdn.com/' + (isDark ? 'dark_all' : 'rastertiles/voyager') + '/{z}/{x}/{y}{r}.png';
+  }
+  var tiles = L.tileLayer(tileUrl(darkMq && darkMq.matches), {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
     maxZoom: 19
   }).addTo(map);
+  if (darkMq && darkMq.addEventListener) {
+    darkMq.addEventListener('change', function (e) { tiles.setUrl(tileUrl(e.matches)); });
+  }
 
   var cluster = L.markerClusterGroup({
     showCoverageOnHover: false,
@@ -159,6 +171,8 @@
   function refresh() {
     buildMarkers();
     renderList();
+    // Открытая карточка могла выпасть из фильтра — закрываем, чтобы не врать
+    if (state.selectedId && !markers[state.selectedId]) closeSheet();
     var n = filtered().length;
     els.resultsPill.textContent = n === 0 ? 'Ничего не найдено'
       : 'Водоёмов: ' + n + (state.filters.country ? ' · ' + (COUNTRY_NAMES[state.filters.country] || '') : '');
@@ -185,8 +199,8 @@
       return;
     }
     els.listContainer.innerHTML = list.map(function (v) {
-      return '<button class="vcard" data-id="' + v.id + '">' +
-        '<div class="vcard__photo ph--' + (v.biome || 'forest') + '"><img loading="lazy" src="' + venueImage(v) + '" alt="" onerror="this.remove()">' +
+      return '<article class="vcard" role="button" tabindex="0" data-id="' + esc(v.id) + '" aria-label="' + esc(v.name) + ', ' + esc(COUNTRY_NAMES[v.country] || v.country) + '">' +
+        '<div class="vcard__photo ph--' + biomeKey(v) + '"><img loading="lazy" src="' + venueImage(v) + '" alt="" onerror="this.remove()">' +
         '<span class="vcard__flag">' + flagEmoji(v.country) + ' ' + esc(COUNTRY_NAMES[v.country] || v.country) + '</span>' +
         (v._dist != null ? '<span class="vcard__dist">' + Math.round(v._dist) + ' км</span>' : '') +
         '</div>' +
@@ -195,13 +209,18 @@
         '<div class="vcard__loc">📍 ' + esc(v.location) + '</div>' +
         '<div class="vcard__badges">' + crBadge(v) +
         (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
-        '</div></div></button>';
+        '</div></div></article>';
     }).join('');
   }
 
   els.listContainer.addEventListener('click', function (e) {
     var card = e.target.closest('.vcard');
     if (card) selectVenue(card.getAttribute('data-id'), true);
+  });
+  els.listContainer.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var card = e.target.closest('.vcard');
+    if (card) { e.preventDefault(); selectVenue(card.getAttribute('data-id'), true); }
   });
 
   /* ---------- Venue detail sheet ---------- */
@@ -223,10 +242,11 @@
 
   function renderDetail(v) {
     var cn = COUNTRY_NAMES[v.country] || v.country;
-    var gmaps = 'https://www.google.com/maps/dir/?api=1&destination=' + v.lat + ',' + v.lng;
+    var site = safeUrl(v.website);
+    var gmaps = 'https://www.google.com/maps/dir/?api=1&destination=' + Number(v.lat) + ',' + Number(v.lng);
     var html =
       '<div class="vd">' +
-      '<div class="vd__photo ph--' + (v.biome || 'forest') + '"><img src="' + venueImage(v) + '" alt="' + esc(v.name) + '" onerror="this.remove()">' +
+      '<div class="vd__photo ph--' + biomeKey(v) + '"><img src="' + venueImage(v) + '" alt="' + esc(v.name) + '" onerror="this.remove()">' +
       '<span class="vd__photo-note">фото иллюстративное</span>' +
       '<button class="vd__close" id="vd-close" aria-label="Закрыть">✕</button></div>' +
 
@@ -244,7 +264,7 @@
 
       '<div class="vd__actions">' +
       '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">🧭 Маршрут</a>' +
-      (v.website ? '<a class="btn btn--ghost" href="' + esc(v.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>' : '') +
+      (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">🌐 Сайт</a>' : '') +
       '</div>' +
 
       '<div class="vd__section"><h3>Погода на водоёме</h3><div id="weather-box" class="weather--loading">Загружаю прогноз…</div></div>' +
@@ -263,7 +283,7 @@
         : '') +
 
       '<p class="vd__source">Данные ориентировочные, собраны из открытых источников' +
-      (v.website ? ' — актуальность проверяйте на <a href="' + esc(v.website) + '" target="_blank" rel="noopener">сайте водоёма</a>.' : '.') +
+      (site ? ' — актуальность проверяйте на <a href="' + esc(site) + '" target="_blank" rel="noopener">сайте водоёма</a>.' : '.') +
       (v.precision === 'approx' ? ' Координаты приблизительные.' : '') + '</p>' +
       '</div>';
 
@@ -300,41 +320,50 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) {
         weatherCache[key] = { t: Date.now(), data: data };
-        // Sheet may have moved to another venue while loading
+        // Пользователь мог уже открыть другой водоём
         if (state.selectedId !== v.id) return;
         var b = document.getElementById('weather-box');
         if (b) renderWeather(b, data);
       })
       .catch(function () {
+        if (state.selectedId !== v.id) return;
         var b = document.getElementById('weather-box');
         if (b) { b.className = 'weather--error'; b.textContent = 'Не удалось загрузить погоду. Проверьте соединение.'; }
       });
   }
 
   function windDir(deg) {
+    if (deg == null || !isFinite(deg)) return '—';
     var dirs = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
     return dirs[Math.round(deg / 45) % 8];
   }
+  // Open-Meteo может вернуть null в отдельных полях
+  function num(x, fmt) { return (x == null || !isFinite(x)) ? '—' : fmt(x); }
 
   function biteScore(cur) {
-    // Simple heuristic anglers appreciate: pressure + wind + precipitation
+    // Простая эвристика, понятная рыболову: давление + ветер + осадки
     var score = 3;
     var p = cur.pressure_msl;
-    if (p >= 1008 && p <= 1022) score++;
-    if (p < 1000 || p > 1030) score--;
+    if (p != null && p >= 1008 && p <= 1022) score++;
+    if (p != null && (p < 1000 || p > 1030)) score--;
     var w = cur.wind_speed_10m;
-    if (w >= 1 && w <= 5) score++;
+    if (w != null && w >= 1 && w <= 5) score++;
     if (w > 9) score -= 2; else if (w > 7) score--;
     if (cur.precipitation > 4) score--;
-    if (cur.cloud_cover >= 30 && cur.cloud_cover <= 90) score++;
+    if (cur.cloud_cover != null && cur.cloud_cover >= 30 && cur.cloud_cover <= 90) score++;
     score = Math.max(1, Math.min(5, score));
     var labels = { 1: 'слабый клёв', 2: 'ниже среднего', 3: 'умеренный клёв', 4: 'хороший клёв', 5: 'отличный клёв' };
     return { score: score, label: labels[score] };
   }
 
   function renderWeather(box, data) {
+    try { renderWeatherInner(box, data); }
+    catch (e) { box.className = 'weather--error'; box.textContent = 'Прогноз недоступен.'; }
+  }
+
+  function renderWeatherInner(box, data) {
     var cur = data.current, daily = data.daily;
-    if (!cur || !daily) { box.className = 'weather--error'; box.textContent = 'Прогноз недоступен.'; return; }
+    if (!cur || !daily || !daily.time) { box.className = 'weather--error'; box.textContent = 'Прогноз недоступен.'; return; }
     var ico = wmo(cur.weather_code);
     var bite = biteScore(cur);
     var stars = '★★★★★'.slice(0, bite.score) + '☆☆☆☆☆'.slice(0, 5 - bite.score);
@@ -346,21 +375,21 @@
       var di = wmo(daily.weather_code[i]);
       days += '<div class="weather__day"><div>' + dayNames[d.getDay()] + '</div>' +
         '<div class="d-ico">' + di[0] + '</div>' +
-        '<div class="d-max">' + Math.round(daily.temperature_2m_max[i]) + '°</div>' +
-        '<div class="d-min">' + Math.round(daily.temperature_2m_min[i]) + '°</div></div>';
+        '<div class="d-max">' + num(daily.temperature_2m_max[i], Math.round) + '°</div>' +
+        '<div class="d-min">' + num(daily.temperature_2m_min[i], Math.round) + '°</div></div>';
     }
 
     box.className = 'weather';
     box.innerHTML =
       '<div class="weather__now">' +
       '<div class="weather__icon">' + ico[0] + '</div>' +
-      '<div><div class="weather__temp">' + Math.round(cur.temperature_2m) + '°C</div>' +
-      '<div class="weather__meta">' + ico[1] + ' · ощущается ' + Math.round(cur.apparent_temperature) + '°</div></div>' +
+      '<div><div class="weather__temp">' + num(cur.temperature_2m, Math.round) + '°C</div>' +
+      '<div class="weather__meta">' + ico[1] + ' · ощущается ' + num(cur.apparent_temperature, Math.round) + '°</div></div>' +
       '</div>' +
       '<div class="weather__stats">' +
-      '<div class="weather__stat"><b>' + cur.wind_speed_10m.toFixed(1) + ' м/с</b><span>ветер, ' + windDir(cur.wind_direction_10m) + '</span></div>' +
-      '<div class="weather__stat"><b>' + Math.round(cur.pressure_msl) + '</b><span>гПа</span></div>' +
-      '<div class="weather__stat"><b>' + Math.round(cur.cloud_cover) + '%</b><span>облачность</span></div>' +
+      '<div class="weather__stat"><b>' + num(cur.wind_speed_10m, function (x) { return x.toFixed(1); }) + ' м/с</b><span>ветер, ' + windDir(cur.wind_direction_10m) + '</span></div>' +
+      '<div class="weather__stat"><b>' + num(cur.pressure_msl, Math.round) + '</b><span>гПа</span></div>' +
+      '<div class="weather__stat"><b>' + num(cur.cloud_cover, Math.round) + '%</b><span>облачность</span></div>' +
       '</div>' +
       '<div class="weather__days">' + days + '</div>' +
       '<div class="weather__bite">🎯 Прогноз клёва: <b>' + stars + '</b> — ' + bite.label + '</div>';
@@ -401,11 +430,12 @@
       var dy = curY - startY;
       if (dy > 0) els.sheetPanel.style.transform = 'translateY(' + dy + 'px)';
     }, { passive: true });
-    grip.addEventListener('touchend', function () {
+    function endDrag(apply) {
       if (!dragging) return;
       dragging = false;
       els.sheet.classList.remove('is-dragging');
       els.sheetPanel.style.transform = '';
+      if (!apply) return;
       var dy = curY - startY;
       if (dy > 90) {
         if (els.sheet.classList.contains('is-full')) els.sheet.classList.remove('is-full');
@@ -413,7 +443,10 @@
       } else if (dy < -60) {
         els.sheet.classList.add('is-full');
       }
-    });
+    }
+    grip.addEventListener('touchend', function () { endDrag(true); });
+    // Звонок/шторка уведомлений обрывают жест — не оставляем шторку зависшей
+    grip.addEventListener('touchcancel', function () { endDrag(false); });
     grip.addEventListener('click', function () {
       els.sheet.classList.toggle('is-full');
     });
@@ -466,7 +499,10 @@
     }
   });
 
-  els.chipCountry.addEventListener('click', function () { openModal(els.countryModal); });
+  els.chipCountry.addEventListener('click', function () {
+    els.chipCountry.setAttribute('aria-expanded', 'true');
+    openModal(els.countryModal);
+  });
   els.chipNear.addEventListener('click', locateUser);
 
   /* ---------- Country modal ---------- */
@@ -500,8 +536,19 @@
   });
 
   /* ---------- Modals ---------- */
-  function openModal(m) { buildCountryGrid(); m.hidden = false; }
-  function closeModal(m) { m.hidden = true; }
+  function openModal(m) {
+    buildCountryGrid();
+    m.hidden = false;
+    var panel = m.querySelector('.modal__panel');
+    if (panel) panel.focus({ preventScroll: true });
+  }
+  function closeModal(m) {
+    m.hidden = true;
+    if (m === els.countryModal) {
+      els.chipCountry.setAttribute('aria-expanded', 'false');
+      els.chipCountry.focus({ preventScroll: true });
+    }
+  }
   [els.countryModal, els.aboutModal].forEach(function (m) {
     m.addEventListener('click', function (e) {
       if (e.target.hasAttribute('data-close')) closeModal(m);
@@ -516,7 +563,6 @@
     navigator.geolocation.getCurrentPosition(function (pos) {
       state.userPos = [pos.coords.latitude, pos.coords.longitude];
       els.fabLocate.classList.add('is-active');
-      els.chipNear.setAttribute('aria-pressed', 'true');
       if (userMarker) map.removeLayer(userMarker);
       userMarker = L.circleMarker(state.userPos, {
         radius: 8, color: '#fff', weight: 2.5, fillColor: '#2a7fff', fillOpacity: 1
