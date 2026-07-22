@@ -21,9 +21,34 @@
   }
 
   var userVenues = loadUserVenues();
+  var communityVenues = [];
   var VENUES = BASE_VENUES.concat(userVenues);
   function rebuildVenues() {
-    VENUES = BASE_VENUES.concat(userVenues);
+    // свои локальные копии уже отправленных в базу не дублируем
+    var commIds = {};
+    communityVenues.forEach(function (v) { commIds[v.name.toLowerCase()] = true; });
+    var mine = userVenues.filter(function (v) { return !v._sentName || !commIds[v._sentName.toLowerCase()]; });
+    VENUES = BASE_VENUES.concat(communityVenues, mine);
+  }
+
+  // Общая база сообщества (Netlify Blobs) — тихо пропускаем, если API нет
+  function loadCommunity() {
+    if (!window.fetch) return;
+    fetch('/api/community-venues')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.venues)) return;
+        communityVenues = data.venues.filter(function (v) {
+          return v && v.name && isFinite(v.lat) && isFinite(v.lng);
+        }).map(function (v) {
+          v._community = true;
+          if (!v.biome) v.biome = BIOME_BY_CC[v.country] || 'meadow';
+          return v;
+        });
+        rebuildVenues();
+        refresh();
+      })
+      .catch(function () { /* статический хостинг без функций — ок */ });
   }
 
   var COUNTRY_NAMES = {
@@ -139,7 +164,8 @@
 
   function pinIcon(v, selected) {
     var cls = 'pin' + (v.catchAndRelease === 'partial' ? ' pin--partial' : '') +
-      (v._user ? ' pin--user' : '') + (selected ? ' pin--selected' : '');
+      (v._user ? ' pin--user' : '') + (v._community ? ' pin--community' : '') +
+      (selected ? ' pin--selected' : '');
     return L.divIcon({
       className: '',
       html: '<div class="' + cls + '"><div class="pin__dot"><span>🐟</span></div></div>',
@@ -233,7 +259,8 @@
         '<div class="vcard__name">' + esc(v.name) + '</div>' +
         '<div class="vcard__loc">📍 ' + esc(v.location) + '</div>' +
         '<div class="vcard__badges">' +
-        (v._user ? '<span class="badge badge--user">⭐ Моё</span>' : '') + crBadge(v) +
+        (v._user ? '<span class="badge badge--user">⭐ Моё</span>' : '') +
+        (v._community ? '<span class="badge badge--community">🌐 Сообщество</span>' : '') + crBadge(v) +
         (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
         '</div></div></article>';
     }).join('');
@@ -283,6 +310,7 @@
 
       '<div class="vd__badges">' +
       (v._user ? '<span class="badge badge--user">⭐ Добавлено вами</span>' : '') +
+      (v._community ? '<span class="badge badge--community">🌐 От сообщества</span>' : '') +
       crBadge(v) +
       (v.price ? '<span class="badge badge--price">💶 ' + esc(v.price) + '</span>' : '') +
       (v.season ? '<span class="badge">📅 ' + esc(v.season) + '</span>' : '') +
@@ -296,7 +324,9 @@
       '</div>' +
       (v._user
         ? '<div class="vd__actions">' +
-          '<a class="btn btn--ghost" href="' + esc(proposeUrl(v)) + '" target="_blank" rel="noopener">📮 Предложить в базу</a>' +
+          (v._sentName
+            ? '<span class="btn btn--ghost" aria-disabled="true">✓ В общей базе</span>'
+            : '<button class="btn btn--ghost" id="vd-propose" type="button">📮 В общую базу</button>') +
           '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">🗑 Удалить</button>' +
           '</div>'
         : '') +
@@ -328,6 +358,48 @@
     var delBtn = document.getElementById('vd-delete');
     if (delBtn) delBtn.addEventListener('click', function () {
       if (window.confirm('Удалить «' + v.name + '» с этого устройства?')) deleteUserVenue(v.id);
+    });
+    var propBtn = document.getElementById('vd-propose');
+    if (propBtn) propBtn.addEventListener('click', function () { proposeToBase(v, propBtn); });
+  }
+
+  // Отправка своего водоёма в общую базу (Netlify Function).
+  // Если API недоступен (статический хостинг) — фолбэк на GitHub issue.
+  function proposeToBase(v, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Отправляю…';
+    var payload = {};
+    Object.keys(v).forEach(function (k) { if (k.charAt(0) !== '_' && k !== 'id') payload[k] = v[k]; });
+    fetch('/api/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      return r.json().then(function (data) { return { status: r.status, data: data }; });
+    }).then(function (res) {
+      if (res.status === 201) {
+        v._sentName = v.name;
+        saveUserVenues(userVenues);
+        toast('В общей базе ✓ Осталось сегодня: ' + res.data.remainingToday);
+        loadCommunity();
+        renderDetail(v);
+      } else if (res.status === 429) {
+        toast('Лимит: не больше 10 добавлений в день. Попробуйте завтра.');
+        btn.disabled = false; btn.textContent = '📮 В общую базу';
+      } else if (res.status === 409) {
+        toast('Такой водоём уже есть в общей базе.');
+        v._sentName = v.name;
+        saveUserVenues(userVenues);
+        renderDetail(v);
+      } else {
+        toast('Не принято: проверьте название и координаты.');
+        btn.disabled = false; btn.textContent = '📮 В общую базу';
+      }
+    }).catch(function () {
+      // нет API — предлагаем через GitHub
+      btn.disabled = false; btn.textContent = '📮 В общую базу';
+      toast('API недоступен — открываю GitHub…');
+      window.open(proposeUrl(v), '_blank', 'noopener');
     });
   }
 
@@ -691,7 +763,7 @@
     });
     window.UpdateFX.play({
       lines: lines,
-      hold: 5000,
+      hold: 10000,
       onDone: function (played) {
         if (!played) openWhatsnew(); // фолбэк, если анимация не смогла
       }
@@ -860,4 +932,5 @@
 
   /* ---------- Init ---------- */
   refresh();
+  loadCommunity();
 })();

@@ -1,0 +1,10 @@
+{
+  "name": "troutmap-europe",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Интерактивная карта trout area водоёмов Европы",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0",
+    "@netlify/functions": "^2.8.2"
+  }
+}
