@@ -186,7 +186,7 @@
     }
     els.listContainer.innerHTML = list.map(function (v) {
       return '<button class="vcard" data-id="' + v.id + '">' +
-        '<div class="vcard__photo"><img loading="lazy" src="' + venueImage(v) + '" alt="" onerror="this.remove()">' +
+        '<div class="vcard__photo ph--' + (v.biome || 'forest') + '"><img loading="lazy" src="' + venueImage(v) + '" alt="" onerror="this.remove()">' +
         '<span class="vcard__flag">' + flagEmoji(v.country) + ' ' + esc(COUNTRY_NAMES[v.country] || v.country) + '</span>' +
         (v._dist != null ? '<span class="vcard__dist">' + Math.round(v._dist) + ' км</span>' : '') +
         '</div>' +
@@ -226,7 +226,7 @@
     var gmaps = 'https://www.google.com/maps/dir/?api=1&destination=' + v.lat + ',' + v.lng;
     var html =
       '<div class="vd">' +
-      '<div class="vd__photo"><img src="' + venueImage(v) + '" alt="' + esc(v.name) + '" onerror="this.remove()">' +
+      '<div class="vd__photo ph--' + (v.biome || 'forest') + '"><img src="' + venueImage(v) + '" alt="' + esc(v.name) + '" onerror="this.remove()">' +
       '<span class="vd__photo-note">фото иллюстративное</span>' +
       '<button class="vd__close" id="vd-close" aria-label="Закрыть">✕</button></div>' +
 

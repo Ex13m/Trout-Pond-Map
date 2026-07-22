@@ -89,6 +89,7 @@ img { max-width: 100%; display: block; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border-radius: 999px; font-weight: 700; transition: transform .15s, box-shadow .15s, background .15s;
+  text-decoration: none;
 }
 .btn:active { transform: scale(0.97); }
 .btn--primary { background: var(--coral-500); color: #fff; box-shadow: 0 6px 20px rgba(240, 79, 46, 0.4); }
@@ -232,6 +233,12 @@ img { max-width: 100%; display: block; }
 }
 .vcard:active { transform: scale(0.98); }
 .vcard__photo { position: relative; aspect-ratio: 16 / 9; background: var(--surface-2); }
+/* градиентные фолбэки по типу водоёма — видны, если фото не загрузилось */
+.ph--laghetto { background: linear-gradient(150deg, #2b7a6f, #133f33); }
+.ph--alpine { background: linear-gradient(150deg, #4a7fa5, #16323f); }
+.ph--forest { background: linear-gradient(150deg, #35573a, #10241a); }
+.ph--meadow { background: linear-gradient(150deg, #7d9455, #2c3d1e); }
+.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 .vcard__photo img { width: 100%; height: 100%; object-fit: cover; }
 .vcard__flag {
   position: absolute; top: 10px; left: 10px;
