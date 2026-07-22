@@ -510,10 +510,10 @@
     var counts = {};
     VENUES.forEach(function (v) { counts[v.country] = (counts[v.country] || 0) + 1; });
     var codes = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">🌍 Все страны<span class="cnt">' + VENUES.length + '</span></button>';
+    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">🌍 <span class="name">Все страны</span><span class="cnt">' + VENUES.length + '</span></button>';
     codes.forEach(function (cc) {
-      html += '<button class="country-btn' + (state.filters.country === cc ? ' is-active' : '') + '" data-cc="' + cc + '">' +
-        flagEmoji(cc) + ' ' + (COUNTRY_NAMES[cc] || cc.toUpperCase()) +
+      html += '<button class="country-btn' + (state.filters.country === cc ? ' is-active' : '') + '" data-cc="' + esc(cc) + '">' +
+        flagEmoji(cc) + ' <span class="name">' + esc(COUNTRY_NAMES[cc] || cc.toUpperCase()) + '</span>' +
         '<span class="cnt">' + counts[cc] + '</span></button>';
     });
     els.countryGrid.innerHTML = html;
