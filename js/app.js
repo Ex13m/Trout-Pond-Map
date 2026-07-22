@@ -4,7 +4,27 @@
 (function () {
   'use strict';
 
-  var VENUES = window.VENUES || [];
+  var BASE_VENUES = window.VENUES || [];
+  var USER_KEY = 'troutmap_user_venues';
+
+  function loadUserVenues() {
+    try {
+      var arr = JSON.parse(localStorage.getItem(USER_KEY) || '[]');
+      return Array.isArray(arr) ? arr.filter(function (v) {
+        return v && v.id && v.name && isFinite(v.lat) && isFinite(v.lng);
+      }) : [];
+    } catch (e) { return []; }
+  }
+  function saveUserVenues(arr) {
+    try { localStorage.setItem(USER_KEY, JSON.stringify(arr)); return true; }
+    catch (e) { return false; }
+  }
+
+  var userVenues = loadUserVenues();
+  var VENUES = BASE_VENUES.concat(userVenues);
+  function rebuildVenues() {
+    VENUES = BASE_VENUES.concat(userVenues);
+  }
 
   var COUNTRY_NAMES = {
     it: 'Италия', fr: 'Франция', es: 'Испания', pt: 'Португалия',
@@ -118,7 +138,8 @@
   var userMarker = null;
 
   function pinIcon(v, selected) {
-    var cls = 'pin' + (v.catchAndRelease === 'partial' ? ' pin--partial' : '') + (selected ? ' pin--selected' : '');
+    var cls = 'pin' + (v.catchAndRelease === 'partial' ? ' pin--partial' : '') +
+      (v._user ? ' pin--user' : '') + (selected ? ' pin--selected' : '');
     return L.divIcon({
       className: '',
       html: '<div class="' + cls + '"><div class="pin__dot"><span>🐟</span></div></div>',
@@ -131,7 +152,10 @@
     markers = {};
     filtered().forEach(function (v) {
       var m = L.marker([v.lat, v.lng], { icon: pinIcon(v, v.id === state.selectedId), alt: v.name });
-      m.on('click', function () { selectVenue(v.id, false); });
+      m.on('click', function (ev) {
+        if (picking) { map.fire('click', { latlng: ev.latlng }); return; }
+        selectVenue(v.id, false);
+      });
       markers[v.id] = m;
       cluster.addLayer(m);
     });
@@ -208,7 +232,8 @@
         '<div class="vcard__body">' +
         '<div class="vcard__name">' + esc(v.name) + '</div>' +
         '<div class="vcard__loc">📍 ' + esc(v.location) + '</div>' +
-        '<div class="vcard__badges">' + crBadge(v) +
+        '<div class="vcard__badges">' +
+        (v._user ? '<span class="badge badge--user">⭐ Моё</span>' : '') + crBadge(v) +
         (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
         '</div></div></article>';
     }).join('');
@@ -256,7 +281,9 @@
       '<div class="vd__loc">' + flagEmoji(v.country) + ' ' + esc(cn) + ' · 📍 ' + esc(v.location) + '</div>' +
       '</div>' +
 
-      '<div class="vd__badges">' + crBadge(v) +
+      '<div class="vd__badges">' +
+      (v._user ? '<span class="badge badge--user">⭐ Добавлено вами</span>' : '') +
+      crBadge(v) +
       (v.price ? '<span class="badge badge--price">💶 ' + esc(v.price) + '</span>' : '') +
       (v.season ? '<span class="badge">📅 ' + esc(v.season) + '</span>' : '') +
       '</div>' +
@@ -267,6 +294,12 @@
       '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">🧭 Маршрут</a>' +
       (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">🌐 Сайт</a>' : '') +
       '</div>' +
+      (v._user
+        ? '<div class="vd__actions">' +
+          '<a class="btn btn--ghost" href="' + esc(proposeUrl(v)) + '" target="_blank" rel="noopener">📮 Предложить в базу</a>' +
+          '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">🗑 Удалить</button>' +
+          '</div>'
+        : '') +
 
       '<div class="vd__section"><h3>Погода на водоёме</h3><div id="weather-box" class="weather--loading">Загружаю прогноз…</div></div>' +
 
@@ -292,6 +325,10 @@
     els.sheetScroll.scrollTop = 0;
     var closeBtn = document.getElementById('vd-close');
     if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+    var delBtn = document.getElementById('vd-delete');
+    if (delBtn) delBtn.addEventListener('click', function () {
+      if (window.confirm('Удалить «' + v.name + '» с этого устройства?')) deleteUserVenue(v.id);
+    });
   }
 
   function infoItem(label, value, wide) {
@@ -648,6 +685,129 @@
     openWhatsnew();
   }
 
+  /* ---------- Добавление своих водоёмов ---------- */
+  var BIOME_BY_CC = {
+    it: 'laghetto', fi: 'nordic', se: 'nordic', no: 'nordic', dk: 'nordic',
+    ee: 'nordic', lv: 'nordic', lt: 'nordic', ch: 'alpine', at: 'alpine',
+    si: 'alpine', bg: 'alpine', ro: 'forest', hr: 'meadow',
+    de: 'forest', cz: 'forest', sk: 'forest', pl: 'forest', hu: 'forest'
+  };
+
+  var addModal = $('add-modal');
+  var addForm = $('add-form');
+  var afError = $('af-error');
+  var picking = false;
+
+  (function fillCountrySelect() {
+    var sel = $('af-country');
+    var codes = Object.keys(COUNTRY_NAMES).sort(function (a, b) {
+      return COUNTRY_NAMES[a].localeCompare(COUNTRY_NAMES[b], 'ru');
+    });
+    sel.innerHTML = codes.map(function (cc) {
+      return '<option value="' + cc + '">' + flagEmoji(cc) + ' ' + esc(COUNTRY_NAMES[cc]) + '</option>';
+    }).join('');
+    sel.value = 'cz';
+  })();
+
+  function openAddModal() {
+    addModal.hidden = false;
+    afError.hidden = true;
+    var panel = addModal.querySelector('.modal__panel');
+    if (panel) panel.focus({ preventScroll: true });
+  }
+  $('fab-add').addEventListener('click', openAddModal);
+  addModal.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-close')) addModal.hidden = true;
+  });
+
+  // Выбор точки на карте
+  $('af-pick').addEventListener('click', function () {
+    addModal.hidden = true;
+    picking = true;
+    if (state.listMode) toggleView(false);
+    document.getElementById('map').classList.add('is-picking');
+    toast('Коснитесь карты в месте водоёма');
+  });
+  map.on('click', function (e) {
+    if (!picking) return;
+    picking = false;
+    document.getElementById('map').classList.remove('is-picking');
+    $('af-lat').value = e.latlng.lat.toFixed(5);
+    $('af-lng').value = e.latlng.lng.toFixed(5);
+    openAddModal();
+  });
+
+  function showFormError(msg) {
+    afError.textContent = msg;
+    afError.hidden = false;
+  }
+
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('af-name').value.trim();
+    var lat = parseFloat(String($('af-lat').value).replace(',', '.'));
+    var lng = parseFloat(String($('af-lng').value).replace(',', '.'));
+    var website = $('af-website').value.trim();
+
+    if (!name) return showFormError('Укажите название водоёма.');
+    if (!isFinite(lat) || !isFinite(lng)) return showFormError('Укажите координаты — числами или точкой на карте.');
+    if (lat < 34 || lat > 72 || lng < -11 || lng > 42) return showFormError('Координаты вне Европы. Проверьте широту и долготу.');
+    if (website && !/^https?:\/\//i.test(website)) return showFormError('Ссылка должна начинаться с http:// или https://');
+
+    var cc = $('af-country').value;
+    var crRaw = $('af-cr').value;
+    var venue = {
+      id: 'u' + Date.now().toString(36),
+      name: name,
+      country: cc,
+      location: $('af-location').value.trim(),
+      lat: Math.round(lat * 1e5) / 1e5,
+      lng: Math.round(lng * 1e5) / 1e5,
+      precision: 'approx',
+      biome: BIOME_BY_CC[cc] || 'meadow',
+      description: $('af-desc').value.trim(),
+      species: [],
+      catchAndRelease: crRaw === 'true' ? true : (crRaw === 'partial' ? 'partial' : false),
+      rules: null,
+      price: $('af-price').value.trim() || null,
+      season: $('af-season').value.trim() || null,
+      website: website || null,
+      facilities: [],
+      _user: true
+    };
+
+    userVenues.push(venue);
+    if (!saveUserVenues(userVenues)) {
+      userVenues.pop();
+      return showFormError('Не удалось сохранить (хранилище недоступно).');
+    }
+    rebuildVenues();
+    addForm.reset();
+    $('af-country').value = 'cz';
+    addModal.hidden = true;
+    refresh();
+    toast('Водоём добавлен ✓');
+    selectVenue(venue.id, false);
+  });
+
+  function deleteUserVenue(id) {
+    userVenues = userVenues.filter(function (v) { return v.id !== id; });
+    saveUserVenues(userVenues);
+    rebuildVenues();
+    closeSheet();
+    refresh();
+    toast('Водоём удалён');
+  }
+
+  function proposeUrl(v) {
+    var clean = {};
+    Object.keys(v).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = v[k]; });
+    var body = 'Предлагаю добавить водоём в базу TroutMap Europe:\n\n```json\n' +
+      JSON.stringify(clean, null, 2) + '\n```\n\nИсточник/подтверждение: ' + (v.website || '(добавьте ссылку)');
+    return 'https://github.com/Ex13m/Trout-Pond-Map/issues/new?title=' +
+      encodeURIComponent('Новый водоём: ' + v.name) + '&body=' + encodeURIComponent(body);
+  }
+
   /* ---------- Splash ---------- */
   els.splashCount.textContent = VENUES.length;
   els.splashEnter.addEventListener('click', function () {
@@ -661,7 +821,9 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       var wn = document.getElementById('whatsnew-modal');
+      var am = document.getElementById('add-modal');
       if (wn && !wn.hidden) wn.hidden = true;
+      else if (am && !am.hidden) am.hidden = true;
       else if (!els.countryModal.hidden) closeModal(els.countryModal);
       else if (!els.aboutModal.hidden) closeModal(els.aboutModal);
       else if (!els.sheet.hidden) closeSheet();

@@ -65,6 +65,9 @@
 
     <!-- Floating controls -->
     <div class="fabs">
+      <button class="fab" id="fab-add" aria-label="Добавить водоём">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
       <button class="fab" id="fab-locate" aria-label="Моё местоположение">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
       </button>
@@ -96,6 +99,68 @@
           <p class="about__muted">Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO · Фото — иллюстративные (AI)</p>
           <p class="about__muted">Сборка: <b>Gausse Holler Custom Lab</b> · <span id="about-version-full"></span></p>
         </div>
+      </div>
+    </div>
+
+    <!-- Add venue modal -->
+    <div class="modal" id="add-modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Добавить водоём" tabindex="-1">
+        <div class="modal__grip"></div>
+        <h2 class="modal__title">➕ Добавить водоём</h2>
+        <p class="form-hint">Водоём сохранится на этом устройстве. Вставьте ссылку на сайт водоёма — или заполните вручную. Потом его можно предложить в общую базу.</p>
+        <form id="add-form" novalidate>
+          <label class="form-field">
+            <span class="form-label">Ссылка на сайт водоёма</span>
+            <input type="url" id="af-website" inputmode="url" placeholder="https://example.com" autocomplete="off">
+          </label>
+          <label class="form-field">
+            <span class="form-label">Название *</span>
+            <input type="text" id="af-name" required maxlength="80" placeholder="Например: Лесное форелевое озеро">
+          </label>
+          <div class="form-row">
+            <label class="form-field">
+              <span class="form-label">Страна *</span>
+              <select id="af-country" required></select>
+            </label>
+            <label class="form-field">
+              <span class="form-label">Режим ловли</span>
+              <select id="af-cr">
+                <option value="true">Поймал-отпустил</option>
+                <option value="partial" selected>C&amp;R частично</option>
+                <option value="false">Изъятие разрешено</option>
+              </select>
+            </label>
+          </div>
+          <label class="form-field">
+            <span class="form-label">Город / регион</span>
+            <input type="text" id="af-location" maxlength="120" placeholder="Ближайший город, область">
+          </label>
+          <div class="form-field">
+            <span class="form-label">Координаты *</span>
+            <div class="form-row form-row--coords">
+              <input type="text" id="af-lat" inputmode="decimal" placeholder="Широта, напр. 50.08">
+              <input type="text" id="af-lng" inputmode="decimal" placeholder="Долгота, напр. 14.42">
+            </div>
+            <button type="button" class="btn btn--ghost form-pick" id="af-pick">🎯 Указать точку на карте</button>
+          </div>
+          <div class="form-row">
+            <label class="form-field">
+              <span class="form-label">Цена</span>
+              <input type="text" id="af-price" maxlength="60" placeholder="Напр.: 20 € / день">
+            </label>
+            <label class="form-field">
+              <span class="form-label">Сезон</span>
+              <input type="text" id="af-season" maxlength="60" placeholder="Напр.: Круглый год">
+            </label>
+          </div>
+          <label class="form-field">
+            <span class="form-label">Описание</span>
+            <textarea id="af-desc" rows="3" maxlength="500" placeholder="Пара предложений о водоёме, правилах, рыбе"></textarea>
+          </label>
+          <p class="form-error" id="af-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn--primary wn__ok">Сохранить водоём</button>
+        </form>
       </div>
     </div>
 

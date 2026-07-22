@@ -178,7 +178,10 @@ img { max-width: 100%; display: block; }
 }
 .pin__dot span { transform: rotate(45deg); font-size: 15px; }
 .pin--partial .pin__dot { background: var(--amber-500); }
+.pin--user .pin__dot { background: #7c5cd6; }
 .pin--selected .pin__dot { background: var(--coral-500); transform: rotate(-45deg) scale(1.15); }
+#map.is-picking { cursor: crosshair; }
+#map.is-picking .leaflet-grab, #map.is-picking .leaflet-interactive { cursor: crosshair; }
 
 .cluster {
   background: var(--teal-800); color: #fff; border: 3px solid rgba(255,255,255,0.85);
@@ -274,6 +277,8 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 .badge--price { background: rgba(255, 107, 74, 0.12); color: #c03318; }
 @media (prefers-color-scheme: dark) { .badge--price { color: #ff8f73; } }
 @media (prefers-color-scheme: dark) { .badge--cr { color: #5ecfbf; } }
+.badge--user { background: rgba(124, 92, 214, 0.14); color: #5d3fb8; }
+@media (prefers-color-scheme: dark) { .badge--user { color: #b9a3f5; } }
 
 /* ---------- Bottom sheet ---------- */
 .sheet { position: fixed; inset: 0; z-index: 80; pointer-events: none; }
@@ -396,6 +401,27 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 .about { font-size: 14px; line-height: 1.65; display: flex; flex-direction: column; gap: 12px; }
 .about__muted { font-size: 12px; color: var(--text-2); }
 .about__whatsnew { align-self: flex-start; }
+
+/* Форма добавления */
+#add-form { display: flex; flex-direction: column; gap: 12px; }
+.form-hint { font-size: 13px; line-height: 1.5; color: var(--text-2); margin: -4px 0 10px; }
+.form-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1; }
+.form-label { font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); }
+#add-form input, #add-form select, #add-form textarea {
+  font: inherit; font-size: 15px; color: var(--text);
+  background: var(--surface-2); border: 1.5px solid transparent;
+  border-radius: var(--radius-sm); padding: 11px 13px; width: 100%;
+  outline: none; -webkit-appearance: none; appearance: none;
+}
+#add-form input:focus, #add-form select:focus, #add-form textarea:focus { border-color: var(--teal-500); }
+#add-form textarea { resize: vertical; min-height: 70px; }
+.form-row { display: flex; gap: 10px; }
+.form-row--coords input { flex: 1; }
+.form-pick { margin-top: 8px; align-self: flex-start; }
+.form-error { color: #d9382c; font-size: 13.5px; font-weight: 700; }
+@media (prefers-color-scheme: dark) { .form-error { color: #ff8a80; } }
+.btn--danger { color: #d9382c; }
+@media (prefers-color-scheme: dark) { .btn--danger { color: #ff8a80; } }
 
 /* «Что нового» */
 .wn { padding: 14px 0 4px; border-bottom: 1px solid var(--border); }
