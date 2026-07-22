@@ -30,8 +30,17 @@ python3 -m http.server 8080
 index.html        — разметка, подключение Leaflet/шрифтов
 css/styles.css    — дизайн-система (mobile-first, dark mode)
 js/data.js        — база водоёмов (window.VENUES)
-js/app.js         — карта, фильтры, шторка, погода
+js/changelog.js   — история версий для окна «Что нового»
+js/app.js         — карта, фильтры, шторка, погода, версии
+CHANGELOG.md      — полная история изменений (SemVer)
 ```
+
+## Версионирование
+
+Версия показывается на сплэше и в «О проекте». При выходе новой версии
+посетитель один раз увидит окно «Что нового» (отметка хранится в
+localStorage). Чтобы выпустить новую версию: добавьте запись первой в
+`js/changelog.js` и продублируйте её в `CHANGELOG.md`.
 
 ## Данные
 
@@ -47,3 +56,7 @@ js/app.js         — карта, фильтры, шторка, погода
 - Карта: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, © [CARTO](https://carto.com/)
 - Погода: [Open-Meteo](https://open-meteo.com/) (CC BY 4.0)
 - Библиотеки: [Leaflet](https://leafletjs.com/), [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster)
+
+---
+
+Сборка: **Gausse Holler Custom Lab**

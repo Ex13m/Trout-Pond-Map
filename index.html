@@ -25,7 +25,8 @@
         <h1 class="splash__title">TroutMap <span>Europe</span></h1>
         <p class="splash__tagline">Форелевые водоёмы Европы для ловли в стиле trout&nbsp;area · поймал&nbsp;—&nbsp;отпустил</p>
         <button id="splash-enter" class="btn btn--primary btn--lg">Открыть карту</button>
-        <p class="splash__hint">водоёмов в базе: <b id="splash-count">—</b></p>
+        <p class="splash__hint">водоёмов в базе: <b id="splash-count">—</b> · <span id="splash-version"></span></p>
+        <p class="splash__lab">Gausse Holler Custom Lab</p>
       </div>
     </div>
 
@@ -91,8 +92,21 @@
         <div class="about">
           <p><b>TroutMap Europe</b> — независимый гид по коммерческим форелевым водоёмам Европы, где ловят в стиле <b>trout area</b>: ультралайт, безбородые одинарные крючки и принцип «поймал — отпустил».</p>
           <p>Данные собраны из открытых источников: сайтов водоёмов, федераций и календарей соревнований. Цены и правила ориентировочные — перед поездкой сверяйтесь с сайтом водоёма.</p>
+          <button class="btn btn--ghost about__whatsnew" id="btn-whatsnew">✨ Что нового в <span id="about-version"></span></button>
           <p class="about__muted">Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO · Фото — иллюстративные (AI)</p>
+          <p class="about__muted">Сборка: <b>Gausse Holler Custom Lab</b> · <span id="about-version-full"></span></p>
         </div>
+      </div>
+    </div>
+
+    <!-- What's new modal -->
+    <div class="modal" id="whatsnew-modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Что нового" tabindex="-1">
+        <div class="modal__grip"></div>
+        <h2 class="modal__title">✨ Что нового</h2>
+        <div id="whatsnew-list"></div>
+        <button class="btn btn--primary wn__ok" data-close>Понятно</button>
       </div>
     </div>
 
@@ -110,6 +124,7 @@
 
   <script src="assets/vendor/leaflet.js"></script>
   <script src="assets/vendor/leaflet.markercluster.js"></script>
+  <script src="js/changelog.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>

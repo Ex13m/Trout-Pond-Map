@@ -588,18 +588,80 @@
     toastTimer = setTimeout(function () { els.toast.hidden = true; }, 3200);
   }
 
+  /* ---------- Versioning / «Что нового» ---------- */
+  var CHANGELOG = window.CHANGELOG || [];
+  var APP_VERSION = CHANGELOG.length ? CHANGELOG[0].version : '';
+  var SEEN_KEY = 'troutmap_seen_version';
+
+  function setText(id, text) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+  setText('splash-version', APP_VERSION ? 'v' + APP_VERSION : '');
+  setText('about-version', APP_VERSION ? 'v' + APP_VERSION : '');
+  setText('about-version-full', APP_VERSION ? 'версия ' + APP_VERSION : '');
+
+  var whatsnewModal = $('whatsnew-modal');
+
+  function renderWhatsnew() {
+    var list = document.getElementById('whatsnew-list');
+    if (!list) return;
+    list.innerHTML = CHANGELOG.map(function (rel, i) {
+      return '<section class="wn' + (i === 0 ? ' wn--latest' : '') + '">' +
+        '<div class="wn__head"><span class="wn__ver">v' + esc(rel.version) + '</span>' +
+        (i === 0 ? '<span class="wn__badge">текущая</span>' : '') +
+        '<span class="wn__date">' + esc(rel.date) + '</span></div>' +
+        '<h3 class="wn__title">' + esc(rel.title) + '</h3>' +
+        '<ul class="wn__items">' + rel.items.map(function (it) {
+          return '<li>' + esc(it) + '</li>';
+        }).join('') + '</ul></section>';
+    }).join('');
+  }
+
+  function openWhatsnew() {
+    renderWhatsnew();
+    whatsnewModal.hidden = false;
+    var panel = whatsnewModal.querySelector('.modal__panel');
+    if (panel) panel.focus({ preventScroll: true });
+    try { localStorage.setItem(SEEN_KEY, APP_VERSION); } catch (e) { /* приватный режим */ }
+  }
+
+  var whatsnewBtn = document.getElementById('btn-whatsnew');
+  if (whatsnewBtn) whatsnewBtn.addEventListener('click', function () {
+    closeModal(els.aboutModal);
+    openWhatsnew();
+  });
+  whatsnewModal.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-close') || e.target.closest('[data-close]')) whatsnewModal.hidden = true;
+  });
+
+  function maybeShowWhatsnew() {
+    if (!APP_VERSION) return;
+    var seen = null;
+    try { seen = localStorage.getItem(SEEN_KEY); } catch (e) { return; }
+    if (seen === APP_VERSION) return;      // уже видел эту версию
+    if (seen === null) {                    // первый визит — не пугаем окном
+      try { localStorage.setItem(SEEN_KEY, APP_VERSION); } catch (e) {}
+      return;
+    }
+    openWhatsnew();
+  }
+
   /* ---------- Splash ---------- */
   els.splashCount.textContent = VENUES.length;
   els.splashEnter.addEventListener('click', function () {
     els.splash.classList.add('is-hidden');
     setTimeout(function () { els.splash.remove(); }, 600);
     map.invalidateSize();
+    maybeShowWhatsnew();
   });
 
   /* ---------- Keyboard ---------- */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
-      if (!els.countryModal.hidden) closeModal(els.countryModal);
+      var wn = document.getElementById('whatsnew-modal');
+      if (wn && !wn.hidden) wn.hidden = true;
+      else if (!els.countryModal.hidden) closeModal(els.countryModal);
       else if (!els.aboutModal.hidden) closeModal(els.aboutModal);
       else if (!els.sheet.hidden) closeSheet();
     }

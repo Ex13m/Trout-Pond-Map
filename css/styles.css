@@ -87,6 +87,10 @@ img { max-width: 100%; display: block; }
 .splash__title span { color: #7fe0d4; }
 .splash__tagline { margin: 10px 0 24px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.85); }
 .splash__hint { margin-top: 16px; font-size: 13px; color: rgba(255,255,255,0.6); }
+.splash__lab {
+  margin-top: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: rgba(255,255,255,0.42);
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -391,6 +395,24 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 
 .about { font-size: 14px; line-height: 1.65; display: flex; flex-direction: column; gap: 12px; }
 .about__muted { font-size: 12px; color: var(--text-2); }
+.about__whatsnew { align-self: flex-start; }
+
+/* «Что нового» */
+.wn { padding: 14px 0 4px; border-bottom: 1px solid var(--border); }
+.wn:last-of-type { border-bottom: none; }
+.wn__head { display: flex; align-items: center; gap: 8px; }
+.wn__ver { font-weight: 800; font-size: 15px; }
+.wn__badge {
+  background: var(--teal-100); color: var(--teal-600); border-radius: 999px;
+  padding: 2px 9px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+}
+@media (prefers-color-scheme: dark) { .wn__badge { color: #5ecfbf; } }
+.wn__date { margin-left: auto; font-size: 12px; color: var(--text-2); }
+.wn__title { font-size: 14px; font-weight: 800; margin: 8px 0 6px; }
+.wn__items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.wn__items li { font-size: 13.5px; line-height: 1.5; }
+.wn:not(.wn--latest) .wn__items li { color: var(--text-2); }
+.wn__ok { width: 100%; padding: 13px; margin-top: 16px; }
 
 /* Empty state */
 .empty {
