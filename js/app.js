@@ -673,6 +673,32 @@
     if (e.target.hasAttribute('data-close') || e.target.closest('[data-close]')) whatsnewModal.hidden = true;
   });
 
+  function stripEmoji(s) {
+    // частицы плохо собирают эмодзи — оставляем чистый текст
+    return s.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '').replace(/^\s+/, '');
+  }
+
+  function playUpdateAnimation() {
+    var rel = CHANGELOG[0];
+    var narrow = window.innerWidth < 600;
+    var lines = [
+      { text: 'ОБНОВЛЕНИЕ', size: narrow ? 13 : 16, color: '#7a9c97' },
+      { text: 'v' + rel.version, size: narrow ? 64 : 92, color: '#7fe0d4' },
+      { text: rel.title, size: narrow ? 20 : 28, color: '#e8f5f2' }
+    ];
+    rel.items.slice(0, 3).forEach(function (it) {
+      lines.push({ text: stripEmoji(it), size: narrow ? 12.5 : 16, color: '#a9c4bf' });
+    });
+    window.UpdateFX.play({
+      lines: lines,
+      hold: 5000,
+      onDone: function (played) {
+        if (!played) openWhatsnew(); // фолбэк, если анимация не смогла
+      }
+    });
+    try { localStorage.setItem(SEEN_KEY, APP_VERSION); } catch (e) {}
+  }
+
   function maybeShowWhatsnew() {
     if (!APP_VERSION) return;
     var seen = null;
@@ -682,7 +708,9 @@
       try { localStorage.setItem(SEEN_KEY, APP_VERSION); } catch (e) {}
       return;
     }
-    openWhatsnew();
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !window.UpdateFX) { openWhatsnew(); return; }
+    playUpdateAnimation();
   }
 
   /* ---------- Добавление своих водоёмов ---------- */
