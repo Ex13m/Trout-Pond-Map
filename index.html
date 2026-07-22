@@ -23,9 +23,10 @@
       <div class="splash__content">
         <div class="splash__logo">🎣</div>
         <h1 class="splash__title">TroutMap <span>Europe</span></h1>
-        <p class="splash__tagline">Форелевые водоёмы Европы для ловли в стиле trout&nbsp;area · поймал&nbsp;—&nbsp;отпустил</p>
-        <button id="splash-enter" class="btn btn--primary btn--lg">Открыть карту</button>
-        <p class="splash__hint">водоёмов в базе: <b id="splash-count">—</b> · <span id="splash-version"></span></p>
+        <p class="splash__tagline" data-i18n="splash.tagline">Форелевые водоёмы Европы для ловли в стиле trout&nbsp;area · поймал&nbsp;—&nbsp;отпустил</p>
+        <button id="splash-enter" class="btn btn--primary btn--lg" data-i18n="splash.enter">Открыть карту</button>
+        <p class="splash__hint"><span data-i18n="splash.count">водоёмов в базе:</span> <b id="splash-count">—</b> · <span id="splash-version"></span></p>
+        <div class="lang-row" id="splash-lang" role="group" aria-label="Language"></div>
         <p class="splash__lab">Gausse Holler Custom Lab</p>
       </div>
     </div>
@@ -33,25 +34,25 @@
     <!-- Top bar -->
     <header class="topbar" id="topbar">
       <div class="topbar__row">
-        <button class="topbar__brand" id="brand-btn" aria-label="О проекте">
+        <button class="topbar__brand" id="brand-btn" data-i18n-aria="about.title" aria-label="О проекте">
           <span class="topbar__logo">🎣</span>
           <span class="topbar__name">TroutMap</span>
         </button>
         <div class="searchbox">
           <svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="search-input" class="searchbox__input" type="search" placeholder="Водоём, город, страна…" autocomplete="off" aria-label="Поиск водоёма">
-          <button id="search-clear" class="searchbox__clear" aria-label="Очистить" hidden>&times;</button>
+          <input id="search-input" class="searchbox__input" type="search" placeholder="Водоём, город, страна…" data-i18n-ph="search.placeholder" autocomplete="off" aria-label="Поиск водоёма">
+          <button id="search-clear" class="searchbox__clear" data-i18n-aria="search.clear" aria-label="Очистить" hidden>&times;</button>
         </div>
-        <button class="iconbtn" id="view-toggle" aria-label="Переключить вид карта/список">
+        <button class="iconbtn" id="view-toggle" data-i18n-aria="view.toggle" aria-label="Переключить вид карта/список">
           <svg id="icon-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
           <svg id="icon-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden><path d="M9 3 3.6 5.2A1 1 0 0 0 3 6.1v13.4a1 1 0 0 0 1.4.9L9 18.5l6 2.5 5.4-2.2a1 1 0 0 0 .6-.9V4.5a1 1 0 0 0-1.4-.9L15 5.5 9 3Z"/><path d="M9 3v15.5M15 5.5V21"/></svg>
         </button>
       </div>
       <div class="chips" id="chips" role="toolbar" aria-label="Фильтры">
-        <button class="chip chip--accent" data-filter="cr" aria-pressed="false">🐟 Только C&amp;R</button>
-        <button class="chip" data-filter="year" aria-pressed="false">📅 Круглый год</button>
-        <button class="chip" id="chip-country" aria-haspopup="dialog" aria-expanded="false">🌍 Страна <span id="chip-country-label"></span></button>
-        <button class="chip" id="chip-near">📍 Рядом со мной</button>
+        <button class="chip chip--accent" data-filter="cr" data-i18n="chip.cr" aria-pressed="false">🐟 Только C&amp;R</button>
+        <button class="chip" data-filter="year" data-i18n="chip.year" aria-pressed="false">📅 Круглый год</button>
+        <button class="chip" id="chip-country" aria-haspopup="dialog" aria-expanded="false"><span data-i18n="chip.country">🌍 Страна</span> <span id="chip-country-label"></span></button>
+        <button class="chip" id="chip-near" data-i18n="chip.near">📍 Рядом со мной</button>
       </div>
     </header>
 
@@ -65,13 +66,16 @@
 
     <!-- Floating controls -->
     <div class="fabs">
-      <button class="fab" id="fab-layers" aria-label="Слой карты" aria-haspopup="dialog">
+      <button class="fab fab--assistant" id="fab-assistant" data-i18n-aria="fab.assistant" aria-label="Помощник">
+        <span class="fab__emoji">🎣</span>
+      </button>
+      <button class="fab" id="fab-layers" data-i18n-aria="fab.layers" aria-label="Слой карты" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
       </button>
-      <button class="fab" id="fab-add" aria-label="Добавить водоём">
+      <button class="fab" id="fab-add" data-i18n-aria="fab.add" aria-label="Добавить водоём">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
       </button>
-      <button class="fab" id="fab-locate" aria-label="Моё местоположение">
+      <button class="fab" id="fab-locate" data-i18n-aria="fab.locate" aria-label="Моё местоположение">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
       </button>
     </div>
@@ -84,7 +88,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Выбор страны" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title">Страна</h2>
+        <h2 class="modal__title" data-i18n="country.title">Страна</h2>
         <div class="country-grid" id="country-grid"></div>
       </div>
     </div>
@@ -94,13 +98,14 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="О проекте" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title">О проекте</h2>
+        <h2 class="modal__title" data-i18n="about.title">О проекте</h2>
         <div class="about">
-          <p><b>TroutMap Europe</b> — независимый гид по коммерческим форелевым водоёмам Европы, где ловят в стиле <b>trout area</b>: ультралайт, безбородые одинарные крючки и принцип «поймал — отпустил».</p>
-          <p>Данные собраны из открытых источников: сайтов водоёмов, федераций и календарей соревнований. Цены и правила ориентировочные — перед поездкой сверяйтесь с сайтом водоёма.</p>
-          <button class="btn btn--ghost about__whatsnew" id="btn-whatsnew">✨ Что нового в <span id="about-version"></span></button>
-          <p class="about__muted">Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Фото — Wikimedia Commons (CC) и AI-иллюстрации</p>
-          <p class="about__muted">Сборка: <b>Gausse Holler Custom Lab</b> · <span id="about-version-full"></span></p>
+          <div class="lang-row" id="about-lang" role="group" aria-label="Language"></div>
+          <p data-i18n="about.p1">TroutMap Europe — независимый гид по коммерческим форелевым водоёмам Европы.</p>
+          <p data-i18n="about.p2">Данные собраны из открытых источников. Цены и правила ориентировочные.</p>
+          <button class="btn btn--ghost about__whatsnew" id="btn-whatsnew"><span data-i18n="about.whatsnew">✨ Что нового в</span> <span id="about-version"></span></button>
+          <p class="about__muted" data-i18n="about.credits">Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Фото — Wikimedia Commons (CC) и AI-иллюстрации</p>
+          <p class="about__muted">Gausse Holler Custom Lab · <span id="about-version-full"></span></p>
         </div>
       </div>
     </div>
@@ -110,7 +115,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Слой карты" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title">Слой карты</h2>
+        <h2 class="modal__title" data-i18n="layers.title">Слой карты</h2>
         <div class="layer-grid" id="layer-grid"></div>
       </div>
     </div>
@@ -120,59 +125,59 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Добавить водоём" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title">➕ Добавить водоём</h2>
-        <p class="form-hint">Водоём сохранится на этом устройстве. Вставьте ссылку на сайт водоёма — или заполните вручную. Потом его можно предложить в общую базу.</p>
+        <h2 class="modal__title" data-i18n="add.title">➕ Добавить водоём</h2>
+        <p class="form-hint" data-i18n="add.hint">Водоём сохранится на этом устройстве.</p>
         <form id="add-form" novalidate>
           <label class="form-field">
-            <span class="form-label">Ссылка на сайт водоёма</span>
+            <span class="form-label" data-i18n="add.website">Ссылка на сайт водоёма</span>
             <input type="url" id="af-website" inputmode="url" placeholder="https://example.com" autocomplete="off">
           </label>
           <label class="form-field">
-            <span class="form-label">Название *</span>
-            <input type="text" id="af-name" required maxlength="80" placeholder="Например: Лесное форелевое озеро">
+            <span class="form-label" data-i18n="add.name">Название *</span>
+            <input type="text" id="af-name" required maxlength="80" placeholder="Например: Лесное форелевое озеро" data-i18n-ph="add.namePh">
           </label>
           <div class="form-row">
             <label class="form-field">
-              <span class="form-label">Страна *</span>
+              <span class="form-label" data-i18n="add.country">Страна *</span>
               <select id="af-country" required></select>
             </label>
             <label class="form-field">
-              <span class="form-label">Режим ловли</span>
+              <span class="form-label" data-i18n="add.mode">Режим ловли</span>
               <select id="af-cr">
-                <option value="true">Поймал-отпустил</option>
-                <option value="partial" selected>C&amp;R частично</option>
-                <option value="false">Изъятие разрешено</option>
+                <option value="true" data-i18n="mode.cr">Поймал-отпустил</option>
+                <option value="partial" selected data-i18n="mode.partial">C&amp;R частично</option>
+                <option value="false" data-i18n="mode.harvest">Изъятие разрешено</option>
               </select>
             </label>
           </div>
           <label class="form-field">
-            <span class="form-label">Город / регион</span>
-            <input type="text" id="af-location" maxlength="120" placeholder="Ближайший город, область">
+            <span class="form-label" data-i18n="add.location">Город / регион</span>
+            <input type="text" id="af-location" maxlength="120" placeholder="Ближайший город, область" data-i18n-ph="add.locationPh">
           </label>
           <div class="form-field">
-            <span class="form-label">Координаты *</span>
+            <span class="form-label" data-i18n="add.coords">Координаты *</span>
             <div class="form-row form-row--coords">
-              <input type="text" id="af-lat" inputmode="decimal" placeholder="Широта, напр. 50.08">
-              <input type="text" id="af-lng" inputmode="decimal" placeholder="Долгота, напр. 14.42">
+              <input type="text" id="af-lat" inputmode="decimal" placeholder="Широта, напр. 50.08" data-i18n-ph="add.latPh">
+              <input type="text" id="af-lng" inputmode="decimal" placeholder="Долгота, напр. 14.42" data-i18n-ph="add.lngPh">
             </div>
-            <button type="button" class="btn btn--ghost form-pick" id="af-pick">🎯 Указать точку на карте</button>
+            <button type="button" class="btn btn--ghost form-pick" id="af-pick" data-i18n="add.pick">🎯 Указать точку на карте</button>
           </div>
           <div class="form-row">
             <label class="form-field">
-              <span class="form-label">Цена</span>
-              <input type="text" id="af-price" maxlength="60" placeholder="Напр.: 20 € / день">
+              <span class="form-label" data-i18n="card.price">Цена</span>
+              <input type="text" id="af-price" maxlength="60" placeholder="Напр.: 20 € / день" data-i18n-ph="add.pricePh">
             </label>
             <label class="form-field">
-              <span class="form-label">Сезон</span>
-              <input type="text" id="af-season" maxlength="60" placeholder="Напр.: Круглый год">
+              <span class="form-label" data-i18n="card.season">Сезон</span>
+              <input type="text" id="af-season" maxlength="60" placeholder="Напр.: Круглый год" data-i18n-ph="add.seasonPh">
             </label>
           </div>
           <label class="form-field">
-            <span class="form-label">Описание</span>
-            <textarea id="af-desc" rows="3" maxlength="500" placeholder="Пара предложений о водоёме, правилах, рыбе"></textarea>
+            <span class="form-label" data-i18n="add.desc">Описание</span>
+            <textarea id="af-desc" rows="3" maxlength="500" placeholder="Пара предложений о водоёме, правилах, рыбе" data-i18n-ph="add.descPh"></textarea>
           </label>
           <p class="form-error" id="af-error" role="alert" hidden></p>
-          <button type="submit" class="btn btn--primary wn__ok">Сохранить водоём</button>
+          <button type="submit" class="btn btn--primary wn__ok" data-i18n="add.submit">Сохранить водоём</button>
         </form>
       </div>
     </div>
@@ -182,9 +187,27 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Что нового" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title">✨ Что нового</h2>
+        <h2 class="modal__title" data-i18n="whatsnew.title">✨ Что нового</h2>
+        <p class="wn__replay-hint" data-i18n="whatsnew.replay">Показать анимацию версии — коснитесь номера версии</p>
         <div id="whatsnew-list"></div>
-        <button class="btn btn--primary wn__ok" data-close>Понятно</button>
+        <button class="btn btn--primary wn__ok" data-close data-i18n="whatsnew.ok">Понятно</button>
+      </div>
+    </div>
+
+    <!-- Assistant panel -->
+    <div class="modal" id="assistant-modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__panel assistant" role="dialog" aria-modal="true" data-i18n-aria="assistant.title" aria-label="Помощник" tabindex="-1">
+        <div class="modal__grip"></div>
+        <h2 class="modal__title" data-i18n="assistant.title">🎣 Помощник</h2>
+        <div class="assistant__log" id="assistant-log" aria-live="polite"></div>
+        <div class="assistant__chips" id="assistant-chips"></div>
+        <form class="assistant__form" id="assistant-form">
+          <input type="text" id="assistant-input" class="assistant__input" placeholder="Ваш вопрос…" data-i18n-ph="assistant.placeholder" autocomplete="off">
+          <button type="submit" class="assistant__send" data-i18n-aria="assistant.send" aria-label="Отправить">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>
+          </button>
+        </form>
       </div>
     </div>
 
@@ -198,13 +221,22 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Animated cursor -->
+    <div class="cursor" id="cursor" aria-hidden="true">
+      <div class="cursor__ring"></div>
+      <div class="cursor__dot"></div>
+    </div>
   </div>
 
   <script src="assets/vendor/leaflet.js"></script>
   <script src="assets/vendor/leaflet.markercluster.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/update-fx.js"></script>
   <script src="js/changelog.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/assistant.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

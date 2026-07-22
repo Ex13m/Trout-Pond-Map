@@ -46,6 +46,7 @@
           return v;
         });
         rebuildVenues();
+        if (window.Assistant) window.Assistant.setVenues(VENUES);
         refresh();
       })
       .catch(function () { /* статический хостинг без функций — ок */ });
@@ -140,6 +141,22 @@
 
   /* ---------- DOM ---------- */
   var $ = function (id) { return document.getElementById(id); };
+  var t = function (k, v) { return window.I18N ? window.I18N.t(k, v) : k; };
+
+  // Применяет переводы к статической разметке (data-i18n / -ph / -aria)
+  function applyI18n(root) {
+    root = root || document;
+    root.querySelectorAll('[data-i18n]').forEach(function (el) {
+      el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    root.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+    });
+    root.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+    });
+  }
+
   var els = {
     splash: $('splash'), splashEnter: $('splash-enter'), splashCount: $('splash-count'),
     search: $('search-input'), searchClear: $('search-clear'),
@@ -171,7 +188,7 @@
   }
   var BASE_LAYERS = {
     sat: {
-      label: '🛰 Спутник',
+      labelKey: 'layer.sat',
       make: function () {
         var img = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics', maxZoom: 19
@@ -183,7 +200,7 @@
       }
     },
     topo: {
-      label: '⛰ Рельеф',
+      labelKey: 'layer.topo',
       make: function () {
         return L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
           attribution: OSM_ATTR + ', SRTM · &copy; <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA)', maxZoom: 17
@@ -191,7 +208,7 @@
       }
     },
     scheme: {
-      label: '🗺 Схема',
+      labelKey: 'layer.scheme',
       make: function () {
         var t = L.tileLayer(cartoUrl(darkMq && darkMq.matches), {
           attribution: OSM_ATTR + ' &copy; <a href="https://carto.com/">CARTO</a>', maxZoom: 19
@@ -225,7 +242,7 @@
     function render() {
       grid.innerHTML = Object.keys(BASE_LAYERS).map(function (k) {
         return '<button class="country-btn' + (k === currentLayerKey ? ' is-active' : '') + '" data-layer="' + k + '">' +
-          BASE_LAYERS[k].label + '</button>';
+          t(BASE_LAYERS[k].labelKey) + '</button>';
       }).join('');
     }
     fab.addEventListener('click', function () {
@@ -321,15 +338,15 @@
     // Открытая карточка могла выпасть из фильтра — закрываем, чтобы не врать
     if (state.selectedId && !markers[state.selectedId]) closeSheet();
     var n = filtered().length;
-    els.resultsPill.textContent = n === 0 ? 'Ничего не найдено'
-      : 'Водоёмов: ' + n + (state.filters.country ? ' · ' + (COUNTRY_NAMES[state.filters.country] || '') : '');
+    els.resultsPill.textContent = n === 0 ? t('results.none')
+      : t('results.count') + ' ' + n + (state.filters.country ? ' · ' + (COUNTRY_NAMES[state.filters.country] || '') : '');
   }
 
   /* ---------- List view ---------- */
   function crBadge(v) {
-    if (v.catchAndRelease === true) return '<span class="badge badge--cr">✓ Поймал-отпустил</span>';
-    if (v.catchAndRelease === 'partial') return '<span class="badge badge--partial">◐ C&amp;R частично</span>';
-    return '<span class="badge">Изъятие разрешено</span>';
+    if (v.catchAndRelease === true) return '<span class="badge badge--cr">' + esc(t('cr.full')) + '</span>';
+    if (v.catchAndRelease === 'partial') return '<span class="badge badge--partial">' + esc(t('cr.partial')) + '</span>';
+    return '<span class="badge">' + esc(t('cr.none')) + '</span>';
   }
 
   function esc(s) {
@@ -342,7 +359,7 @@
     var list = withDistance(filtered().slice());
     if (!list.length) {
       els.listContainer.innerHTML =
-        '<div class="empty"><div class="empty__icon">🎣</div><p><b>Ничего не нашлось</b><br>Попробуйте снять фильтры или изменить запрос</p></div>';
+        '<div class="empty"><div class="empty__icon">🎣</div><p><b>' + esc(t('results.none')) + '</b></p></div>';
       return;
     }
     els.listContainer.innerHTML = list.map(function (v) {
@@ -355,8 +372,8 @@
         '<div class="vcard__name">' + esc(v.name) + '</div>' +
         '<div class="vcard__loc">📍 ' + esc(v.location) + '</div>' +
         '<div class="vcard__badges">' +
-        (v._user ? '<span class="badge badge--user">⭐ Моё</span>' : '') +
-        (v._community ? '<span class="badge badge--community">🌐 Сообщество</span>' : '') + crBadge(v) +
+        (v._user ? '<span class="badge badge--user">' + esc(t('badge.mine')) + '</span>' : '') +
+        (v._community ? '<span class="badge badge--community">' + esc(t('badge.communityShort')) + '</span>' : '') + crBadge(v) +
         (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
         '</div></div></article>';
     }).join('');
@@ -397,9 +414,9 @@
       '<div class="vd">' +
       '<div class="vd__photo ph--' + biomeKey(v) + '">' + imgTag(v, 'alt="' + esc(v.name) + '"') +
       (v.photo
-        ? (/wikimedia/.test(v.photo) ? '<span class="vd__photo-note">фото: Wikimedia Commons</span>' : '')
-        : '<span class="vd__photo-note">фото иллюстративное</span>') +
-      '<button class="vd__close" id="vd-close" aria-label="Закрыть">✕</button></div>' +
+        ? (/wikimedia/.test(v.photo) ? '<span class="vd__photo-note">' + esc(t('card.photoWiki')) + '</span>' : '')
+        : '<span class="vd__photo-note">' + esc(t('card.photoIllustrative')) + '</span>') +
+      '<button class="vd__close" id="vd-close" aria-label="' + esc(t('card.close')) + '">✕</button></div>' +
 
       '<div class="vd__head">' +
       '<h2 class="vd__name">' + esc(v.name) + '</h2>' +
@@ -407,8 +424,8 @@
       '</div>' +
 
       '<div class="vd__badges">' +
-      (v._user ? '<span class="badge badge--user">⭐ Добавлено вами</span>' : '') +
-      (v._community ? '<span class="badge badge--community">🌐 От сообщества</span>' : '') +
+      (v._user ? '<span class="badge badge--user">' + esc(t('badge.mineFull')) + '</span>' : '') +
+      (v._community ? '<span class="badge badge--community">' + esc(t('badge.community')) + '</span>' : '') +
       crBadge(v) +
       (v.price ? '<span class="badge badge--price">💶 ' + esc(v.price) + '</span>' : '') +
       (v.season ? '<span class="badge">📅 ' + esc(v.season) + '</span>' : '') +
@@ -417,36 +434,36 @@
       (v.description ? '<p class="vd__desc">' + esc(v.description) + '</p>' : '') +
 
       '<div class="vd__actions">' +
-      '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">🧭 Маршрут</a>' +
-      (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">🌐 Сайт</a>' : '') +
+      '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">' + esc(t('card.route')) + '</a>' +
+      (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">' + esc(t('card.website')) + '</a>' : '') +
       '</div>' +
       (v._user
         ? '<div class="vd__actions">' +
           (v._sentName
-            ? '<span class="btn btn--ghost" aria-disabled="true">✓ В общей базе</span>'
-            : '<button class="btn btn--ghost" id="vd-propose" type="button">📮 В общую базу</button>') +
-          '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">🗑 Удалить</button>' +
+            ? '<span class="btn btn--ghost" aria-disabled="true">' + esc(t('my.inBase')) + '</span>'
+            : '<button class="btn btn--ghost" id="vd-propose" type="button">' + esc(t('my.propose')) + '</button>') +
+          '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">' + esc(t('my.delete')) + '</button>' +
           '</div>'
         : '') +
 
-      '<div class="vd__section"><h3>Погода на водоёме</h3><div id="weather-box" class="weather--loading">Загружаю прогноз…</div></div>' +
+      '<div class="vd__section"><h3>' + esc(t('card.weather')) + '</h3><div id="weather-box" class="weather--loading">' + esc(t('card.weatherLoading')) + '</div></div>' +
 
-      '<div class="vd__section"><h3>Информация</h3><div class="info-grid">' +
-      infoItem('Правила', v.rules) +
-      infoItem('Сезон', v.season) +
-      infoItem('Цена', v.price) +
-      infoItem('Кто плавает', (v.species || []).join(', ')) +
+      '<div class="vd__section"><h3>' + esc(t('card.info')) + '</h3><div class="info-grid">' +
+      infoItem(t('card.rules'), v.rules) +
+      infoItem(t('card.season'), v.season) +
+      infoItem(t('card.price'), v.price) +
+      infoItem(t('card.species'), (v.species || []).join(', ')) +
       '</div></div>' +
 
       ((v.facilities && v.facilities.length)
-        ? '<div class="vd__section"><h3>Инфраструктура</h3><div class="tags">' +
+        ? '<div class="vd__section"><h3>' + esc(t('card.facilities')) + '</h3><div class="tags">' +
           v.facilities.map(function (f) { return '<span class="tag">' + esc(f) + '</span>'; }).join('') +
           '</div></div>'
         : '') +
 
-      '<p class="vd__source">Данные ориентировочные, собраны из открытых источников' +
-      (site ? ' — актуальность проверяйте на <a href="' + esc(site) + '" target="_blank" rel="noopener">сайте водоёма</a>.' : '.') +
-      (v.precision === 'approx' ? ' Координаты приблизительные.' : '') + '</p>' +
+      '<p class="vd__source">' +
+      (site ? '<a href="' + esc(site) + '" target="_blank" rel="noopener">' + esc(t('card.website')) + '</a>' : '') +
+      '</p>' +
       '</div>';
 
     els.sheetContent.innerHTML = html;
@@ -455,7 +472,7 @@
     if (closeBtn) closeBtn.addEventListener('click', closeSheet);
     var delBtn = document.getElementById('vd-delete');
     if (delBtn) delBtn.addEventListener('click', function () {
-      if (window.confirm('Удалить «' + v.name + '» с этого устройства?')) deleteUserVenue(v.id);
+      if (window.confirm(t('my.deleteConfirm', { name: v.name }))) deleteUserVenue(v.id);
     });
     var propBtn = document.getElementById('vd-propose');
     if (propBtn) propBtn.addEventListener('click', function () { proposeToBase(v, propBtn); });
@@ -465,7 +482,7 @@
   // Если API недоступен (статический хостинг) — фолбэк на GitHub issue.
   function proposeToBase(v, btn) {
     btn.disabled = true;
-    btn.textContent = 'Отправляю…';
+    btn.textContent = t('my.sending');
     var payload = {};
     Object.keys(v).forEach(function (k) { if (k.charAt(0) !== '_' && k !== 'id') payload[k] = v[k]; });
     fetch('/api/suggest', {
@@ -478,25 +495,25 @@
       if (res.status === 201) {
         v._sentName = v.name;
         saveUserVenues(userVenues);
-        toast('В общей базе ✓ Осталось сегодня: ' + res.data.remainingToday);
+        toast(t('my.sentOk', { n: res.data.remainingToday }));
         loadCommunity();
         renderDetail(v);
       } else if (res.status === 429) {
-        toast('Лимит: не больше 10 добавлений в день. Попробуйте завтра.');
-        btn.disabled = false; btn.textContent = '📮 В общую базу';
+        toast(t('my.limitReached'));
+        btn.disabled = false; btn.textContent = t('my.propose');
       } else if (res.status === 409) {
-        toast('Такой водоём уже есть в общей базе.');
+        toast(t('my.duplicate'));
         v._sentName = v.name;
         saveUserVenues(userVenues);
         renderDetail(v);
       } else {
-        toast('Не принято: проверьте название и координаты.');
-        btn.disabled = false; btn.textContent = '📮 В общую базу';
+        toast(t('my.rejected'));
+        btn.disabled = false; btn.textContent = t('my.propose');
       }
     }).catch(function () {
       // нет API — предлагаем через GitHub
-      btn.disabled = false; btn.textContent = '📮 В общую базу';
-      toast('API недоступен — открываю GitHub…');
+      btn.disabled = false; btn.textContent = t('my.propose');
+      toast(t('my.apiDown'));
       window.open(proposeUrl(v), '_blank', 'noopener');
     });
   }
@@ -536,13 +553,13 @@
       .catch(function () {
         if (state.selectedId !== v.id) return;
         var b = document.getElementById('weather-box');
-        if (b) { b.className = 'weather--error'; b.textContent = 'Не удалось загрузить погоду. Проверьте соединение.'; }
+        if (b) { b.className = 'weather--error'; b.textContent = t('card.weatherError'); }
       });
   }
 
   function windDir(deg) {
     if (deg == null || !isFinite(deg)) return '—';
-    var dirs = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
+    var dirs = t('wind.dirs').split(',');
     return dirs[Math.round(deg / 45) % 8];
   }
   // Open-Meteo может вернуть null в отдельных полях
@@ -560,18 +577,17 @@
     if (cur.precipitation > 4) score--;
     if (cur.cloud_cover != null && cur.cloud_cover >= 30 && cur.cloud_cover <= 90) score++;
     score = Math.max(1, Math.min(5, score));
-    var labels = { 1: 'слабый клёв', 2: 'ниже среднего', 3: 'умеренный клёв', 4: 'хороший клёв', 5: 'отличный клёв' };
-    return { score: score, label: labels[score] };
+    return { score: score, label: t('bite.' + score) };
   }
 
   function renderWeather(box, data) {
     try { renderWeatherInner(box, data); }
-    catch (e) { box.className = 'weather--error'; box.textContent = 'Прогноз недоступен.'; }
+    catch (e) { box.className = 'weather--error'; box.textContent = t('card.weatherNA'); }
   }
 
   function renderWeatherInner(box, data) {
     var cur = data.current, daily = data.daily;
-    if (!cur || !daily || !daily.time) { box.className = 'weather--error'; box.textContent = 'Прогноз недоступен.'; return; }
+    if (!cur || !daily || !daily.time) { box.className = 'weather--error'; box.textContent = t('card.weatherNA'); return; }
     var ico = wmo(cur.weather_code);
     var bite = biteScore(cur);
     var stars = '★★★★★'.slice(0, bite.score) + '☆☆☆☆☆'.slice(0, 5 - bite.score);
@@ -600,7 +616,7 @@
       '<div class="weather__stat"><b>' + num(cur.cloud_cover, Math.round) + '%</b><span>облачность</span></div>' +
       '</div>' +
       '<div class="weather__days">' + days + '</div>' +
-      '<div class="weather__bite">🎯 Прогноз клёва: <b>' + stars + '</b> — ' + bite.label + '</div>';
+      '<div class="weather__bite">🎯 ' + esc(t('card.bite')) + ' <b>' + stars + '</b> — ' + esc(bite.label) + '</div>';
   }
 
   /* ---------- Bottom sheet mechanics ---------- */
@@ -718,7 +734,7 @@
     var counts = {};
     VENUES.forEach(function (v) { counts[v.country] = (counts[v.country] || 0) + 1; });
     var codes = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">🌍 <span class="name">Все страны</span><span class="cnt">' + VENUES.length + '</span></button>';
+    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">🌍 <span class="name">' + esc(t('country.all')) + '</span><span class="cnt">' + VENUES.length + '</span></button>';
     codes.forEach(function (cc) {
       html += '<button class="country-btn' + (state.filters.country === cc ? ' is-active' : '') + '" data-cc="' + esc(cc) + '">' +
         flagEmoji(cc) + ' <span class="name">' + esc(COUNTRY_NAMES[cc] || cc.toUpperCase()) + '</span>' +
@@ -766,8 +782,8 @@
 
   /* ---------- Geolocation ---------- */
   function locateUser() {
-    if (!navigator.geolocation) { toast('Геолокация не поддерживается'); return; }
-    toast('Определяю местоположение…');
+    if (!navigator.geolocation) { toast(t('geo.unsupported')); return; }
+    toast(t('geo.locating'));
     navigator.geolocation.getCurrentPosition(function (pos) {
       state.userPos = [pos.coords.latitude, pos.coords.longitude];
       els.fabLocate.classList.add('is-active');
@@ -778,11 +794,11 @@
       map.flyTo(state.userPos, 8, { duration: 1 });
       var nearest = withDistance(filtered().slice())[0];
       if (nearest && nearest._dist != null) {
-        toast('Ближайший: ' + nearest.name + ' — ' + Math.round(nearest._dist) + ' км');
+        toast(t('geo.nearest', { name: nearest.name, km: Math.round(nearest._dist) }));
       }
       renderList();
     }, function () {
-      toast('Не удалось определить местоположение');
+      toast(t('geo.failed'));
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
   }
   els.fabLocate.addEventListener('click', locateUser);
@@ -807,7 +823,7 @@
   }
   setText('splash-version', APP_VERSION ? 'v' + APP_VERSION : '');
   setText('about-version', APP_VERSION ? 'v' + APP_VERSION : '');
-  setText('about-version-full', APP_VERSION ? 'версия ' + APP_VERSION : '');
+  setText('about-version-full', APP_VERSION ? t('about.version') + ' ' + APP_VERSION : '');
 
   var whatsnewModal = $('whatsnew-modal');
 
@@ -817,7 +833,7 @@
     list.innerHTML = CHANGELOG.map(function (rel, i) {
       return '<section class="wn' + (i === 0 ? ' wn--latest' : '') + '">' +
         '<div class="wn__head"><span class="wn__ver">v' + esc(rel.version) + '</span>' +
-        (i === 0 ? '<span class="wn__badge">текущая</span>' : '') +
+        (i === 0 ? '<span class="wn__badge">' + esc(t('whatsnew.current')) + '</span>' : '') +
         '<span class="wn__date">' + esc(rel.date) + '</span></div>' +
         '<h3 class="wn__title">' + esc(rel.title) + '</h3>' +
         '<ul class="wn__items">' + rel.items.map(function (it) {
@@ -848,11 +864,13 @@
     return s.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '').replace(/^\s+/, '');
   }
 
-  function playUpdateAnimation() {
+  function playUpdateAnimation(opts) {
+    opts = opts || {};
+    if (!window.UpdateFX) { openWhatsnew(); return; }
     var rel = CHANGELOG[0];
     var narrow = window.innerWidth < 600;
     var lines = [
-      { text: 'ОБНОВЛЕНИЕ', size: narrow ? 13 : 16, color: '#7a9c97' },
+      { text: t('whatsnew.title').replace(/[^\wА-Яа-яЁёÀ-ž ]/g, '').trim().toUpperCase() || 'UPDATE', size: narrow ? 13 : 16, color: '#7a9c97' },
       { text: 'v' + rel.version, size: narrow ? 64 : 92, color: '#7fe0d4' },
       { text: rel.title, size: narrow ? 20 : 28, color: '#e8f5f2' }
     ];
@@ -861,13 +879,32 @@
     });
     window.UpdateFX.play({
       lines: lines,
-      hold: 10000,
+      hold: 5000,
       onDone: function (played) {
-        if (!played) openWhatsnew(); // фолбэк, если анимация не смогла
+        if (!played && !opts.replay) openWhatsnew(); // фолбэк только для авто-показа
       }
     });
     try { localStorage.setItem(SEEN_KEY, APP_VERSION); } catch (e) {}
   }
+  // Клик по версии на сайте — повторить анимацию «прилетел-улетел»
+  function bindVersionReplay(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('is-clickable');
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    var run = function () {
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || !window.UpdateFX) { closeModal(els.aboutModal); openWhatsnew(); return; }
+      closeModal(els.aboutModal);
+      whatsnewModal.hidden = true;
+      playUpdateAnimation({ replay: true });
+    };
+    el.addEventListener('click', run);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); run(); } });
+  }
+  bindVersionReplay('splash-version');
+  bindVersionReplay('about-version');
 
   function maybeShowWhatsnew() {
     if (!APP_VERSION) return;
@@ -896,16 +933,18 @@
   var afError = $('af-error');
   var picking = false;
 
-  (function fillCountrySelect() {
+  function fillCountrySelect() {
     var sel = $('af-country');
+    var prev = sel.value;
     var codes = Object.keys(COUNTRY_NAMES).sort(function (a, b) {
       return COUNTRY_NAMES[a].localeCompare(COUNTRY_NAMES[b], 'ru');
     });
     sel.innerHTML = codes.map(function (cc) {
       return '<option value="' + cc + '">' + flagEmoji(cc) + ' ' + esc(COUNTRY_NAMES[cc]) + '</option>';
     }).join('');
-    sel.value = 'cz';
-  })();
+    sel.value = prev || 'cz';
+  }
+  fillCountrySelect();
 
   function openAddModal() {
     addModal.hidden = false;
@@ -924,7 +963,7 @@
     picking = true;
     if (state.listMode) toggleView(false);
     document.getElementById('map').classList.add('is-picking');
-    toast('Коснитесь карты в месте водоёма');
+    toast(t('add.pickToast'));
   });
   map.on('click', function (e) {
     if (!picking) return;
@@ -947,10 +986,10 @@
     var lng = parseFloat(String($('af-lng').value).replace(',', '.'));
     var website = $('af-website').value.trim();
 
-    if (!name) return showFormError('Укажите название водоёма.');
-    if (!isFinite(lat) || !isFinite(lng)) return showFormError('Укажите координаты — числами или точкой на карте.');
-    if (lat < 34 || lat > 72 || lng < -11 || lng > 42) return showFormError('Координаты вне Европы. Проверьте широту и долготу.');
-    if (website && !/^https?:\/\//i.test(website)) return showFormError('Ссылка должна начинаться с http:// или https://');
+    if (!name) return showFormError(t('add.errName'));
+    if (!isFinite(lat) || !isFinite(lng)) return showFormError(t('add.errCoords'));
+    if (lat < 34 || lat > 72 || lng < -11 || lng > 42) return showFormError(t('add.errEurope'));
+    if (website && !/^https?:\/\//i.test(website)) return showFormError(t('add.errUrl'));
 
     var cc = $('af-country').value;
     var crRaw = $('af-cr').value;
@@ -977,14 +1016,14 @@
     userVenues.push(venue);
     if (!saveUserVenues(userVenues)) {
       userVenues.pop();
-      return showFormError('Не удалось сохранить (хранилище недоступно).');
+      return showFormError(t('add.errStore'));
     }
     rebuildVenues();
     addForm.reset();
     $('af-country').value = 'cz';
     addModal.hidden = true;
     refresh();
-    toast('Водоём добавлен ✓');
+    toast(t('my.added'));
     selectVenue(venue.id, false);
   });
 
@@ -994,7 +1033,7 @@
     rebuildVenues();
     closeSheet();
     refresh();
-    toast('Водоём удалён');
+    toast(t('my.deleted'));
   }
 
   function proposeUrl(v) {
@@ -1004,6 +1043,46 @@
       JSON.stringify(clean, null, 2) + '\n```\n\nИсточник/подтверждение: ' + (v.website || '(добавьте ссылку)');
     return 'https://github.com/Ex13m/Trout-Pond-Map/issues/new?title=' +
       encodeURIComponent('Новый водоём: ' + v.name) + '&body=' + encodeURIComponent(body);
+  }
+
+  /* ---------- Языки ---------- */
+  function renderLangRow(id) {
+    var box = document.getElementById(id);
+    if (!box || !window.I18N) return;
+    box.innerHTML = window.I18N.LANGS.map(function (lang) {
+      var m = window.I18N.LANG_META[lang];
+      return '<button class="lang-btn' + (lang === window.I18N.get() ? ' is-active' : '') +
+        '" data-lang="' + lang + '" lang="' + lang + '">' + m.flag + ' ' + esc(m.name) + '</button>';
+    }).join('');
+  }
+  function renderLangRows() { renderLangRow('splash-lang'); renderLangRow('about-lang'); }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-lang]');
+    if (btn && window.I18N) window.I18N.setLang(btn.getAttribute('data-lang'));
+  });
+
+  // Точечная перерисовка динамики при смене языка
+  window.onLangChange = function () {
+    applyI18n(document);
+    renderLangRows();
+    setText('about-version-full', APP_VERSION ? t('about.version') + ' ' + APP_VERSION : '');
+    els.chipCountry.setAttribute('aria-label', t('chip.country'));
+    refresh();
+    if (state.selectedId) { var sv = VENUES.find(function (x) { return x.id === state.selectedId; }); if (sv) { renderDetail(sv); loadWeather(sv); } }
+    if (window.Assistant) window.Assistant.rerender();
+    fillCountrySelect();
+  };
+
+  applyI18n(document);
+  renderLangRows();
+
+  /* ---------- Помощник ---------- */
+  if (window.Assistant) {
+    window.Assistant.setVenues(VENUES);
+    window.Assistant.onOpenVenue = function (id) { selectVenue(id, false); };
+    var fabAsst = $('fab-assistant');
+    if (fabAsst) fabAsst.addEventListener('click', function () { window.Assistant.open(); });
+    var asstModal = $('assistant-modal');
   }
 
   /* ---------- Splash ---------- */
@@ -1021,9 +1100,11 @@
       var wn = document.getElementById('whatsnew-modal');
       var am = document.getElementById('add-modal');
       var lm = document.getElementById('layers-modal');
+      var asm = document.getElementById('assistant-modal');
       if (wn && !wn.hidden) wn.hidden = true;
       else if (am && !am.hidden) am.hidden = true;
       else if (lm && !lm.hidden) lm.hidden = true;
+      else if (asm && !asm.hidden) asm.hidden = true;
       else if (!els.countryModal.hidden) closeModal(els.countryModal);
       else if (!els.aboutModal.hidden) closeModal(els.aboutModal);
       else if (!els.sheet.hidden) closeSheet();

@@ -465,3 +465,78 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* ============ Языки ============ */
+.lang-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+#splash-lang { margin-top: 18px; }
+#about-lang { justify-content: flex-start; margin-bottom: 4px; }
+.lang-btn {
+  border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 700;
+  background: rgba(255,255,255,0.12); color: #fff; border: 1.5px solid transparent;
+  backdrop-filter: blur(4px);
+}
+#about-lang .lang-btn { background: var(--surface-2); color: var(--text); }
+.lang-btn.is-active { border-color: #7fe0d4; background: rgba(127,224,212,0.2); }
+#about-lang .lang-btn.is-active { border-color: var(--teal-500); background: var(--teal-100); color: var(--teal-800); }
+@media (prefers-color-scheme: dark) { #about-lang .lang-btn.is-active { color: #7fe0d4; } }
+
+/* ============ Кликабельная версия ============ */
+.is-clickable { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-style: dotted; }
+#splash-version.is-clickable { color: #7fe0d4; }
+
+/* ============ Помощник ============ */
+.fab--assistant { background: var(--teal-600); }
+.fab--assistant .fab__emoji { font-size: 24px; line-height: 1; filter: saturate(1.2); }
+.fab--assistant { animation: asst-bob 3.5s ease-in-out infinite; }
+@keyframes asst-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+.assistant { display: flex; flex-direction: column; max-height: 82vh; }
+.assistant__log {
+  flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+  padding: 6px 2px 12px; min-height: 120px; max-height: 44vh;
+}
+.asst-msg { max-width: 88%; padding: 10px 13px; border-radius: 15px; font-size: 14px; line-height: 1.5; }
+.asst-msg--bot { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 5px; }
+.asst-msg--user { align-self: flex-end; background: var(--teal-600); color: #fff; border-bottom-right-radius: 5px; }
+.asst-venue {
+  display: block; width: 100%; text-align: left; background: var(--surface); color: var(--text);
+  border: 1.5px solid var(--border); border-radius: 12px; padding: 9px 12px; font-size: 13.5px;
+  font-weight: 700; margin: 3px 0;
+}
+.asst-venue span { color: var(--text-2); font-weight: 500; }
+.assistant__chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 4px 0 10px; }
+.asst-chip {
+  background: var(--surface-2); border-radius: 999px; padding: 8px 13px; font-size: 12.5px;
+  font-weight: 700; color: var(--text); border: 1.5px solid transparent;
+}
+.asst-chip:active { border-color: var(--teal-500); }
+.assistant__form { display: flex; gap: 8px; align-items: center; padding-top: 6px; border-top: 1px solid var(--border); }
+.assistant__input {
+  flex: 1; min-width: 0; font: inherit; font-size: 15px; color: var(--text);
+  background: var(--surface-2); border: 1.5px solid transparent; border-radius: 999px; padding: 11px 15px; outline: none;
+}
+.assistant__input:focus { border-color: var(--teal-500); }
+.assistant__send {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: var(--coral-500);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+}
+.assistant__send svg { width: 20px; height: 20px; }
+
+.wn__replay-hint { font-size: 12px; color: var(--text-2); margin: -6px 0 10px; }
+
+/* ============ Анимированный курсор ============ */
+.cursor { position: fixed; inset: 0; pointer-events: none; z-index: 400; opacity: 0; transition: opacity .25s; }
+.cursor.is-visible { opacity: 1; }
+.has-custom-cursor, .has-custom-cursor * { cursor: none !important; }
+.cursor__ring, .cursor__dot { position: absolute; top: 0; left: 0; will-change: transform; }
+.cursor__ring {
+  width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  border: 2px solid rgba(127,224,212,0.85); transition: width .18s, height .18s, margin .18s, border-color .18s, background .18s;
+}
+.cursor__dot {
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: var(--coral-500);
+  box-shadow: 0 0 8px rgba(255,107,74,0.7);
+}
+.cursor.is-active .cursor__ring { width: 46px; height: 46px; margin: -23px 0 0 -23px; border-color: var(--coral-500); background: rgba(255,107,74,0.1); }
+.cursor.is-down .cursor__ring { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+@media (hover: none) { .cursor { display: none; } }
