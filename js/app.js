@@ -70,19 +70,47 @@
 
   // Атмосферные фото сгенерированы через Higgsfield AI (см. README)
   var IMG_CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_2vVGC2DWe2MM7XDhdxjTNwWTi4E/';
-  var BIOME_IMG = {
-    alpine: IMG_CDN + 'hf_20260722_150959_7865e3a4-3b15-4d1f-8090-f8cf13c2f974_min.webp',
+  var IMG = {
+    alpineHero: IMG_CDN + 'hf_20260722_150959_7865e3a4-3b15-4d1f-8090-f8cf13c2f974_min.webp',
     laghetto: IMG_CDN + 'hf_20260722_151001_5d18cf93-a27b-4f5c-bc04-a67403acabc6_min.webp',
-    forest: IMG_CDN + 'hf_20260722_151003_3cdf9f88-5070-4242-9320-31f35b13daff_min.webp',
     meadow: IMG_CDN + 'hf_20260722_151005_0f9a8d99-8811-44f5-add0-0a1083324df9_min.webp',
     nordic: IMG_CDN + 'hf_20260722_151007_e5cc4c5c-1d19-4cbe-a9af-b14877af0604_min.webp',
-    release: IMG_CDN + 'hf_20260722_151008_22db8205-27e8-41c8-b3ac-f8195c6f4d94_min.webp'
+    forestMisty: IMG_CDN + 'hf_20260722_205120_2c0d47b8-18dc-4423-8d3b-59f5896ffeae_min.webp',
+    autumnPond: IMG_CDN + 'hf_20260722_205122_b5b21258-26b5-45fc-84fc-9169530841af_min.webp',
+    mountainRes: IMG_CDN + 'hf_20260722_205123_407dcb3b-c077-4f4e-88ae-299d3d5434ec_min.webp',
+    lowlandGold: IMG_CDN + 'hf_20260722_205130_1236ecb3-9281-4999-8c0d-6c1fbe5df15a_min.webp',
+    nordicRocky: IMG_CDN + 'hf_20260722_205134_78fd352e-777c-46a4-87f5-e7b554dfe08e_min.webp',
+    compPond: IMG_CDN + 'hf_20260722_205121_e3b56308-cf57-4167-8e91-4ac69b216494_min.webp',
+    chalkStream: IMG_CDN + 'hf_20260722_205131_069692ba-cdf6-45d5-b9db-0c62cb0e2329_min.webp'
+  };
+  // Пул вариантов на биом — карточки не повторяются подряд
+  var BIOME_POOL = {
+    laghetto: [IMG.laghetto, IMG.compPond, IMG.lowlandGold, IMG.autumnPond],
+    alpine: [IMG.alpineHero, IMG.mountainRes, IMG.forestMisty],
+    forest: [IMG.forestMisty, IMG.autumnPond, IMG.compPond, IMG.laghetto],
+    meadow: [IMG.meadow, IMG.lowlandGold, IMG.chalkStream, IMG.autumnPond],
+    nordic: [IMG.nordic, IMG.nordicRocky, IMG.forestMisty]
   };
   function biomeKey(v) {
-    return Object.prototype.hasOwnProperty.call(BIOME_IMG, v.biome) ? v.biome : 'forest';
+    return Object.prototype.hasOwnProperty.call(BIOME_POOL, v.biome) ? v.biome : 'forest';
+  }
+  function hashStr(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+    return Math.abs(h);
   }
   function venueImage(v) {
-    return BIOME_IMG[biomeKey(v)];
+    if (v.photo && /^https:\/\//i.test(v.photo)) return v.photo;
+    var pool = BIOME_POOL[biomeKey(v)];
+    return pool[hashStr(String(v.id) + v.name) % pool.length];
+  }
+  // Фолбэк-цепочка: реальное фото → биом-заставка → градиент
+  function imgTag(v, attrs) {
+    var main = venueImage(v);
+    var fb = BIOME_POOL[biomeKey(v)][0];
+    var fallback = (main === fb) ? '' : ' data-fb="' + fb + '"';
+    return '<img ' + (attrs || '') + fallback + ' src="' + main + '" ' +
+      'onerror="if(this.dataset.fb){this.src=this.dataset.fb;delete this.dataset.fb}else{this.remove()}">';
   }
   function safeUrl(u) {
     return (typeof u === 'string' && /^https?:\/\//i.test(u)) ? u : null;
@@ -133,17 +161,85 @@
   var map = L.map('map', { zoomControl: true, attributionControl: true, tap: true })
     .setView([49.5, 9.5], 5);
 
+  /* Базовые слои: спутник (по умолчанию), рельеф, схема */
   var darkMq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-  function tileUrl(isDark) {
+  var LAYER_KEY = 'troutmap_layer';
+  var OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>';
+
+  function cartoUrl(isDark) {
     return 'https://{s}.basemaps.cartocdn.com/' + (isDark ? 'dark_all' : 'rastertiles/voyager') + '/{z}/{x}/{y}{r}.png';
   }
-  var tiles = L.tileLayer(tileUrl(darkMq && darkMq.matches), {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 19
-  }).addTo(map);
-  if (darkMq && darkMq.addEventListener) {
-    darkMq.addEventListener('change', function (e) { tiles.setUrl(tileUrl(e.matches)); });
+  var BASE_LAYERS = {
+    sat: {
+      label: '🛰 Спутник',
+      make: function () {
+        var img = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics', maxZoom: 19
+        });
+        var labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+          attribution: OSM_ATTR + ' &copy; <a href="https://carto.com/">CARTO</a>', maxZoom: 19
+        });
+        return L.layerGroup([img, labels]);
+      }
+    },
+    topo: {
+      label: '⛰ Рельеф',
+      make: function () {
+        return L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+          attribution: OSM_ATTR + ', SRTM · &copy; <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA)', maxZoom: 17
+        });
+      }
+    },
+    scheme: {
+      label: '🗺 Схема',
+      make: function () {
+        var t = L.tileLayer(cartoUrl(darkMq && darkMq.matches), {
+          attribution: OSM_ATTR + ' &copy; <a href="https://carto.com/">CARTO</a>', maxZoom: 19
+        });
+        if (darkMq && darkMq.addEventListener) {
+          darkMq.addEventListener('change', function (e) { t.setUrl(cartoUrl(e.matches)); });
+        }
+        return t;
+      }
+    }
+  };
+
+  var currentLayerKey = null, currentLayer = null;
+  function setBaseLayer(key) {
+    if (!BASE_LAYERS[key] || key === currentLayerKey) return;
+    if (currentLayer) map.removeLayer(currentLayer);
+    currentLayer = BASE_LAYERS[key].make();
+    currentLayer.addTo(map);
+    currentLayerKey = key;
+    try { localStorage.setItem(LAYER_KEY, key); } catch (e) {}
   }
+  var storedLayer = null;
+  try { storedLayer = localStorage.getItem(LAYER_KEY); } catch (e) {}
+  setBaseLayer(BASE_LAYERS[storedLayer] ? storedLayer : 'sat');
+
+  // Переключатель слоёв
+  (function () {
+    var modal = document.getElementById('layers-modal');
+    var grid = document.getElementById('layer-grid');
+    var fab = document.getElementById('fab-layers');
+    function render() {
+      grid.innerHTML = Object.keys(BASE_LAYERS).map(function (k) {
+        return '<button class="country-btn' + (k === currentLayerKey ? ' is-active' : '') + '" data-layer="' + k + '">' +
+          BASE_LAYERS[k].label + '</button>';
+      }).join('');
+    }
+    fab.addEventListener('click', function () {
+      render();
+      modal.hidden = false;
+      var panel = modal.querySelector('.modal__panel');
+      if (panel) panel.focus({ preventScroll: true });
+    });
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-close')) { modal.hidden = true; return; }
+      var btn = e.target.closest('[data-layer]');
+      if (btn) { setBaseLayer(btn.getAttribute('data-layer')); modal.hidden = true; }
+    });
+  })();
 
   var cluster = L.markerClusterGroup({
     showCoverageOnHover: false,
@@ -251,7 +347,7 @@
     }
     els.listContainer.innerHTML = list.map(function (v) {
       return '<article class="vcard" role="button" tabindex="0" data-id="' + esc(v.id) + '" aria-label="' + esc(v.name) + ', ' + esc(COUNTRY_NAMES[v.country] || v.country) + '">' +
-        '<div class="vcard__photo ph--' + biomeKey(v) + '"><img loading="lazy" src="' + venueImage(v) + '" alt="" onerror="this.remove()">' +
+        '<div class="vcard__photo ph--' + biomeKey(v) + '">' + imgTag(v, 'loading="lazy" alt=""') +
         '<span class="vcard__flag">' + flagEmoji(v.country) + ' ' + esc(COUNTRY_NAMES[v.country] || v.country) + '</span>' +
         (v._dist != null ? '<span class="vcard__dist">' + Math.round(v._dist) + ' км</span>' : '') +
         '</div>' +
@@ -299,8 +395,8 @@
     var gmaps = 'https://www.google.com/maps/dir/?api=1&destination=' + Number(v.lat) + ',' + Number(v.lng);
     var html =
       '<div class="vd">' +
-      '<div class="vd__photo ph--' + biomeKey(v) + '"><img src="' + venueImage(v) + '" alt="' + esc(v.name) + '" onerror="this.remove()">' +
-      '<span class="vd__photo-note">фото иллюстративное</span>' +
+      '<div class="vd__photo ph--' + biomeKey(v) + '">' + imgTag(v, 'alt="' + esc(v.name) + '"') +
+      (v.photo ? '' : '<span class="vd__photo-note">фото иллюстративное</span>') +
       '<button class="vd__close" id="vd-close" aria-label="Закрыть">✕</button></div>' +
 
       '<div class="vd__head">' +
@@ -922,8 +1018,10 @@
     if (e.key === 'Escape') {
       var wn = document.getElementById('whatsnew-modal');
       var am = document.getElementById('add-modal');
+      var lm = document.getElementById('layers-modal');
       if (wn && !wn.hidden) wn.hidden = true;
       else if (am && !am.hidden) am.hidden = true;
+      else if (lm && !lm.hidden) lm.hidden = true;
       else if (!els.countryModal.hidden) closeModal(els.countryModal);
       else if (!els.aboutModal.hidden) closeModal(els.aboutModal);
       else if (!els.sheet.hidden) closeSheet();

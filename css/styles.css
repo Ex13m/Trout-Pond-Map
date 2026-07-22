@@ -389,6 +389,8 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 .modal__title { font-size: 18px; font-weight: 800; margin: 10px 0 14px; }
 
 .country-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.layer-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.layer-grid .country-btn { font-size: 15px; padding: 14px 16px; }
 .country-btn {
   display: flex; align-items: center; gap: 10px; min-width: 0;
   background: var(--surface-2); border-radius: var(--radius-sm); padding: 12px 14px;
