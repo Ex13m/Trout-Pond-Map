@@ -179,7 +179,8 @@ window.VENUES = [
       "Гриль-зона",
       "Прокат снастей",
       "Гид"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/2/27/Forellensee_in_Zweisimmen.jpg"
   },
   {
     "id": "v008",
@@ -578,7 +579,8 @@ window.VENUES = [
     "price": null,
     "season": "1 августа – 31 марта (сезон 2025/26; открыт в период запрета на реках)",
     "website": "https://www.gipuzkoa.eus/es/web/ehiza-arrantza/pesca/zonas",
-    "facilities": []
+    "facilities": [],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/19/Txarama-Araxes.jpg"
   },
   {
     "id": "v023",
@@ -621,7 +623,8 @@ window.VENUES = [
     "price": "12-часовая лицензия ~10 €, годовая 200 € (молодёжь до 18 лет — 5 €/70 €)",
     "season": "Открытая вода и подлёдная ловля",
     "website": "https://stortrask.com/",
-    "facilities": []
+    "facilities": [],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Duckboards_by_the_lake_Stortr%C3%A4sk_in_Sipoonkorpi%2C_Helsinki%2C_Finland%2C_2021_May.jpg"
   },
   {
     "id": "v025",
@@ -765,7 +768,8 @@ window.VENUES = [
       "Продажа билетов и магазин в визит-центре Llyn Brenig",
       "Парковка",
       "Пешие маршруты вокруг водоёма"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Alwen_Reservoir%2C_North_Wales_-_Flickr_-_Robin_Mulligan.jpg"
   },
   {
     "id": "v031",
@@ -789,7 +793,8 @@ window.VENUES = [
     "facilities": [
       "Лодки (вёсельные и с электромотором)",
       "Лесопарк Castlewellan (парковка, кафе, тропы)"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/15/Castlewellan_Lake_at_its_widest_-_geograph.org.uk_-_3744489.jpg"
   },
   {
     "id": "v032",
@@ -949,7 +954,8 @@ window.VENUES = [
       "Продажа свежей и копчёной форели",
       "Экотропа по ферме",
       "Парковка"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Pisztr%C3%A1ngtelep%2C_tavak.JPG"
   },
   {
     "id": "v038",
@@ -1146,7 +1152,8 @@ window.VENUES = [
       "Парковка",
       "Бар",
       "Зона отдыха"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c9/GROSOTTO........e_il_suo_laghetto_-_panoramio.jpg"
   },
   {
     "id": "v046",
@@ -1532,7 +1539,8 @@ window.VENUES = [
     "facilities": [
       "лёгкий подход от дороги",
       "парковка поблизости"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Oslo_Tryvann_%C3%96vresetertjern_IMG_5177.JPG"
   },
   {
     "id": "v061",
@@ -1714,7 +1722,8 @@ window.VENUES = [
     "price": "120 € — коллективная лицензия на одно озеро на день соревнований",
     "season": null,
     "website": null,
-    "facilities": []
+    "facilities": [],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Lagoa_Comprida_-_Serra_da_Estrela_-_Portugal_%2852728549586%29.jpg"
   },
   {
     "id": "v068",
@@ -1845,7 +1854,8 @@ window.VENUES = [
       "кемпинг",
       "аренда лодок",
       "аренда отдельных озёр"
-    ]
+    ],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Nordvattnet_-_H%C3%B6kens%C3%A5s.jpg"
   },
   {
     "id": "v073",

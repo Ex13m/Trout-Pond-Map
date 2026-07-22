@@ -396,7 +396,9 @@
     var html =
       '<div class="vd">' +
       '<div class="vd__photo ph--' + biomeKey(v) + '">' + imgTag(v, 'alt="' + esc(v.name) + '"') +
-      (v.photo ? '' : '<span class="vd__photo-note">фото иллюстративное</span>') +
+      (v.photo
+        ? (/wikimedia/.test(v.photo) ? '<span class="vd__photo-note">фото: Wikimedia Commons</span>' : '')
+        : '<span class="vd__photo-note">фото иллюстративное</span>') +
       '<button class="vd__close" id="vd-close" aria-label="Закрыть">✕</button></div>' +
 
       '<div class="vd__head">' +
