@@ -183,9 +183,6 @@
   var LAYER_KEY = 'troutmap_layer';
   var OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>';
 
-  function cartoUrl(isDark) {
-    return 'https://{s}.basemaps.cartocdn.com/' + (isDark ? 'dark_all' : 'rastertiles/voyager') + '/{z}/{x}/{y}{r}.png';
-  }
   var BASE_LAYERS = {
     sat: {
       labelKey: 'layer.sat',
@@ -210,13 +207,10 @@
     scheme: {
       labelKey: 'layer.scheme',
       make: function () {
-        var t = L.tileLayer(cartoUrl(darkMq && darkMq.matches), {
+        // Всегда светлая читаемая карта (CARTO Voyager), не зависит от темы
+        return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
           attribution: OSM_ATTR + ' &copy; <a href="https://carto.com/">CARTO</a>', maxZoom: 19
         });
-        if (darkMq && darkMq.addEventListener) {
-          darkMq.addEventListener('change', function (e) { t.setUrl(cartoUrl(e.matches)); });
-        }
-        return t;
       }
     }
   };

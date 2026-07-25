@@ -47,7 +47,7 @@
     'layers.title': { ru: 'Слой карты', en: 'Map layer', cs: 'Vrstva mapy' },
     'layer.sat': { ru: '🛰 Спутник', en: '🛰 Satellite', cs: '🛰 Satelit' },
     'layer.topo': { ru: '⛰ Рельеф', en: '⛰ Terrain', cs: '⛰ Terén' },
-    'layer.scheme': { ru: '🗺 Схема', en: '🗺 Map', cs: '🗺 Schéma' },
+    'layer.scheme': { ru: '🗺 Светлая карта', en: '🗺 Street map', cs: '🗺 Uliční mapa' },
 
     // Страны
     'country.title': { ru: 'Страна', en: 'Country', cs: 'Země' },
