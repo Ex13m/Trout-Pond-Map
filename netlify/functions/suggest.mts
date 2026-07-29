@@ -9,6 +9,7 @@ const COUNTRIES = new Set([
   "it","fr","es","pt","de","at","ch","si","cz","sk","hu","pl","lt","lv","ee",
   "fi","se","no","dk","be","nl","gb","ie","hr","bg","ro",
   "ru","ge","am","az","kz","jp","kr","cn","tw",
+  "kg","uz","tj","tm",
 ]);
 
 function str(v: unknown, max: number): string | null {

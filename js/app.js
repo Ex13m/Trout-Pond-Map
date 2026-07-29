@@ -61,7 +61,8 @@
     nl: 'Нидерланды', gb: 'Великобритания', ie: 'Ирландия', hr: 'Хорватия',
     bg: 'Болгария', ro: 'Румыния',
     ru: 'Россия', ge: 'Грузия', am: 'Армения', az: 'Азербайджан', kz: 'Казахстан',
-    jp: 'Япония', kr: 'Южная Корея', cn: 'Китай', tw: 'Тайвань'
+    jp: 'Япония', kr: 'Южная Корея', cn: 'Китай', tw: 'Тайвань',
+    kg: 'Кыргызстан', uz: 'Узбекистан', tj: 'Таджикистан', tm: 'Туркменистан'
   };
   // Зона покрытия: Европа + Кавказ + Азия
   function inCoverage(lat, lng) {
@@ -946,7 +947,8 @@
     si: 'alpine', bg: 'alpine', ro: 'forest', hr: 'meadow',
     de: 'forest', cz: 'forest', sk: 'forest', pl: 'forest', hu: 'forest',
     ru: 'forest', ge: 'alpine', am: 'alpine', az: 'alpine', kz: 'meadow',
-    jp: 'laghetto', kr: 'laghetto', cn: 'alpine', tw: 'alpine'
+    jp: 'laghetto', kr: 'laghetto', cn: 'alpine', tw: 'alpine',
+    kg: 'alpine', uz: 'alpine', tj: 'alpine', tm: 'meadow'
   };
 
   var addModal = $('add-modal');
