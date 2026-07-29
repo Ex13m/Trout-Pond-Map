@@ -44,14 +44,18 @@
     requestAnimationFrame(step);
   }
 
-  /* ---- Скоринг по моделям ---- */
-  function renderScore() {
+  /* ---- Скоринг по моделям (в указанный контейнер) ---- */
+  function renderScore(box) {
+    box = box || scoreBox;
     var spent = {};
     RUNS.forEach(function (r) {
       spent[r.model] = (spent[r.model] || 0) + (r.tokens || 0);
     });
     var models = Object.keys(BUDGETS);
-    scoreBox.innerHTML = models.map(function (m, i) {
+    var total = RUNS.reduce(function (s, r) { return s + (r.tokens || 0); }, 0);
+    box.innerHTML = '<div class="act-total">' + esc(T('tokens.total')) +
+      ' <b class="act-total__num" data-tok="' + total + '">0</b></div>' +
+      models.map(function (m, i) {
       var s = spent[m] || 0;
       var b = BUDGETS[m] || 1;
       var left = Math.max(0, 100 - (s / b) * 100);
@@ -64,15 +68,15 @@
     }).join('');
     // запуск анимаций
     requestAnimationFrame(function () {
-      scoreBox.querySelectorAll('.act-score__tok').forEach(function (el) {
+      box.querySelectorAll('.act-total__num, .act-score__tok').forEach(function (el) {
         countUp(el, Number(el.getAttribute('data-tok')));
       });
-      scoreBox.querySelectorAll('.act-bar__fill').forEach(function (el) {
+      box.querySelectorAll('.act-bar__fill').forEach(function (el) {
         var left = Number(el.getAttribute('data-left'));
         setTimeout(function () { el.style.width = left + '%'; }, 150);
         el.classList.toggle('is-low', left < 20);
       });
-      scoreBox.querySelectorAll('.act-bar__label').forEach(function (el) {
+      box.querySelectorAll('.act-bar__label').forEach(function (el) {
         var target = Number(el.getAttribute('data-leftlabel'));
         var n = 0;
         var timer = setInterval(function () {
@@ -85,9 +89,10 @@
   }
 
   /* ---- Лента волн ---- */
-  function renderFeed() {
-    var runs = RUNS.slice(0, 10);
-    feedBox.innerHTML = runs.map(function (r, i) {
+  function renderFeed(box, limit) {
+    box = box || feedBox;
+    var runs = limit ? RUNS.slice(0, limit) : RUNS.slice();
+    box.innerHTML = runs.map(function (r, i) {
       var running = r.status === 'running';
       return '<button class="act-run" data-run="' + i + '" style="animation-delay:' + (i * 70) + 'ms">' +
         '<div class="act-run__top">' +
@@ -103,16 +108,19 @@
         '</div></button>';
     }).join('');
     requestAnimationFrame(function () {
-      feedBox.querySelectorAll('.act-run__tok').forEach(function (el) {
+      box.querySelectorAll('.act-run__tok').forEach(function (el) {
         countUp(el, Number(el.getAttribute('data-tok')), ' tok');
       });
     });
   }
 
   /* ---- Детали волны ---- */
-  function openDetail(idx) {
+  function openDetail(idx, targetModal, targetDetail, backId) {
     var r = RUNS[idx];
     if (!r) return;
+    targetModal = targetModal || modal;
+    targetDetail = targetDetail || detailBox;
+    backId = backId || 'act-back';
     var list = function (title, items, icon) {
       if (!items || !items.length) return '';
       return '<h4 class="act-d__h">' + icon + ' ' + esc(title) + '</h4><ul class="act-d__list">' +
@@ -120,8 +128,8 @@
           return '<li style="animation-delay:' + (i * 60) + 'ms">' + esc(x) + '</li>';
         }).join('') + '</ul>';
     };
-    detailBox.innerHTML =
-      '<button class="act-d__back" id="act-back">← ' + esc(T('act.back')) + '</button>' +
+    targetDetail.innerHTML =
+      '<button class="act-d__back" id="' + backId + '">← ' + esc(T('act.back')) + '</button>' +
       '<div class="act-d__head">' +
       '<div class="act-d__title">' + esc(r.title) + '</div>' +
       '<div class="act-d__meta">🕒 ' + esc(fmtDate(r.ts)) + ' · 🤖 ' + esc(r.model) +
@@ -131,9 +139,9 @@
       list(T('act.improved'), r.improved, '🔧') +
       '<h4 class="act-d__h">🧠 ' + esc(T('act.optimization')) + '</h4>' +
       '<p class="act-d__opt">' + esc(r.optimization) + '</p>';
-    modal.classList.add('is-detail');
-    document.getElementById('act-back').addEventListener('click', function () {
-      modal.classList.remove('is-detail');
+    targetModal.classList.add('is-detail');
+    document.getElementById(backId).addEventListener('click', function () {
+      targetModal.classList.remove('is-detail');
     });
   }
 
@@ -145,8 +153,8 @@
   function showJournal() {
     passBox.hidden = true;
     document.getElementById('act-journal').hidden = false;
-    renderScore();
-    renderFeed();
+    renderScore(scoreBox);
+    renderFeed(feedBox, 10);
   }
 
   function tryPassword(pass) {

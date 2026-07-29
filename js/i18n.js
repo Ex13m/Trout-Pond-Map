@@ -188,6 +188,9 @@
     'act.optimization': { ru: 'Оптимизация эвристики', en: 'Heuristic optimization', cs: 'Optimalizace heuristiky' },
     'act.autoNote': { ru: 'Без ручного запуска база актуализируется автоматически раз в месяц (GitHub Actions).', en: 'Without manual runs the base refreshes automatically once a month (GitHub Actions).', cs: 'Bez ručního spuštění se báze aktualizuje automaticky jednou měsíčně (GitHub Actions).' },
 
+    // Расход токенов (в админ-журнале)
+    'tokens.total': { ru: 'Всего потрачено:', en: 'Total spent:', cs: 'Celkem utraceno:' },
+
     // Сезонность
     'season.title': { ru: 'Посещаемость по сезонам', en: 'Seasonal attendance', cs: 'Návštěvnost podle sezón' },
     'season.note': { ru: 'оценка по сезонным трендам и открытым отзывам', en: 'estimate from seasonal trends and public reviews', cs: 'odhad podle sezónních trendů a veřejných recenzí' },
