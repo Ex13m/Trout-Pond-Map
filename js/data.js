@@ -4,6 +4,40 @@
 window.VENUES = [
   {
     "id": "v001",
+    "name": "Рыбное хозяйство и ресторан «Черкези дзор»",
+    "country": "am",
+    "location": "г. Гюмри, ул. Кармир Берд, 1, Ширакская область",
+    "lat": 40.8,
+    "lng": 43.82,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Знаменитое рыбоводческое хозяйство с рестораном в Черкесском ущелье на окраине Гюмри, работает с 1997 года. Здесь выращивают четыре вида форели и сибирского осетра в проточной родниковой воде, рыбу достают из бассейнов при госте. В меню более 20 рыбных блюд — от кебаба из форели до отварной осетрины.",
+    "species": [
+      "Форель радужная",
+      "Форель севанская (ишхан)",
+      "Осётр сибирский",
+      "Стерлядь"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыбу выбирают и вылавливают из бассейнов хозяйства, оплата по весу; улов готовят в ресторане.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://2gis.am/ru/gyumri/firm/70000001096323915",
+    "facilities": [
+      "Ресторан",
+      "Бассейны с рыбой",
+      "Банкетные залы",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v002",
     "name": "Форелевое хозяйство в Гарни («Гарни Ишхананоц»)",
     "country": "am",
     "location": "с. Гарни, Котайкская область, Армения (ущелье реки Азат, у «Симфонии камней»)",
@@ -34,7 +68,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Azat_river_Gorge_Garni_05.JPG"
   },
   {
-    "id": "v002",
+    "id": "v003",
     "name": "Erlebniswelt Gallien",
     "country": "at",
     "location": "Пернегг (округ Хорн), Вальдфиртель, Нижняя Австрия",
@@ -69,7 +103,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v003",
+    "id": "v004",
     "name": "Erlenteiche Graz",
     "country": "at",
     "location": "Грац (район Рис), Штирия",
@@ -103,7 +137,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v004",
+    "id": "v005",
     "name": "Загатальское форелевое хозяйство (Zagatala Trout Fish Farm)",
     "country": "az",
     "location": "с. Магов, Загатальский район, Азербайджан",
@@ -133,7 +167,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v005",
+    "id": "v006",
     "name": "Pêches de Freux – Grand Étang",
     "country": "be",
     "location": "Фрё (Freux), Либрамон-Шевиньи, провинция Люксембург, Валлония",
@@ -163,7 +197,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v006",
+    "id": "v007",
     "name": "Рибарник «Тунела» (Бачково)",
     "country": "bg",
     "location": "Бачково (близ Асеновграда), Родопы, Пловдивская область",
@@ -192,7 +226,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v007",
+    "id": "v008",
     "name": "Риболовна зона ДЛС «Извора» — Девинска река",
     "country": "bg",
     "location": "Девин, Западные Родопы, Смолянская область",
@@ -221,7 +255,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v008",
+    "id": "v009",
     "name": "Туристически комплекс «Рибарника» (Добринище)",
     "country": "bg",
     "location": "Добринище (близ Банско), Пирин, Благоевградская область",
@@ -253,7 +287,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v009",
+    "id": "v010",
     "name": "Forellensee Zweisimmen",
     "country": "ch",
     "location": "Цвайзиммен, Бернский Оберланд, кантон Берн",
@@ -286,7 +320,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v010",
+    "id": "v011",
     "name": "Laghetti Audan",
     "country": "ch",
     "location": "Амбри, долина Левентина, кантон Тичино",
@@ -316,7 +350,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v011",
+    "id": "v012",
     "name": "Rainbow Trout Valley — Yanqi Bu Ye Gu (虹鳟鱼一条沟)",
     "country": "cn",
     "location": "Хуайжоу (пос. Яньци), Пекин",
@@ -350,7 +384,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v012",
+    "id": "v013",
     "name": "Songzhuang Lure Fishing Base (宋庄路亚基地)",
     "country": "cn",
     "location": "Тунчжоу, Пекин",
@@ -382,7 +416,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v013",
+    "id": "v014",
     "name": "Černý rybník Nedamov",
     "country": "cz",
     "location": "Дуба (Недамов), Либерецкий край",
@@ -418,7 +452,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Nedamov%2C_%C4%8Cern%C3%BD_rybn%C3%ADk_a_chata.jpg"
   },
   {
-    "id": "v014",
+    "id": "v015",
     "name": "Líheň Liběchov (rybník Malý sporťáček)",
     "country": "cz",
     "location": "Либехов (район Мельник), Среднечешский край",
@@ -450,7 +484,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v015",
+    "id": "v016",
     "name": "Pokutník — pstruhový rybník (Trout Area)",
     "country": "cz",
     "location": "Петржиков у Велке-Поповице (под Прагой)",
@@ -484,7 +518,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v016",
+    "id": "v017",
     "name": "Polička PK2 (RS Vysočina)",
     "country": "cz",
     "location": "Поличка, Пардубицкий край",
@@ -515,7 +549,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v017",
+    "id": "v018",
     "name": "Pstruhový ráj Kožlí",
     "country": "cz",
     "location": "Кожли у Ледеч-над-Сазавой, край Височина",
@@ -547,7 +581,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v018",
+    "id": "v019",
     "name": "Rybářský areál Nedvědice (Salmofarm)",
     "country": "cz",
     "location": "Недведице, Южноморавский край",
@@ -583,7 +617,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v019",
+    "id": "v020",
     "name": "Rybník Písák",
     "country": "cz",
     "location": "Подебрады (Клук), Среднечешский край",
@@ -617,7 +651,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v020",
+    "id": "v021",
     "name": "Sporťák Psáry (Sportovní rybolov pstruhů Psáry)",
     "country": "cz",
     "location": "Псары (южнее Праги), Среднечешский край",
@@ -645,7 +679,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v021",
+    "id": "v022",
     "name": "Angel-, Sport- und Freizeitpark Limburg-Linter",
     "country": "de",
     "location": "Лимбург-ан-дер-Лан (район Линтер), Гессен",
@@ -678,7 +712,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v022",
+    "id": "v023",
     "name": "Forellensee Lutter am Barenberge",
     "country": "de",
     "location": "Луттер-ам-Баренберге (у Гослара), Нижняя Саксония",
@@ -712,7 +746,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v023",
+    "id": "v024",
     "name": "Forellenteichanlage Finkenbachtal",
     "country": "de",
     "location": "Оберцент (Финкенбах), Оденвальд, Гессен",
@@ -748,7 +782,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v024",
+    "id": "v025",
     "name": "Storkesøen Ribe Fiske- og Familiepark",
     "country": "dk",
     "location": "Рибе, Южная Ютландия",
@@ -783,7 +817,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v025",
+    "id": "v026",
     "name": "Jõgisoo Forellipüük OÜ",
     "country": "ee",
     "location": "Йыгисоо, волость Сауэ, Харьюмаа (близ Таллина)",
@@ -815,7 +849,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v026",
+    "id": "v027",
     "name": "Coto intensivo de pesca del Araxes",
     "country": "es",
     "location": "Лисарца (Lizartza), близ Толосы, Гипускоа, Страна Басков",
@@ -843,7 +877,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v027",
+    "id": "v028",
     "name": "Samusenlahden kirjolohilammikko",
     "country": "fi",
     "location": "Юва, Южное Саво",
@@ -869,7 +903,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v028",
+    "id": "v029",
     "name": "Storträsk (Sipoo)",
     "country": "fi",
     "location": "Сипоо, Уусимаа",
@@ -899,7 +933,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v029",
+    "id": "v030",
     "name": "Fly in Banson (Réservoir de Banson)",
     "country": "fr",
     "location": "Бансон, коммуна Жель (Gelles), деп. Пюи-де-Дом, Овернь",
@@ -928,7 +962,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v030",
+    "id": "v031",
     "name": "Le Moulin de Gémages",
     "country": "fr",
     "location": "Жемаж (Val-au-Perche), деп. Орн, Нормандия (парк Перш)",
@@ -960,7 +994,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v031",
+    "id": "v032",
     "name": "Réservoir mouche fédéral de l'étang de la Tourenne",
     "country": "fr",
     "location": "Сен-Жермен-де-ла-Ривьер (Либурне), деп. Жиронда, Новая Аквитания",
@@ -986,7 +1020,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v032",
+    "id": "v033",
     "name": "Réservoirs de pêche des salmonidés de Travecy",
     "country": "fr",
     "location": "Травси (Travecy), деп. Эна, О-де-Франс",
@@ -1017,7 +1051,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/0/02/Travecy_(Aisne)_%C3%A9cluse_canal_de_la_Sambre_%C3%A0_l'Oise.JPG"
   },
   {
-    "id": "v033",
+    "id": "v034",
     "name": "Truite Area – Roussillou Lake",
     "country": "fr",
     "location": "Рьом-эс-Монтань, Канталь, Овернь (Auvergne-Rhône-Alpes)",
@@ -1050,7 +1084,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v034",
+    "id": "v035",
     "name": "Alwen Reservoir (Llyn Alwen)",
     "country": "gb",
     "location": "Керригидрудион, Конуи, Северный Уэльс",
@@ -1081,7 +1115,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v035",
+    "id": "v036",
     "name": "Castlewellan Lake (Public Angling Estate DAERA)",
     "country": "gb",
     "location": "Каслуэллан, графство Даун, Северная Ирландия",
@@ -1112,7 +1146,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v036",
+    "id": "v037",
     "name": "Exe Valley Fishery (Exe Valley Fly Fishing)",
     "country": "gb",
     "location": "Эксбридж, близ Далвертона, Сомерсет/Девон, Англия",
@@ -1144,7 +1178,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/3/37/Exebridge-_View_downstream_(geograph_1807918).jpg"
   },
   {
-    "id": "v037",
+    "id": "v038",
     "name": "Swanswater Fishery",
     "country": "gb",
     "location": "Бэннокберн, близ Стерлинга, Шотландия",
@@ -1181,7 +1215,38 @@ window.VENUES = [
     }
   },
   {
-    "id": "v038",
+    "id": "v039",
+    "name": "Дом форели Ксоврели (Ксоврелебис сакалмахе)",
+    "country": "ge",
+    "location": "с. Кавтисхеви, муниципалитет Каспи, Шида-Картли (~50 км от Тбилиси)",
+    "lat": 41.87,
+    "lng": 44.36,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Семейная форелевая ферма и ресторан семьи Ксоврели у горной речки в селе Кавтисхеви недалеко от Тбилиси. В бассейнах хозяйства плавает порядка 20 тысяч форелей, рыбу достают из воды прямо при госте и сразу готовят. Кроме форели подают продукты собственной фермы, можно приезжать со своим вином.",
+    "species": [
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыба вылавливается из бассейнов по заказу гостя и оплачивается по весу; спортивная ловля удочкой не основная услуга — уточняйте на месте.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://culinarybackstreets.com/cities-category/tbilisi/2018/ksovrelebis-sakalmakhe/",
+    "facilities": [
+      "Ресторан",
+      "Бассейны с форелью",
+      "Своё вино разрешено",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v040",
     "name": "Форелевая ферма «Зорети» (Zoreti Trout Farm)",
     "country": "ge",
     "location": "с. Квабисхеви, Боржомский муниципалитет, Самцхе-Джавахети, Грузия",
@@ -1210,7 +1275,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v039",
+    "id": "v041",
     "name": "Tonković — lovni i ribolovni turizam (jezero Lešće)",
     "country": "hr",
     "location": "Лешче-на-Добре, близ Босилево, Карловацкая жупания",
@@ -1246,7 +1311,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/f/f3/HE_Lesce_5.jpg"
   },
   {
-    "id": "v040",
+    "id": "v042",
     "name": "Uzgajalište pastrva «Ribnjaci Vrabac»",
     "country": "hr",
     "location": "Ступе (Костаньевац, Жумберак), близ Самобора, Загребская жупания",
@@ -1277,7 +1342,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v041",
+    "id": "v043",
     "name": "Csécsi-tó (Nagycsécs) — Zabos Géza Horgász Egyesület",
     "country": "hu",
     "location": "Надьчеч, близ Тисауйвароша, медье Боршод-Абауй-Земплен",
@@ -1306,7 +1371,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v042",
+    "id": "v044",
     "name": "Lillafüredi Pisztrángtelep",
     "country": "hu",
     "location": "Лиллафюред (Мишкольц), горы Бюкк, медье Боршод-Абауй-Земплен",
@@ -1340,7 +1405,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v043",
+    "id": "v045",
     "name": "Vaskeresztesi Alpesi Horgásztó",
     "country": "hu",
     "location": "Вашкерестеш (у Сомбатхея), медье Ваш",
@@ -1370,7 +1435,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v044",
+    "id": "v046",
     "name": "Visegrádi Pisztrángos Tavak",
     "country": "hu",
     "location": "Вишеград (долина Апаткути), медье Пешт",
@@ -1401,7 +1466,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Ap%C3%A1tk%C3%BAti-Bach-Tal%2C_Forellenseen%2C_Schleuse%2C_M_See%2C_2025_Visegr%C3%A1d.jpg"
   },
   {
-    "id": "v045",
+    "id": "v047",
     "name": "Ballyhass Lakes",
     "country": "ie",
     "location": "Сесилстаун, близ Мэллоу, графство Корк, Ирландия",
@@ -1434,7 +1499,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v046",
+    "id": "v048",
     "name": "Lough na Leibe",
     "country": "ie",
     "location": "Баллимоут, графство Слайго, Ирландия",
@@ -1461,7 +1526,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v047",
+    "id": "v049",
     "name": "Il Paradiso delle Trote",
     "country": "it",
     "location": "Лонгоне-Сабино (RI), Лацио",
@@ -1491,7 +1556,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v048",
+    "id": "v050",
     "name": "La Sorgente Pesca Sportiva",
     "country": "it",
     "location": "Кассано-Валькувия (VA), Ломбардия",
@@ -1525,7 +1590,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v049",
+    "id": "v051",
     "name": "Laghetto del Pescatore",
     "country": "it",
     "location": "Терамо (TE), Абруццо",
@@ -1555,7 +1620,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v050",
+    "id": "v052",
     "name": "Laghetto di Grosotto",
     "country": "it",
     "location": "Гроссотто (SO), Вальтеллина, Ломбардия",
@@ -1587,7 +1652,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v051",
+    "id": "v053",
     "name": "Laghi Cronovilla",
     "country": "it",
     "location": "Виньяле, Траверсетоло (PR), Эмилия-Романья",
@@ -1619,7 +1684,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Cronovilla_vista_enza.jpg"
   },
   {
-    "id": "v052",
+    "id": "v054",
     "name": "Laghi Tor Pagnotta",
     "country": "it",
     "location": "Рим (RM), Лацио",
@@ -1648,7 +1713,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v053",
+    "id": "v055",
     "name": "Lago Franzoni",
     "country": "it",
     "location": "Брешиа (BS), р-н Сант'Эуфемия, Ломбардия",
@@ -1681,7 +1746,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v054",
+    "id": "v056",
     "name": "Lago Le Vecchie Ghiacciaie sul Reno",
     "country": "it",
     "location": "Ле-Пьястре, Пистойя (PT), Тоскана",
@@ -1711,7 +1776,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v055",
+    "id": "v057",
     "name": "Lago Pesorto",
     "country": "it",
     "location": "Варалло-Помбия (NO), Пьемонт",
@@ -1744,7 +1809,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v056",
+    "id": "v058",
     "name": "Lago Sistoriccio",
     "country": "it",
     "location": "Алифе (CE), Кампания",
@@ -1778,7 +1843,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v057",
+    "id": "v059",
     "name": "Lago Vecchio Mulino",
     "country": "it",
     "location": "Пьянкарани, Кампли (TE), Абруццо",
@@ -1810,7 +1875,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v058",
+    "id": "v060",
     "name": "Nuovo Lago dei Gabbiani",
     "country": "it",
     "location": "Сомма-Ломбардо (VA), Ломбардия",
@@ -1840,7 +1905,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v059",
+    "id": "v061",
     "name": "Pesca Sportiva Campalto",
     "country": "it",
     "location": "Сан-Мартино-Буон-Альберго (VR), Венето",
@@ -1873,7 +1938,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v060",
+    "id": "v062",
     "name": "SharkareA Lake",
     "country": "it",
     "location": "Сартеано (SI), Тоскана",
@@ -1903,7 +1968,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v061",
+    "id": "v063",
     "name": "Asaka Garden (朝霞ガーデン)",
     "country": "jp",
     "location": "Асака, преф. Сайтама",
@@ -1935,7 +2000,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v062",
+    "id": "v064",
     "name": "BerryPark in FISH ON! Ozenji (ベリーパーク in FISH ON! 王禅寺)",
     "country": "jp",
     "location": "Кавасаки (р-н Асао), преф. Канагава",
@@ -1970,7 +2035,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/5/50/Fish-On%5E%E7%8E%8B%E7%A6%85%E5%AF%BA%EF%BC%88%E9%87%A3%E3%82%8A%E6%B1%A0%EF%BC%89_-_panoramio.jpg"
   },
   {
-    "id": "v063",
+    "id": "v065",
     "name": "BerryPark in FISH ON! Shishidome (ベリーパーク in FISH ON! 鹿留)",
     "country": "jp",
     "location": "Цуру, преф. Яманаси",
@@ -2006,7 +2071,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v064",
+    "id": "v066",
     "name": "Higashiyamako Fishing Area (東山湖フィッシングエリア)",
     "country": "jp",
     "location": "Готемба, преф. Сидзуока",
@@ -2042,7 +2107,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v065",
+    "id": "v067",
     "name": "Hirayako Fishing Spot (平谷湖フィッシングスポット)",
     "country": "jp",
     "location": "Хирая, уезд Симоина, преф. Нагано",
@@ -2076,7 +2141,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v066",
+    "id": "v068",
     "name": "Kaga Fishing Area (加賀フィッシングエリア)",
     "country": "jp",
     "location": "Сано, преф. Тотиги",
@@ -2112,7 +2177,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v067",
+    "id": "v069",
     "name": "Kaisei Suihen Forest Springs (開成水辺フォレストスプリングス)",
     "country": "jp",
     "location": "Кайсэй, уезд Асигараками, преф. Канагава",
@@ -2149,7 +2214,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v068",
+    "id": "v070",
     "name": "Kawaba Fishing Plaza (川場フィッシングプラザ)",
     "country": "jp",
     "location": "Каваба, уезд Тонэ, преф. Гумма",
@@ -2184,7 +2249,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v069",
+    "id": "v071",
     "name": "Susono Fishing Park (すそのフィッシングパーク)",
     "country": "jp",
     "location": "Сусоно, преф. Сидзуока",
@@ -2219,7 +2284,72 @@ window.VENUES = [
     }
   },
   {
-    "id": "v070",
+    "id": "v072",
+    "name": "База отдыха «Форель» (Таш-Дёбё)",
+    "country": "kg",
+    "location": "с. Таш-Дёбё (бывш. Воронцовка), Аламудунский район, Чуйская область, ~20 км от Бишкека",
+    "lat": 42.76,
+    "lng": 74.55,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Первое форелевое хозяйство независимого Кыргызстана на берегу горной реки Ала-Арча недалеко от Бишкека. Гарантированная рыбалка в зарыбленных прудах, беседки и топчаны прямо над водой. Пойманную форель готовят на месте, работает гостевой дом.",
+    "species": [
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыбалка платная, вся пойманная рыба оплачивается по весу; снасти можно взять на месте. Улов готовят в кафе базы.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://2gis.kg/bishkek/firm/70000001065355590",
+    "facilities": [
+      "Беседки",
+      "Топчаны над рекой",
+      "Кафе",
+      "Гостевой дом",
+      "Бильярд",
+      "Детская площадка",
+      "Спортплощадки"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v073",
+    "name": "Форелевая ферма «Ала Балык»",
+    "country": "kg",
+    "location": "с. Чон-Өрүктү, Иссык-Кульский район (северный берег Иссык-Куля), ул. Жээнбая Самаганова, 1Б",
+    "lat": 42.67,
+    "lng": 77.28,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Форелевая ферма у подножия гор рядом с ущельем Ой-Четин на северном берегу Иссык-Куля. Гости ловят форель в проточных бассейнах, улов сразу готовят в ресторане фермы. Популярная остановка по дороге из Чолпон-Аты в Каракол.",
+    "species": [
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Пойманная форель оплачивается по весу и готовится на месте; снасти выдают на ферме. Работает ежедневно примерно с 10:00 до 21:00.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://www.instagram.com/forel.alabalyk.kg/",
+    "facilities": [
+      "Ресторан форелевой кухни",
+      "Беседки",
+      "Топчаны",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v074",
     "name": "Gapyeong Trout Fishing Pond (가평낚시터)",
     "country": "kr",
     "location": "Капхён, пров. Кёнгидо",
@@ -2249,7 +2379,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v071",
+    "id": "v075",
     "name": "Hwacheon Sancheoneo Ice Festival fishery (화천 산천어축제)",
     "country": "kr",
     "location": "Хвачхон, пров. Канвондо",
@@ -2281,7 +2411,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Hwacheon_Sancheoneo_Ice_Festival_01_%2852620586388%29.jpg"
   },
   {
-    "id": "v072",
+    "id": "v076",
     "name": "Pyeongchang Trout Festival fishery (평창송어축제)",
     "country": "kr",
     "location": "Чинбу, уезд Пхёнчхан, пров. Канвондо",
@@ -2314,7 +2444,73 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Pyeongchang_Trout_Festival_%28Eisgarnitur%29.jpg"
   },
   {
-    "id": "v073",
+    "id": "v077",
+    "name": "Карасайское форелевое хозяйство",
+    "country": "kz",
+    "location": "Верхняя Каскеленская трасса, 1г, Карасайский район, близ Алматы",
+    "lat": 43.19,
+    "lng": 76.72,
+    "precision": "approx",
+    "biome": "meadow",
+    "description": "Форелевое хозяйство и зона отдыха на Верхней Каскеленской трассе между Алматы и Каскеленом. Гости ловят форель в прудах, работает кафе, бани и открытый бассейн. Вмещает до 300 человек.",
+    "species": [
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыбалка платная, пойманная рыба оплачивается по весу; возможно приготовление улова на месте.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://2gis.kz/almaty/firm/70000001104792456",
+    "facilities": [
+      "Кафе",
+      "Бани",
+      "Бассейн 15 м",
+      "Беседки",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 4,
+      "summer": 4,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v078",
+    "name": "Талгарское форелевое хозяйство («Талгарская форель»)",
+    "country": "kz",
+    "location": "г. Талгар, ул. Набережная, 1/1, Алматинская область (~25 км от Алматы)",
+    "lat": 43.29,
+    "lng": 77.24,
+    "precision": "approx",
+    "biome": "meadow",
+    "description": "Одно из самых известных форелевых хозяйств Казахстана в живописном ущелье на берегу горной реки Талгар. Около 15 лет здесь разводят радужную и золотую форель. Можно самому выловить рыбу, которую тут же приготовят на гриле.",
+    "species": [
+      "Форель радужная",
+      "Форель золотая"
+    ],
+    "catchAndRelease": false,
+    "rules": "Выловленная форель оплачивается по весу и не отпускается; снасти выдают на месте. Улов готовят в ресторане хозяйства.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://2gis.kz/almaty/firm/70000001041921501",
+    "facilities": [
+      "Ресторан",
+      "Беседки",
+      "Сауна и бани",
+      "Банкетные залы",
+      "Wi-Fi",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 4,
+      "summer": 4,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v079",
     "name": "Тургеньское форелевое хозяйство («АлтынТау»)",
     "country": "kz",
     "location": "с. Тургень, Енбекшиказахский район, Алматинская область, Казахстан",
@@ -2346,7 +2542,37 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/e/ee/%D0%9C%D0%B5%D0%B4%D0%B2%D0%B5%D0%B6%D0%B8%D0%B9_%D0%B2%D0%BE%D0%B4%D0%BE%D0%BF%D0%B0%D0%B4.jpg"
   },
   {
-    "id": "v074",
+    "id": "v080",
+    "name": "Форелевое хозяйство «Нурлы Тау»",
+    "country": "kz",
+    "location": "Каскеленское ущелье, Карасайский район, Алматинская область",
+    "lat": 43.12,
+    "lng": 76.65,
+    "precision": "approx",
+    "biome": "meadow",
+    "description": "Центр активного отдыха и форелевое хозяйство в тихом Каскеленском ущелье с чистым горным воздухом и панорамой гор. Бассейны для форели построены по современным технологиям, персонал обучался за рубежом. На территории горный ресторан и беседки.",
+    "species": [
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыбалка платная, выловленная форель оплачивается по весу; улов готовят в ресторане хозяйства.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://www.facebook.com/fishnurlytau/",
+    "facilities": [
+      "Горный ресторан",
+      "Беседки",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 4,
+      "summer": 4,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v081",
     "name": "TonyResort (форелевый пруд)",
     "country": "lt",
     "location": "Анупришкес, Тракайский район",
@@ -2378,7 +2604,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v075",
+    "id": "v082",
     "name": "Pērtnieki",
     "country": "lv",
     "location": "Сакстагалская волость, Резекненский край, Латгале",
@@ -2413,7 +2639,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v076",
+    "id": "v083",
     "name": "Forelvisserij Maurik",
     "country": "nl",
     "location": "Маурик (Maurik), Бетюве, провинция Гелдерланд",
@@ -2445,7 +2671,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/4/46/Eiland_van_Maurik_gezien_van_af_de_Gravenbol.jpg"
   },
   {
-    "id": "v077",
+    "id": "v084",
     "name": "WILD Bijzonder Vissen",
     "country": "nl",
     "location": "Рёйтюм (Reutum), Твенте, провинция Оверэйссел",
@@ -2477,7 +2703,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v078",
+    "id": "v085",
     "name": "Øvresetertjern (OFA, Oslomarka)",
     "country": "no",
     "location": "Осло (район Трюванн), Осломарка",
@@ -2509,7 +2735,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v079",
+    "id": "v086",
     "name": "Gospodarstwo Rybackie Stobno (Łowisko Stobno)",
     "country": "pl",
     "location": "Стобно близ Тшцянки, Великопольское воеводство",
@@ -2543,7 +2769,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v080",
+    "id": "v087",
     "name": "Kolorowe Pstrągi Łowisko Klonówiec",
     "country": "pl",
     "location": "Клонувец близ Лешно, Великопольское воеводство",
@@ -2582,7 +2808,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v081",
+    "id": "v088",
     "name": "Łowisko na Zawodziu",
     "country": "pl",
     "location": "Лигота (гмина Чеховице-Дзедзице), Силезское воеводство",
@@ -2612,7 +2838,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v082",
+    "id": "v089",
     "name": "Łowisko specjalne Lubojenka",
     "country": "pl",
     "location": "Любоенка (гмина Мыканув) близ Ченстоховы, Силезское воеводство",
@@ -2641,7 +2867,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v083",
+    "id": "v090",
     "name": "Łowisko Wędkarskie Żywiec Moszczanica",
     "country": "pl",
     "location": "Живец (Мощаница), Силезское воеводство",
@@ -2672,7 +2898,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v084",
+    "id": "v091",
     "name": "Siedlisko Pstrąga",
     "country": "pl",
     "location": "Мыслаковице близ Карпача, Нижнесилезское воеводство",
@@ -2704,7 +2930,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v085",
+    "id": "v092",
     "name": "Zona de Pesca Reservada das Lagoas da Serra da Estrela",
     "country": "pt",
     "location": "Сейя / Мантейгаш, округ Гуарда, природный парк Серра-да-Эштрела",
@@ -2734,7 +2960,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v086",
+    "id": "v093",
     "name": "Complex Dasmin — Păstrăvărie",
     "country": "ro",
     "location": "Валя-Глэжэрией близ Рышнова, жудец Брашов",
@@ -2766,7 +2992,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v087",
+    "id": "v094",
     "name": "Complex Turistic Păstrăvăria Albota",
     "country": "ro",
     "location": "Арпашу-де-Сус (близ Кырцы), жудец Сибиу, у подножия гор Фэгэраш",
@@ -2799,7 +3025,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v088",
+    "id": "v095",
     "name": "Păstrăvăria Alex",
     "country": "ro",
     "location": "Мара (коммуна Десешти), жудец Марамуреш",
@@ -2830,7 +3056,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v089",
+    "id": "v096",
     "name": "Păstrăvăria Nămăiești — Lac de pescuit sportiv",
     "country": "ro",
     "location": "Нэмэешти (коммуна Валя-Маре-Правэц), близ Кымпулунг-Мусчела, жудец Арджеш",
@@ -2862,7 +3088,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v090",
+    "id": "v097",
     "name": "База отдыха «Рыбалка в Лепсари»",
     "country": "ru",
     "location": "дер. Лепсари, Всеволожский район, Ленинградская область",
@@ -2895,7 +3121,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v091",
+    "id": "v098",
     "name": "Рыболовное хозяйство «Юрково»",
     "country": "ru",
     "location": "дер. Юрлово, Можайский городской округ, Московская область (114-й км Минского шоссе)",
@@ -2933,7 +3159,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v092",
+    "id": "v099",
     "name": "Рыболовный клуб «Ба!Рыбина»",
     "country": "ru",
     "location": "дер. Растуново, городской округ Домодедово, Московская область (61-й км Каширского шоссе)",
@@ -2967,7 +3193,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v093",
+    "id": "v100",
     "name": "Рыболовный клуб «Золотой Сазан» (водоём Бузланово)",
     "country": "ru",
     "location": "дер. Бузланово, городской округ Красногорск, Московская область (Новорижское шоссе, 11 км от МКАД)",
@@ -3004,7 +3230,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v094",
+    "id": "v101",
     "name": "Рыболовный клуб «Фанни Фишинг» (Funny Fishing)",
     "country": "ru",
     "location": "дер. Капустино, городской округ Чехов, Московская область",
@@ -3039,7 +3265,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v095",
+    "id": "v102",
     "name": "Рыболовный клуб «Фишка» (Петряиха)",
     "country": "ru",
     "location": "дер. Петряиха, Рузский городской округ, Московская область (72-й км Новорижского шоссе)",
@@ -3074,7 +3300,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v096",
+    "id": "v103",
     "name": "Форелевое хозяйство «Адлер»",
     "country": "ru",
     "location": "с. Казачий Брод, Адлерский район, Сочи, Краснодарский край",
@@ -3110,7 +3336,7 @@ window.VENUES = [
     "photo": "https://upload.wikimedia.org/wikipedia/commons/2/22/Forel_farm_Sochi.jpg"
   },
   {
-    "id": "v097",
+    "id": "v104",
     "name": "Hökensås Sportfiske AB",
     "country": "se",
     "location": "Тидахольм (Балтак), Вестра-Гёталанд",
@@ -3144,7 +3370,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v098",
+    "id": "v105",
     "name": "Erikov ribnik (Erikovo jezero)",
     "country": "si",
     "location": "Логатец, Нотраньско-крашский регион (Внутренняя Крайна)",
@@ -3173,7 +3399,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v099",
+    "id": "v106",
     "name": "Ribogojnica Mihovc",
     "country": "si",
     "location": "Ераново, Камник, Центральная Словения",
@@ -3205,7 +3431,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v100",
+    "id": "v107",
     "name": "Rybník Horná Mariková (Modlatín)",
     "country": "sk",
     "location": "Горна-Марикова (округ Поважска-Бистрица), Тренчинский край",
@@ -3236,7 +3462,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v101",
+    "id": "v108",
     "name": "Rybník Záhumnie (Veľké Orvište)",
     "country": "sk",
     "location": "Велке-Орвиште (около Пьештян), Трнавский край",
@@ -3266,7 +3492,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v102",
+    "id": "v109",
     "name": "Svitské jazerá — Pstruhové jazero",
     "country": "sk",
     "location": "Свит (около Попрада), Прешовский край",
@@ -3298,7 +3524,7 @@ window.VENUES = [
     }
   },
   {
-    "id": "v103",
+    "id": "v110",
     "name": "Trout Arena Aqualand (by Tornado)",
     "country": "sk",
     "location": "Банска-Бистрица, Банскобистрицкий край",
@@ -3327,6 +3553,73 @@ window.VENUES = [
       "spring": 5,
       "summer": 3,
       "autumn": 4
+    }
+  },
+  {
+    "id": "v111",
+    "name": "Ромитское форелевое хозяйство (зона отдыха «Ёс»)",
+    "country": "tj",
+    "location": "Ромитское ущелье, район Вахдат, ~45 км от Душанбе",
+    "lat": 38.73,
+    "lng": 69.32,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Возрождённое форелевое хозяйство советских времён в Ромитском ущелье недалеко от Душанбе, восстановленное предпринимателем Ибрагимом Бобоевым. Форель выращивается в проточной горной воде на естественном корме, рядом работает зона отдыха «Ёс». Рыбаки считают Ромит одним из лучших мест для ловли форели в Таджикистане.",
+    "species": [
+      "Форель ручьевая",
+      "Форель радужная"
+    ],
+    "catchAndRelease": false,
+    "rules": "Вход платный, выловленная рыба оплачивается отдельно по весу; улов готовят на месте.",
+    "price": "Вход ~20 сомони, рыба 30–50 сомони/кг (данные 2020 г.)",
+    "season": "Круглый год",
+    "website": "https://asiaplustj.info/ru/news/life/food/20200629/ribnie-mesta-v-tadzhikistane-gde-mozhno-poimat-samuyu-vkusnuyu-ribku-i-prigotovit-pryamo-na-meste",
+    "facilities": [
+      "Зона отдыха",
+      "Кафе",
+      "Топчаны",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
+    }
+  },
+  {
+    "id": "v112",
+    "name": "Зона отдыха «Хон-Балык» (Xon Baliq)",
+    "country": "uz",
+    "location": "пос. Таваксай, ул. Форель, 1, Бостанлыкский район, Ташкентская область (~1 час от Ташкента по дороге на Чарвак/Чимган)",
+    "lat": 41.53,
+    "lng": 69.63,
+    "precision": "approx",
+    "biome": "alpine",
+    "description": "Форелевое хозяйство и зона отдыха у предгорий Чаткальского хребта по дороге к Чарваку и Чимгану. Главная особенность — можно арендовать снасти и самому ловить рыбу в прудах, а повара ресторана сразу приготовят улов. В меню форель, судак, сазан и осетрина.",
+    "species": [
+      "Форель радужная",
+      "Судак",
+      "Сазан",
+      "Осётр"
+    ],
+    "catchAndRelease": false,
+    "rules": "Рыбалка на арендованные снасти, пойманная рыба оплачивается по весу и готовится в ресторане; отпускать улов не принято.",
+    "price": null,
+    "season": "Круглый год",
+    "website": "https://agroturizm.uz/ru/tashkentskaya-oblast/22-zona-otdykha-khon-balyk",
+    "facilities": [
+      "Ресторан",
+      "Пруды для ловли",
+      "Аренда снастей",
+      "Беседки",
+      "Парковка"
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 4,
+      "summer": 5,
+      "autumn": 5
     }
   }
 ];
