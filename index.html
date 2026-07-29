@@ -66,6 +66,9 @@
 
     <!-- Floating controls -->
     <div class="fabs">
+      <button class="fab fab--actualize" id="fab-actualize" data-i18n-aria="act.title" aria-label="Актуализировать">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
+      </button>
       <button class="fab fab--assistant" id="fab-assistant" data-i18n-aria="fab.assistant" aria-label="Помощник">
         <span class="fab__emoji">🎣</span>
       </button>
@@ -194,6 +197,37 @@
       </div>
     </div>
 
+    <!-- Actualize journal -->
+    <div class="modal" id="actualize-modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__panel actualize" role="dialog" aria-modal="true" data-i18n-aria="act.title" aria-label="Актуализировать" tabindex="-1">
+        <div class="modal__grip"></div>
+        <h2 class="modal__title" data-i18n="act.title">🔄 Актуализация базы</h2>
+
+        <div id="act-pass">
+          <p class="form-hint" data-i18n="act.passHint">Журнал волн обновления и запуск актуализации — по паролю.</p>
+          <form id="act-pass-form">
+            <div class="act-pass-row">
+              <input type="password" id="act-pass-input" class="assistant__input" data-i18n-ph="act.passPh" placeholder="Пароль" autocomplete="off">
+              <button type="submit" class="btn btn--primary" id="act-pass-btn" data-i18n="act.enter">Войти</button>
+            </div>
+            <p class="form-error" id="act-pass-error" role="alert" hidden></p>
+          </form>
+        </div>
+
+        <div id="act-journal" hidden>
+          <div class="act-view act-view--main">
+            <h3 class="act-h" data-i18n="act.scoring">Расход токенов по моделям</h3>
+            <div id="act-score-box"></div>
+            <h3 class="act-h" data-i18n="act.feed">Последние волны обновления</h3>
+            <div id="act-feed"></div>
+            <p class="act-note" data-i18n="act.autoNote">Без ручного запуска база актуализируется автоматически раз в месяц (GitHub Actions).</p>
+          </div>
+          <div class="act-view act-view--detail" id="act-detail"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Assistant panel -->
     <div class="modal" id="assistant-modal" hidden>
       <div class="modal__backdrop" data-close></div>
@@ -234,9 +268,11 @@
   <script src="js/i18n.js"></script>
   <script src="js/update-fx.js"></script>
   <script src="js/changelog.js"></script>
+  <script src="js/updates-log.js"></script>
   <script src="js/data.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/assistant.js"></script>
+  <script src="js/actualize.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

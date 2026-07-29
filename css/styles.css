@@ -540,3 +540,99 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 .cursor.is-active .cursor__ring { width: 46px; height: 46px; margin: -23px 0 0 -23px; border-color: var(--coral-500); background: rgba(255,107,74,0.1); }
 .cursor.is-down .cursor__ring { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
 @media (hover: none) { .cursor { display: none; } }
+
+/* ============ Актуализация ============ */
+.fab--actualize svg { color: var(--coral-500); }
+.actualize { max-height: 84vh; overflow-y: auto; overscroll-behavior: contain; }
+.act-pass-row { display: flex; gap: 8px; }
+.act-pass-row .btn { padding: 11px 18px; font-size: 14px; flex-shrink: 0; }
+.act-pass-row .assistant__input { border-radius: var(--radius-sm); }
+.act-h {
+  font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-2); margin: 16px 0 10px;
+}
+.act-note { font-size: 12px; color: var(--text-2); margin-top: 14px; line-height: 1.5; }
+
+/* скоринг моделей */
+.act-score {
+  background: var(--surface-2); border-radius: var(--radius-sm); padding: 11px 13px;
+  margin-bottom: 8px; animation: act-in .45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.act-score__row { display: flex; justify-content: space-between; align-items: baseline; }
+.act-score__model { font-size: 14px; }
+.act-score__tok { font-size: 13px; font-weight: 800; color: var(--teal-500); font-variant-numeric: tabular-nums; }
+.act-bar { position: relative; height: 18px; border-radius: 99px; background: rgba(128,140,138,0.18); margin-top: 8px; overflow: hidden; }
+.act-bar__fill {
+  position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 99px;
+  background: linear-gradient(90deg, var(--teal-600), var(--teal-500));
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.act-bar__fill.is-low { background: linear-gradient(90deg, #c0392b, var(--coral-500)); }
+.act-bar__label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800; color: var(--text); mix-blend-mode: normal;
+}
+
+/* лента волн */
+.act-run {
+  display: block; width: 100%; text-align: left;
+  background: var(--surface-2); border-radius: var(--radius-sm); padding: 12px 14px;
+  margin-bottom: 8px; border: 1.5px solid transparent;
+  animation: act-in .5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: border-color .15s, transform .15s;
+}
+.act-run:active { transform: scale(0.98); border-color: var(--teal-500); }
+.act-run__top { display: flex; justify-content: space-between; gap: 8px; font-size: 11.5px; color: var(--text-2); }
+.act-run__model {
+  background: rgba(124,92,214,0.14); color: #7c5cd6; border-radius: 99px;
+  padding: 1px 8px; font-weight: 800; font-size: 10.5px;
+}
+@media (prefers-color-scheme: dark) { .act-run__model { color: #b9a3f5; } }
+.act-run__title { font-size: 14px; font-weight: 800; margin: 6px 0 7px; line-height: 1.3; }
+.act-run__bottom { display: flex; justify-content: space-between; align-items: center; }
+.act-run__tok { font-size: 13px; font-weight: 800; color: var(--coral-600); font-variant-numeric: tabular-nums; }
+@media (prefers-color-scheme: dark) { .act-run__tok { color: #ff8f73; } }
+.act-run__running { font-size: 12px; font-weight: 700; color: var(--amber-500); animation: act-pulse 1.4s infinite; }
+.act-run__more { font-size: 12px; color: var(--teal-500); font-weight: 700; }
+@keyframes act-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes act-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+/* переключение журнал ↔ детали */
+.act-view--detail { display: none; }
+.actualize.is-detail .act-view--main,
+#actualize-modal.is-detail .act-view--main { display: none; }
+#actualize-modal.is-detail .act-view--detail { display: block; animation: act-in .35s both; }
+.act-d__back { color: var(--teal-500); font-weight: 800; font-size: 14px; padding: 6px 0 12px; }
+.act-d__title { font-size: 17px; font-weight: 800; line-height: 1.3; }
+.act-d__meta { font-size: 12.5px; color: var(--text-2); margin: 6px 0 4px; }
+.act-d__tok { color: var(--coral-600); }
+@media (prefers-color-scheme: dark) { .act-d__tok { color: #ff8f73; } }
+.act-d__h { font-size: 13px; font-weight: 800; margin: 16px 0 8px; }
+.act-d__list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.act-d__list li {
+  background: var(--surface-2); border-radius: 10px; padding: 9px 12px;
+  font-size: 13.5px; line-height: 1.45; animation: act-in .4s both;
+}
+.act-d__opt {
+  font-size: 13.5px; line-height: 1.6; background: var(--teal-100);
+  border-radius: var(--radius-sm); padding: 12px 14px; color: var(--teal-800);
+}
+@media (prefers-color-scheme: dark) { .act-d__opt { color: #a9d9d2; } }
+
+/* ============ Сезонность ============ */
+.seasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.season { text-align: center; }
+.season__bar {
+  height: 52px; border-radius: 9px; background: rgba(128,140,138,0.15);
+  position: relative; overflow: hidden;
+}
+.season__fill {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+  border-radius: 9px 9px 0 0;
+  background: linear-gradient(180deg, var(--teal-500), var(--teal-800));
+  transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.season__fill.is-peak { background: linear-gradient(180deg, var(--coral-500), var(--coral-600)); }
+.season__name { font-size: 10.5px; font-weight: 800; color: var(--text-2); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.season__val { font-size: 12px; font-weight: 800; margin-top: 1px; }
+.seasons-note { font-size: 10.5px; color: var(--text-2); margin-top: 8px; }

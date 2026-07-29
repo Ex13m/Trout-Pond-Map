@@ -1,0 +1,63 @@
+# Ежемесячная актуализация базы TroutMap Europe.
+# Если человек не вмешивается, раз в месяц создаётся issue-задание волны
+# обновления: агентная сессия Claude подхватывает его, выполняет поиск
+# новых водоёмов, аудит и обновление журнала (js/updates-log.js).
+name: Monthly actualize
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'   # 1-е число каждого месяца, 06:00 UTC
+  workflow_dispatch: {}     # ручной запуск из вкладки Actions
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  request-wave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Собрать сводку базы
+        id: stats
+        run: |
+          node -e "
+            const w={}; new Function('window', require('fs').readFileSync('js/data.js','utf8'))(w);
+            const V=w.VENUES;
+            const by={}; V.forEach(v=>by[v.country]=(by[v.country]||0)+1);
+            const runs=(()=>{const x={};new Function('window',require('fs').readFileSync('js/updates-log.js','utf8'))(x);return x.UPDATE_RUNS||[];})();
+            const lastTs=runs.length?runs[0].ts:'n/a';
+            console.log('venues=' + V.length);
+            require('fs').appendFileSync(process.env.GITHUB_OUTPUT,
+              'venues=' + V.length + '\n' +
+              'countries=' + Object.keys(by).length + '\n' +
+              'last=' + lastTs + '\n');
+          "
+
+      - name: Создать issue-задание волны актуализации
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const d = new Date().toISOString().slice(0, 10);
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔄 Ежемесячная актуализация базы — ${d}`,
+              labels: ['actualize'],
+              body: [
+                '## Задание волны актуализации',
+                '',
+                `Текущее состояние: **${{ steps.stats.outputs.venues }}** водоёмов в **${{ steps.stats.outputs.countries }}** странах. Последняя волна: ${{ steps.stats.outputs.last }}.`,
+                '',
+                '### Чек-лист волны (выполняет агентная сессия Claude)',
+                '- [ ] Разобрать очередь запросов `/api/actualize` (Netlify Blobs, store `actualize`)',
+                '- [ ] Влить предложения сообщества из store `community` в `js/data.js` (после аудита)',
+                '- [ ] Фан-аут поисковых агентов по странам с наименьшим покрытием; запросы на языке страны',
+                '- [ ] Эвристический аудит новых записей (координаты, C&R-статусы, тексты)',
+                '- [ ] Обновить `js/updates-log.js`: реальные токены, модель, что нового, описание оптимизации',
+                '- [ ] Поднять версию в `js/changelog.js` + `CHANGELOG.md`, пуш в `main`',
+                '',
+                '_Создано автоматически workflow `monthly-actualize`. Правила поиска — см. журнал актуализаций на сайте (кнопка 🔄)._'
+              ].join('\n')
+            });

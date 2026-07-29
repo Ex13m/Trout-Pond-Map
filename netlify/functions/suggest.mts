@@ -8,6 +8,7 @@ const MAX_VENUES = 5000;
 const COUNTRIES = new Set([
   "it","fr","es","pt","de","at","ch","si","cz","sk","hu","pl","lt","lv","ee",
   "fi","se","no","dk","be","nl","gb","ie","hr","bg","ro",
+  "ru","ge","am","az","kz","jp","kr","cn","tw",
 ]);
 
 function str(v: unknown, max: number): string | null {
@@ -22,7 +23,7 @@ function validate(body: any): { ok: true; venue: any } | { ok: false; error: str
   const lat = Number(body?.lat);
   const lng = Number(body?.lng);
   if (!isFinite(lat) || !isFinite(lng)) return { ok: false, error: "coords_required" };
-  if (lat < 34 || lat > 72 || lng < -11 || lng > 42) return { ok: false, error: "coords_out_of_europe" };
+  if (lat < 18 || lat > 72 || lng < -11 || lng > 180) return { ok: false, error: "coords_out_of_coverage" };
   const country = typeof body?.country === "string" && COUNTRIES.has(body.country.toLowerCase())
     ? body.country.toLowerCase()
     : null;

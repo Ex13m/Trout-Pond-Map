@@ -116,7 +116,7 @@
     'add.pickToast': { ru: 'Коснитесь карты в месте водоёма', en: 'Tap the map at the water’s spot', cs: 'Klepněte na mapu v místě revíru' },
     'add.errName': { ru: 'Укажите название водоёма.', en: 'Enter the water’s name.', cs: 'Zadejte název revíru.' },
     'add.errCoords': { ru: 'Укажите координаты — числами или точкой на карте.', en: 'Set coordinates — as numbers or a point on the map.', cs: 'Zadejte souřadnice — čísly nebo bodem na mapě.' },
-    'add.errEurope': { ru: 'Координаты вне Европы. Проверьте широту и долготу.', en: 'Coordinates outside Europe. Check latitude and longitude.', cs: 'Souřadnice mimo Evropu. Zkontrolujte šířku a délku.' },
+    'add.errEurope': { ru: 'Координаты вне зоны покрытия (Европа — Азия). Проверьте широту и долготу.', en: 'Coordinates outside the coverage area (Europe — Asia). Check latitude and longitude.', cs: 'Souřadnice mimo pokrytí (Evropa — Asie). Zkontrolujte šířku a délku.' },
     'add.errUrl': { ru: 'Ссылка должна начинаться с http:// или https://', en: 'The link must start with http:// or https://', cs: 'Odkaz musí začínat http:// nebo https://' },
     'add.errStore': { ru: 'Не удалось сохранить (хранилище недоступно).', en: 'Couldn’t save (storage unavailable).', cs: 'Nelze uložit (úložiště nedostupné).' },
     'mode.cr': { ru: 'Поймал-отпустил', en: 'Catch & release', cs: 'Chyť a pusť' },
@@ -169,6 +169,32 @@
     'bite.4': { ru: 'хороший клёв', en: 'good bite', cs: 'dobrý záběr' },
     'bite.5': { ru: 'отличный клёв', en: 'excellent bite', cs: 'výborný záběr' },
     'wind.dirs': { ru: 'С,СВ,В,ЮВ,Ю,ЮЗ,З,СЗ', en: 'N,NE,E,SE,S,SW,W,NW', cs: 'S,SV,V,JV,J,JZ,Z,SZ' },
+
+    // Актуализация
+    'act.title': { ru: '🔄 Актуализация базы', en: '🔄 Database refresh', cs: '🔄 Aktualizace báze' },
+    'act.passHint': { ru: 'Журнал волн обновления и запуск актуализации — по паролю.', en: 'The refresh journal and manual runs are password-protected.', cs: 'Deník aktualizací a ruční spuštění jsou chráněny heslem.' },
+    'act.passPh': { ru: 'Пароль', en: 'Password', cs: 'Heslo' },
+    'act.enter': { ru: 'Войти', en: 'Enter', cs: 'Vstoupit' },
+    'act.checking': { ru: 'Проверяю…', en: 'Checking…', cs: 'Ověřuji…' },
+    'act.wrongPass': { ru: 'Неверный пароль.', en: 'Wrong password.', cs: 'Nesprávné heslo.' },
+    'act.scoring': { ru: 'Расход токенов по моделям', en: 'Token spend by model', cs: 'Spotřeba tokenů podle modelů' },
+    'act.left': { ru: 'остаток {p}%', en: '{p}% left', cs: 'zbývá {p} %' },
+    'act.feed': { ru: 'Последние волны обновления', en: 'Recent refresh waves', cs: 'Poslední vlny aktualizace' },
+    'act.details': { ru: 'детали', en: 'details', cs: 'detaily' },
+    'act.running': { ru: 'выполняется', en: 'running', cs: 'probíhá' },
+    'act.back': { ru: 'к журналу', en: 'back to journal', cs: 'zpět na deník' },
+    'act.found': { ru: 'Что найдено', en: 'What was found', cs: 'Co bylo nalezeno' },
+    'act.improved': { ru: 'Что дополнено и улучшено', en: 'What was added & improved', cs: 'Co bylo doplněno a vylepšeno' },
+    'act.optimization': { ru: 'Оптимизация эвристики', en: 'Heuristic optimization', cs: 'Optimalizace heuristiky' },
+    'act.autoNote': { ru: 'Без ручного запуска база актуализируется автоматически раз в месяц (GitHub Actions).', en: 'Without manual runs the base refreshes automatically once a month (GitHub Actions).', cs: 'Bez ručního spuštění se báze aktualizuje automaticky jednou měsíčně (GitHub Actions).' },
+
+    // Сезонность
+    'season.title': { ru: 'Посещаемость по сезонам', en: 'Seasonal attendance', cs: 'Návštěvnost podle sezón' },
+    'season.note': { ru: 'оценка по сезонным трендам и открытым отзывам', en: 'estimate from seasonal trends and public reviews', cs: 'odhad podle sezónních trendů a veřejných recenzí' },
+    'season.winter': { ru: 'Зима', en: 'Winter', cs: 'Zima' },
+    'season.spring': { ru: 'Весна', en: 'Spring', cs: 'Jaro' },
+    'season.summer': { ru: 'Лето', en: 'Summer', cs: 'Léto' },
+    'season.autumn': { ru: 'Осень', en: 'Autumn', cs: 'Podzim' },
 
     // Геолокация
     'geo.unsupported': { ru: 'Геолокация не поддерживается', en: 'Geolocation not supported', cs: 'Geolokace není podporována' },

@@ -59,8 +59,14 @@
     lt: 'Литва', lv: 'Латвия', ee: 'Эстония', fi: 'Финляндия',
     se: 'Швеция', no: 'Норвегия', dk: 'Дания', be: 'Бельгия',
     nl: 'Нидерланды', gb: 'Великобритания', ie: 'Ирландия', hr: 'Хорватия',
-    bg: 'Болгария', ro: 'Румыния'
+    bg: 'Болгария', ro: 'Румыния',
+    ru: 'Россия', ge: 'Грузия', am: 'Армения', az: 'Азербайджан', kz: 'Казахстан',
+    jp: 'Япония', kr: 'Южная Корея', cn: 'Китай', tw: 'Тайвань'
   };
+  // Зона покрытия: Европа + Кавказ + Азия
+  function inCoverage(lat, lng) {
+    return lat >= 18 && lat <= 72 && lng >= -11 && lng <= 180;
+  }
 
   function flagEmoji(cc) {
     if (!cc || cc.length !== 2) return '🏳️';
@@ -442,6 +448,19 @@
 
       '<div class="vd__section"><h3>' + esc(t('card.weather')) + '</h3><div id="weather-box" class="weather--loading">' + esc(t('card.weatherLoading')) + '</div></div>' +
 
+      (v.seasonality
+        ? '<div class="vd__section"><h3>' + esc(t('season.title')) + '</h3>' +
+          '<div class="seasons">' +
+          ['winter', 'spring', 'summer', 'autumn'].map(function (sk) {
+            var val = v.seasonality[sk] || 1;
+            return '<div class="season"><div class="season__bar">' +
+              '<div class="season__fill' + (val >= 5 ? ' is-peak' : '') + '" data-h="' + (val * 20) + '"></div></div>' +
+              '<div class="season__name">' + esc(t('season.' + sk)) + '</div>' +
+              '<div class="season__val">' + '●'.repeat(val) + '</div></div>';
+          }).join('') +
+          '</div><p class="seasons-note">' + esc(t('season.note')) + '</p></div>'
+        : '') +
+
       '<div class="vd__section"><h3>' + esc(t('card.info')) + '</h3><div class="info-grid">' +
       infoItem(t('card.rules'), v.rules) +
       infoItem(t('card.season'), v.season) +
@@ -462,6 +481,12 @@
 
     els.sheetContent.innerHTML = html;
     els.sheetScroll.scrollTop = 0;
+    // анимация сезонных столбиков
+    requestAnimationFrame(function () {
+      els.sheetContent.querySelectorAll('.season__fill').forEach(function (el, i) {
+        setTimeout(function () { el.style.height = el.getAttribute('data-h') + '%'; }, 120 + i * 90);
+      });
+    });
     var closeBtn = document.getElementById('vd-close');
     if (closeBtn) closeBtn.addEventListener('click', closeSheet);
     var delBtn = document.getElementById('vd-delete');
@@ -919,7 +944,9 @@
     it: 'laghetto', fi: 'nordic', se: 'nordic', no: 'nordic', dk: 'nordic',
     ee: 'nordic', lv: 'nordic', lt: 'nordic', ch: 'alpine', at: 'alpine',
     si: 'alpine', bg: 'alpine', ro: 'forest', hr: 'meadow',
-    de: 'forest', cz: 'forest', sk: 'forest', pl: 'forest', hu: 'forest'
+    de: 'forest', cz: 'forest', sk: 'forest', pl: 'forest', hu: 'forest',
+    ru: 'forest', ge: 'alpine', am: 'alpine', az: 'alpine', kz: 'meadow',
+    jp: 'laghetto', kr: 'laghetto', cn: 'alpine', tw: 'alpine'
   };
 
   var addModal = $('add-modal');
@@ -982,7 +1009,7 @@
 
     if (!name) return showFormError(t('add.errName'));
     if (!isFinite(lat) || !isFinite(lng)) return showFormError(t('add.errCoords'));
-    if (lat < 34 || lat > 72 || lng < -11 || lng > 42) return showFormError(t('add.errEurope'));
+    if (!inCoverage(lat, lng)) return showFormError(t('add.errEurope'));
     if (website && !/^https?:\/\//i.test(website)) return showFormError(t('add.errUrl'));
 
     var cc = $('af-country').value;
@@ -1095,10 +1122,12 @@
       var am = document.getElementById('add-modal');
       var lm = document.getElementById('layers-modal');
       var asm = document.getElementById('assistant-modal');
+      var acm = document.getElementById('actualize-modal');
       if (wn && !wn.hidden) wn.hidden = true;
       else if (am && !am.hidden) am.hidden = true;
       else if (lm && !lm.hidden) lm.hidden = true;
       else if (asm && !asm.hidden) asm.hidden = true;
+      else if (acm && !acm.hidden) acm.hidden = true;
       else if (!els.countryModal.hidden) closeModal(els.countryModal);
       else if (!els.aboutModal.hidden) closeModal(els.aboutModal);
       else if (!els.sheet.hidden) closeSheet();

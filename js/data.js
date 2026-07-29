@@ -29,7 +29,13 @@ window.VENUES = [
       "Ресторан",
       "Домики для проживания",
       "Зона отдыха"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v002",
@@ -57,7 +63,13 @@ window.VENUES = [
     "facilities": [
       "несколько отдельных прудов",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v003",
@@ -81,7 +93,13 @@ window.VENUES = [
       "Карподром (поплавок, фидер)",
       "Пруд для крупного карпа (24/7)",
       "Собственное форелевое хозяйство (La Truite de Freux)"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v004",
@@ -104,7 +122,13 @@ window.VENUES = [
     "facilities": [
       "Ресторан",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v005",
@@ -127,7 +151,13 @@ window.VENUES = [
     "facilities": [
       "Оборудованные места для отдыха",
       "Экотропа"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v006",
@@ -153,7 +183,13 @@ window.VENUES = [
       "Аренда снастей",
       "Беседки",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v007",
@@ -180,7 +216,13 @@ window.VENUES = [
       "Прокат снастей",
       "Гид"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/2/27/Forellensee_in_Zweisimmen.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/2/27/Forellensee_in_Zweisimmen.jpg",
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v008",
@@ -204,7 +246,13 @@ window.VENUES = [
       "Парковка",
       "Магазин снастей",
       "Прокат снастей"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v009",
@@ -233,7 +281,13 @@ window.VENUES = [
       "Домики",
       "Парковка",
       "Купальня"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v010",
@@ -259,7 +313,13 @@ window.VENUES = [
       "пруды рыбоводного хозяйства",
       "продажа рыбы",
       "проведение соревнований"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v011",
@@ -287,7 +347,13 @@ window.VENUES = [
       "киоск с едой и напитками",
       "аренда водоёма под частные мероприятия",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v012",
@@ -312,7 +378,13 @@ window.VENUES = [
     "website": "https://rsvysocina.cz/",
     "facilities": [
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v013",
@@ -338,7 +410,13 @@ window.VENUES = [
       "кемпинг с местами под палатки и караваны",
       "душ и туалеты",
       "киоск"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v014",
@@ -368,7 +446,13 @@ window.VENUES = [
       "Крытая пергола",
       "Песчаный пляж",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v015",
@@ -396,7 +480,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Проведение соревнований и корпоративов"
-    ]
+    ],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v016",
@@ -418,7 +508,13 @@ window.VENUES = [
     "website": "https://www.sportakpsary.eu/",
     "facilities": [
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v017",
@@ -445,7 +541,13 @@ window.VENUES = [
     "facilities": [
       "рыболовный магазин при парке",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v018",
@@ -473,7 +575,13 @@ window.VENUES = [
       "киоск с горячей едой и напитками",
       "льдогенератор для улова",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v019",
@@ -503,7 +611,13 @@ window.VENUES = [
       "продажа свежей и разделанной рыбы",
       "мостки для ловли",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v020",
@@ -532,7 +646,13 @@ window.VENUES = [
       "детское озеро",
       "парковка",
       "туалеты"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v021",
@@ -558,7 +678,13 @@ window.VENUES = [
       "прокат снастей (бесплатно)",
       "чистка и копчение рыбы",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v022",
@@ -580,7 +706,13 @@ window.VENUES = [
     "season": "1 августа – 31 марта (сезон 2025/26; открыт в период запрета на реках)",
     "website": "https://www.gipuzkoa.eus/es/web/ehiza-arrantza/pesca/zonas",
     "facilities": [],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/19/Txarama-Araxes.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/19/Txarama-Araxes.jpg",
+    "seasonality": {
+      "winter": 2,
+      "spring": 4,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v023",
@@ -600,7 +732,13 @@ window.VENUES = [
     "price": "10 €/3 ч (1 рыба), 15 €/сутки (3 рыбы)",
     "season": "Сезон открытой воды",
     "website": "https://www.juva.fi/esittelyt/kalastus---samusenlahden-kirjolohilammikko",
-    "facilities": []
+    "facilities": [],
+    "seasonality": {
+      "winter": 1,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v024",
@@ -624,7 +762,13 @@ window.VENUES = [
     "season": "Открытая вода и подлёдная ловля",
     "website": "https://stortrask.com/",
     "facilities": [],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Duckboards_by_the_lake_Stortr%C3%A4sk_in_Sipoonkorpi%2C_Helsinki%2C_Finland%2C_2021_May.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Duckboards_by_the_lake_Stortr%C3%A4sk_in_Sipoonkorpi%2C_Helsinki%2C_Finland%2C_2021_May.jpg",
+    "seasonality": {
+      "winter": 1,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v025",
@@ -647,7 +791,13 @@ window.VENUES = [
     "facilities": [
       "Рыболовная школа (гид BPJEPS)",
       "Курсы нахлыста"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v026",
@@ -673,7 +823,13 @@ window.VENUES = [
       "Проживание (гостевой дом, B&B)",
       "Клубхаус с рестораном",
       "Рыболовные стажировки и школа нахлыста"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v027",
@@ -693,7 +849,13 @@ window.VENUES = [
     "price": "10 € (опция «réservoir mouche» к карте рыболова)",
     "season": "1 декабря – 28 февраля",
     "website": "https://www.peche33.com/2024/11/venez-decouvrir-notre-nouveau-reservoir-mouche-en-gironde/",
-    "facilities": []
+    "facilities": [],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v028",
@@ -717,7 +879,13 @@ window.VENUES = [
     "website": "https://www.reservoirs-travecy.com/",
     "facilities": [
       "Аренда лодок (20 € на двоих)"
-    ]
+    ],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v029",
@@ -744,7 +912,13 @@ window.VENUES = [
       "Аренда лодок",
       "Аренда float tube",
       "Аренда электромоторов"
-    ]
+    ],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v030",
@@ -769,7 +943,13 @@ window.VENUES = [
       "Парковка",
       "Пешие маршруты вокруг водоёма"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Alwen_Reservoir%2C_North_Wales_-_Flickr_-_Robin_Mulligan.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Alwen_Reservoir%2C_North_Wales_-_Flickr_-_Robin_Mulligan.jpg",
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v031",
@@ -794,7 +974,13 @@ window.VENUES = [
       "Лодки (вёсельные и с электромотором)",
       "Лесопарк Castlewellan (парковка, кафе, тропы)"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/15/Castlewellan_Lake_at_its_widest_-_geograph.org.uk_-_3744489.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/1/15/Castlewellan_Lake_at_its_widest_-_geograph.org.uk_-_3744489.jpg",
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v032",
@@ -819,7 +1005,13 @@ window.VENUES = [
       "Парковка",
       "Участок реки Экс для ловли",
       "Обучение и инструктор"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v033",
@@ -850,7 +1042,13 @@ window.VENUES = [
       "Прокат снастей",
       "Лодки напрокат",
       "Продажа мушек и лески"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v034",
@@ -879,7 +1077,13 @@ window.VENUES = [
     "facilities": [
       "Организация рыболовных туров",
       "Размещение"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v035",
@@ -904,7 +1108,13 @@ window.VENUES = [
       "Луг для отдыха",
       "Продажа свежей форели",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v036",
@@ -927,7 +1137,13 @@ window.VENUES = [
     "facilities": [
       "Берег, оборудованный для ловли",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v037",
@@ -955,7 +1171,13 @@ window.VENUES = [
       "Экотропа по ферме",
       "Парковка"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Pisztr%C3%A1ngtelep%2C_tavak.JPG"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Pisztr%C3%A1ngtelep%2C_tavak.JPG",
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v038",
@@ -979,7 +1201,13 @@ window.VENUES = [
     "facilities": [
       "ресторан и гостевой дом Alpesi Fogadó рядом",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v039",
@@ -1003,7 +1231,13 @@ window.VENUES = [
       "прокат удочек",
       "лесной ресторан рядом (готовят улов)",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v040",
@@ -1030,7 +1264,13 @@ window.VENUES = [
       "Прокат удочек",
       "Домики для проживания",
       "Центр активного отдыха"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v041",
@@ -1051,7 +1291,13 @@ window.VENUES = [
     "price": null,
     "season": null,
     "website": null,
-    "facilities": []
+    "facilities": [],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v042",
@@ -1075,7 +1321,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Зона отдыха"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v043",
@@ -1103,7 +1355,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Зона пикника"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v044",
@@ -1127,7 +1385,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Бар"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v045",
@@ -1153,7 +1417,13 @@ window.VENUES = [
       "Бар",
       "Зона отдыха"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c9/GROSOTTO........e_il_suo_laghetto_-_panoramio.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/c9/GROSOTTO........e_il_suo_laghetto_-_panoramio.jpg",
+    "seasonality": {
+      "winter": 4,
+      "spring": 4,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v046",
@@ -1178,7 +1448,13 @@ window.VENUES = [
       "Парковка",
       "Ресторан",
       "Природный парк"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v047",
@@ -1201,7 +1477,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Бар"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v048",
@@ -1228,7 +1510,13 @@ window.VENUES = [
       "Парковка",
       "Бар",
       "Belly boat"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v049",
@@ -1252,7 +1540,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Бар"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v050",
@@ -1279,7 +1573,13 @@ window.VENUES = [
       "Парковка",
       "Бар",
       "Магазин снастей"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v051",
@@ -1307,7 +1607,13 @@ window.VENUES = [
       "Зона пикника",
       "Детская площадка",
       "Рыбоводное хозяйство"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v052",
@@ -1333,7 +1639,13 @@ window.VENUES = [
       "Ресторан",
       "Бар",
       "Зона отдыха"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v053",
@@ -1357,7 +1669,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Бар"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v054",
@@ -1384,7 +1702,13 @@ window.VENUES = [
       "Зона пикника",
       "Детская площадка",
       "Спортплощадки"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v055",
@@ -1408,7 +1732,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Зона отдыха"
-    ]
+    ],
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v056",
@@ -1434,7 +1764,13 @@ window.VENUES = [
       "прокат снастей",
       "парковка",
       "приготовление улова"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v057",
@@ -1463,7 +1799,13 @@ window.VENUES = [
       "магазин рыбных деликатесов",
       "зона отдыха",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v058",
@@ -1488,7 +1830,13 @@ window.VENUES = [
       "Прокат снастей и аксессуаров",
       "Кафе (своя еда запрещена)",
       "Групповые программы"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v059",
@@ -1514,7 +1862,13 @@ window.VENUES = [
       "5 прудов",
       "Групповые рыболовные программы",
       "Инструктаж для новичков"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v060",
@@ -1540,7 +1894,13 @@ window.VENUES = [
       "лёгкий подход от дороги",
       "парковка поблизости"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Oslo_Tryvann_%C3%96vresetertjern_IMG_5177.JPG"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Oslo_Tryvann_%C3%96vresetertjern_IMG_5177.JPG",
+    "seasonality": {
+      "winter": 2,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v061",
@@ -1568,7 +1928,13 @@ window.VENUES = [
       "жарка рыбы по выходным",
       "зона отдыха для детей",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v062",
@@ -1601,7 +1967,13 @@ window.VENUES = [
       "душ",
       "парковка",
       "продажа и копчение рыбы"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v063",
@@ -1625,7 +1997,13 @@ window.VENUES = [
     "website": "https://nazawodziu.pl/",
     "facilities": [
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v064",
@@ -1648,7 +2026,13 @@ window.VENUES = [
     "price": null,
     "season": "Форелевый сезон — ноябрь–март; остальные методы — апрель–октябрь",
     "website": null,
-    "facilities": []
+    "facilities": [],
+    "seasonality": {
+      "winter": 4,
+      "spring": 5,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v065",
@@ -1673,7 +2057,13 @@ window.VENUES = [
     "facilities": [
       "парковка",
       "продажа свежей и копчёной форели"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v066",
@@ -1699,7 +2089,13 @@ window.VENUES = [
       "детская площадка",
       "парк пресноводной фауны",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v067",
@@ -1723,7 +2119,13 @@ window.VENUES = [
     "season": null,
     "website": null,
     "facilities": [],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Lagoa_Comprida_-_Serra_da_Estrela_-_Portugal_%2852728549586%29.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Lagoa_Comprida_-_Serra_da_Estrela_-_Portugal_%2852728549586%29.jpg",
+    "seasonality": {
+      "winter": 5,
+      "spring": 4,
+      "summer": 2,
+      "autumn": 4
+    }
   },
   {
     "id": "v068",
@@ -1749,7 +2151,13 @@ window.VENUES = [
       "Детская площадка",
       "Парковка",
       "Продажа свежей форели"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v069",
@@ -1776,7 +2184,13 @@ window.VENUES = [
       "Бассейн (сезонный)",
       "Сауна",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v070",
@@ -1801,7 +2215,13 @@ window.VENUES = [
       "Пансион (10 номеров)",
       "Беседки",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v071",
@@ -1827,7 +2247,13 @@ window.VENUES = [
       "Ресторан",
       "Пансион",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v072",
@@ -1855,7 +2281,13 @@ window.VENUES = [
       "аренда лодок",
       "аренда отдельных озёр"
     ],
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Nordvattnet_-_H%C3%B6kens%C3%A5s.jpg"
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Nordvattnet_-_H%C3%B6kens%C3%A5s.jpg",
+    "seasonality": {
+      "winter": 2,
+      "spring": 3,
+      "summer": 5,
+      "autumn": 4
+    }
   },
   {
     "id": "v073",
@@ -1878,7 +2310,13 @@ window.VENUES = [
     "website": "https://logatec.si/erikov-ribnik/",
     "facilities": [
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 3,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v074",
@@ -1904,7 +2342,13 @@ window.VENUES = [
       "Гриль",
       "Продажа рыбы",
       "Зона пикника"
-    ]
+    ],
+    "seasonality": {
+      "winter": 1,
+      "spring": 5,
+      "summer": 4,
+      "autumn": 4
+    }
   },
   {
     "id": "v075",
@@ -1929,7 +2373,13 @@ window.VENUES = [
     "facilities": [
       "домики для проживания рядом с прудом",
       "парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v076",
@@ -1953,7 +2403,13 @@ window.VENUES = [
     "facilities": [
       "Парковка",
       "Проведение соревнований"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v077",
@@ -1979,7 +2435,13 @@ window.VENUES = [
     "facilities": [
       "Продажа путёвок через ресторан Koliba Svit",
       "Парковка"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   },
   {
     "id": "v078",
@@ -2005,6 +2467,12 @@ window.VENUES = [
       "Туалеты",
       "Парковка",
       "Помощь персонала"
-    ]
+    ],
+    "seasonality": {
+      "winter": 2,
+      "spring": 5,
+      "summer": 3,
+      "autumn": 4
+    }
   }
 ];
