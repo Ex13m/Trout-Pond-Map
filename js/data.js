@@ -1959,7 +1959,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 2,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/5/50/Fish-On%5E%E7%8E%8B%E7%A6%85%E5%AF%BA%EF%BC%88%E9%87%A3%E3%82%8A%E6%B1%A0%EF%BC%89_-_panoramio.jpg"
   },
   {
     "id": "v063",
@@ -2269,7 +2270,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 1,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Hwacheon_Sancheoneo_Ice_Festival_01_%2852620586388%29.jpg"
   },
   {
     "id": "v072",
@@ -2301,7 +2303,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 1,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Pyeongchang_Trout_Festival_%28Eisgarnitur%29.jpg"
   },
   {
     "id": "v073",
@@ -3094,7 +3097,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 4,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/2/22/Forel_farm_Sochi.jpg"
   },
   {
     "id": "v097",

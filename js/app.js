@@ -89,7 +89,9 @@
     lowlandGold: IMG_CDN + 'hf_20260722_205130_1236ecb3-9281-4999-8c0d-6c1fbe5df15a_min.webp',
     nordicRocky: IMG_CDN + 'hf_20260722_205134_78fd352e-777c-46a4-87f5-e7b554dfe08e_min.webp',
     compPond: IMG_CDN + 'hf_20260722_205121_e3b56308-cf57-4167-8e91-4ac69b216494_min.webp',
-    chalkStream: IMG_CDN + 'hf_20260722_205131_069692ba-cdf6-45d5-b9db-0c62cb0e2329_min.webp'
+    chalkStream: IMG_CDN + 'hf_20260722_205131_069692ba-cdf6-45d5-b9db-0c62cb0e2329_min.webp',
+    fujiPond: IMG_CDN + 'hf_20260729_230242_3026f431-4a2c-483d-b31c-d80342973c98_min.webp',
+    winterPond: IMG_CDN + 'hf_20260729_230247_f4d1f7e2-52b6-48f7-84eb-f7cf23ef68b9_min.webp'
   };
   // Пул вариантов на биом — карточки не повторяются подряд
   var BIOME_POOL = {
@@ -107,9 +109,15 @@
     for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
     return Math.abs(h);
   }
+  // Страновые пулы важнее биомных — заставка соответствует региону
+  var COUNTRY_POOL = {
+    jp: [IMG.fujiPond, IMG.compPond, IMG.laghetto],
+    kr: [IMG.fujiPond, IMG.compPond],
+    ru: [IMG.winterPond, IMG.forestMisty, IMG.autumnPond]
+  };
   function venueImage(v) {
     if (v.photo && /^https:\/\//i.test(v.photo)) return v.photo;
-    var pool = BIOME_POOL[biomeKey(v)];
+    var pool = COUNTRY_POOL[v.country] || BIOME_POOL[biomeKey(v)];
     return pool[hashStr(String(v.id) + v.name) % pool.length];
   }
   // Фолбэк-цепочка: реальное фото → биом-заставка → градиент
