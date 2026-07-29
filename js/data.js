@@ -30,7 +30,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 5,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Azat_river_Gorge_Garni_05.JPG"
   },
   {
     "id": "v002",
@@ -413,7 +414,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 3,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Nedamov%2C_%C4%8Cern%C3%BD_rybn%C3%ADk_a_chata.jpg"
   },
   {
     "id": "v014",
@@ -1011,7 +1013,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 2,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/0/02/Travecy_(Aisne)_%C3%A9cluse_canal_de_la_Sambre_%C3%A0_l'Oise.JPG"
   },
   {
     "id": "v033",
@@ -1137,7 +1140,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 3,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/3/37/Exebridge-_View_downstream_(geograph_1807918).jpg"
   },
   {
     "id": "v037",
@@ -1238,7 +1242,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 3,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/f/f3/HE_Lesce_5.jpg"
   },
   {
     "id": "v040",
@@ -1392,7 +1397,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 2,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Ap%C3%A1tk%C3%BAti-Bach-Tal%2C_Forellenseen%2C_Schleuse%2C_M_See%2C_2025_Visegr%C3%A1d.jpg"
   },
   {
     "id": "v045",
@@ -1609,7 +1615,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 2,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Cronovilla_vista_enza.jpg"
   },
   {
     "id": "v052",
@@ -2335,7 +2342,8 @@ window.VENUES = [
       "spring": 4,
       "summer": 4,
       "autumn": 5
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/ee/%D0%9C%D0%B5%D0%B4%D0%B2%D0%B5%D0%B6%D0%B8%D0%B9_%D0%B2%D0%BE%D0%B4%D0%BE%D0%BF%D0%B0%D0%B4.jpg"
   },
   {
     "id": "v074",
@@ -2433,7 +2441,8 @@ window.VENUES = [
       "spring": 5,
       "summer": 3,
       "autumn": 4
-    }
+    },
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/4/46/Eiland_van_Maurik_gezien_van_af_de_Gravenbol.jpg"
   },
   {
     "id": "v077",
