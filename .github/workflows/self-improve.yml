@@ -1,0 +1,94 @@
+# Автономная волна самоулучшения: Claude читает сигналы (телеметрия,
+# очередь, сообщество, журнал), правит код/данные, workflow открывает PR
+# с автомержем при зелёных тестах. Без ANTHROPIC_API_KEY в секретах —
+# создаёт issue-задание для полуавтоматического режима.
+name: Self-improve wave
+
+on:
+  schedule:
+    - cron: '0 6 15 * *'   # 15-е число каждого месяца, 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  wave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Проверить наличие ключа
+        id: key
+        run: |
+          if [ -n "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Полуавтомат — issue-задание (ключа нет)
+        if: steps.key.outputs.present == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const d = new Date().toISOString().slice(0, 10);
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🧠 Волна самоулучшения (полуавтомат) — ${d}`,
+              labels: ['self-improve'],
+              body: 'ANTHROPIC_API_KEY не настроен в Secrets — автономная волна не запущена.\n\n' +
+                'Выполните волну агентной сессией по инструкции `.github/self-improve-prompt.md`, ' +
+                'либо добавьте ключ (Settings → Secrets → Actions → ANTHROPIC_API_KEY) для полного автомата.'
+            });
+
+      - uses: actions/setup-node@v4
+        if: steps.key.outputs.present == 'true'
+        with:
+          node-version: 20
+
+      - name: Запустить агентную волну Claude
+        if: steps.key.outputs.present == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ACTUALIZE_PASSWORD: ${{ secrets.ACTUALIZE_PASSWORD }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "$(cat .github/self-improve-prompt.md)" \
+            --allowedTools "Bash(node:*) Bash(npm:*) Bash(npx:*) Bash(curl:*) Bash(git diff:*) Bash(git log:*) Read Write Edit Glob Grep WebSearch" \
+            --max-turns 100 \
+            --output-format text || echo "агент завершился с предупреждением — проверяем диff"
+
+      - name: Тесты волны
+        if: steps.key.outputs.present == 'true'
+        run: |
+          if git diff --quiet; then
+            echo "Изменений нет — волна пустая, PR не нужен"
+            echo "SKIP_PR=1" >> "$GITHUB_ENV"
+          else
+            npm install --no-save playwright
+            npx playwright install --with-deps chromium
+            node tests/smoke.js
+          fi
+
+      - name: Открыть PR с автомержем
+        if: steps.key.outputs.present == 'true' && env.SKIP_PR != '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="auto/self-improve-$(date +%Y%m%d-%H%M)"
+          git config user.name "troutmap-wave-bot"
+          git config user.email "actions@github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "🧠 Автономная волна самоулучшения $(date +%Y-%m-%d)"
+          git push -u origin "$BRANCH"
+          gh pr create --title "🧠 Волна самоулучшения $(date +%Y-%m-%d)" \
+            --body "Автономная волна: сигналы → правки → тесты. Детали — в js/updates-log.js (новая запись волны). Автомерж при зелёных тестах; закройте PR, чтобы отклонить." \
+            --base main --head "$BRANCH"
+          gh pr merge "$BRANCH" --auto --squash || echo "автомерж недоступен — PR ждёт ручного мержа"
