@@ -644,3 +644,32 @@ div.ph--nordic { background: linear-gradient(150deg, #5b7e91, #1c2c33); }
 }
 .act-total__num { color: var(--coral-600); font-size: 15px; font-variant-numeric: tabular-nums; }
 @media (prefers-color-scheme: dark) { .act-total__num { color: #ff8f73; } }
+
+/* ============ Фирменные иконки ============ */
+.ico { width: 18px; height: 18px; display: inline-block; vertical-align: -4px; flex-shrink: 0; }
+.btn .ico { margin-right: 2px; }
+.ico--badge { width: 13px; height: 13px; vertical-align: -2.5px; margin-right: 3px; }
+.ico--chip { width: 15px; height: 15px; vertical-align: -3px; margin-right: 5px; }
+.ico--title { width: 21px; height: 21px; vertical-align: -4px; color: var(--teal-500); }
+.ico--brand { width: 20px; height: 20px; vertical-align: -5px; color: var(--teal-600); }
+.ico--fab { width: 24px; height: 24px; color: #fff; }
+.ico--hero { width: 58px; height: 58px; color: #7fe0d4; }
+.ico--pin { width: 17px; height: 17px; color: #fff; transform: rotate(45deg); }
+.chip { display: inline-flex; align-items: center; }
+.vcard__loc .ico--badge, .vd__loc .ico--badge { color: var(--text-2); }
+
+/* ============ Подсветка выбранного (усиленная) ============ */
+.country-btn.is-active {
+  border-color: var(--teal-500); background: var(--teal-100); color: var(--teal-800);
+  box-shadow: inset 0 0 0 1px var(--teal-500);
+  position: relative;
+}
+.country-btn.is-active::after {
+  content: '✓'; margin-left: 6px; font-weight: 800; color: var(--teal-500);
+}
+.layer-grid .country-btn.is-active::after { content: '✓ '; }
+.lang-btn.is-active { box-shadow: 0 0 0 1px #7fe0d4; }
+.chip[aria-pressed="true"]::after, .chip.is-active::after {
+  content: '✓'; margin-left: 5px; font-weight: 800; color: #7fe0d4;
+}
+.vcard.is-selected { outline: 2.5px solid var(--teal-500); outline-offset: -2.5px; }

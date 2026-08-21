@@ -15,13 +15,90 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Фирменный спрайт иконок TroutMap (линейные, 24x24, stroke=currentColor) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-trout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.5 12c2-3.2 5.1-5 8.4-5 2.7 0 5 1.9 6.6 5-1.6 3.1-3.9 5-6.6 5-3.3 0-6.4-1.8-8.4-5Z"/>
+      <path d="M6.5 12 2.6 8.6c.4 1.3.9 2.4 1.7 3.4-.8 1-1.3 2.1-1.7 3.4L6.5 12Z"/>
+      <path d="M13 7.4c.8 1 .8 2.2.4 3.1M15.5 17c-.5-1.1-.5-2.3 0-3.3"/>
+      <circle cx="17.8" cy="10.7" r="1" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-release" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 8.5c1.5-2.3 3.8-3.6 6.2-3.6 2 0 3.7 1.3 4.8 3.6-1.1 2.2-2.8 3.6-4.8 3.6-2.4 0-4.7-1.4-6.2-3.6Z"/>
+      <path d="M8 8.5 5.2 6c.3 1 .6 1.7 1.2 2.5-.6.8-.9 1.5-1.2 2.5L8 8.5Z"/>
+      <path d="M3 16.5c2.8 1.8 6 1.8 9 .6M12 17.1c2.6 1.2 6.2 1 9-.6"/>
+      <path d="M12 17.1c-.3-1.6-1.2-2.8-2.6-3.6"/>
+    </symbol>
+    <symbol id="i-half" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="12" cy="12" r="8"/>
+      <path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/>
+      <path d="M3.5 9.5h17M8 2.8v4M16 2.8v4"/>
+      <path d="M7.5 13.5h3M13.5 13.5h3M7.5 17h3"/>
+    </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M3.5 12h17M12 3.5c2.6 2.3 3.9 5.1 3.9 8.5s-1.3 6.2-3.9 8.5c-2.6-2.3-3.9-5.1-3.9-8.5S9.4 5.8 12 3.5Z"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21.5c4.5-4.7 6.8-8.3 6.8-11A6.8 6.8 0 0 0 5.2 10.5c0 2.7 2.3 6.3 6.8 11Z"/>
+      <circle cx="12" cy="10.5" r="2.6"/>
+    </symbol>
+    <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="m15.5 8.5-2.2 5-5 2.2 2.2-5 5-2.2Z"/>
+    </symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4 4 0 1 0-5.7-5.7L11.4 7.2"/>
+      <path d="M14 10.5a4 4 0 0 0-6-.5L5.5 12.5a4 4 0 1 0 5.7 5.7l1.4-1.4"/>
+    </symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 3.5 10.5 14M21 3.5l-6.8 17-3.7-8.3L2.2 8.5l18.8-5Z"/>
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M4 6.5h16M9 6.5V4.8c0-.7.6-1.3 1.3-1.3h3.4c.7 0 1.3.6 1.3 1.3v1.7M6.5 6.5l1 13c.1.8.7 1.4 1.5 1.4h6c.8 0 1.4-.6 1.5-1.4l1-13"/>
+      <path d="M10 10.5v6M14 10.5v6"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+      <path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.7l5.9-.8L12 3.5Z"/>
+    </symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.5 13.8 9l5.5 1.8-5.5 1.8L12 18.1l-1.8-5.5L4.7 10.8 10.2 9 12 3.5Z"/>
+      <path d="M19 16.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"/>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.8"/>
+      <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/>
+    </symbol>
+    <symbol id="i-sat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="6" height="6" rx="1" transform="rotate(45 12 12)"/>
+      <path d="m6 9.5-3-3 3-3 3 3M18 14.5l3 3-3 3-3-3"/>
+      <path d="M12 17.7a5.7 5.7 0 0 1-5.7-5.7"/>
+    </symbol>
+    <symbol id="i-mount" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m3 19 6-10 4 6.5L16 12l5 7H3Z"/>
+      <path d="m9 9 1.6-2.6L13 10"/>
+    </symbol>
+    <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+      <path d="M9 4 3.6 6.2a1 1 0 0 0-.6.9v12.4a1 1 0 0 0 1.4.9L9 18.5l6 2.5 5.4-2.2a1 1 0 0 0 .6-.9V5.5a1 1 0 0 0-1.4-.9L15 6.5 9 4Z"/>
+      <path d="M9 4v14.5M15 6.5V21"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+  </svg>
   <div id="app">
 
     <!-- Splash / intro -->
     <div id="splash" class="splash">
       <div class="splash__bg"></div>
       <div class="splash__content">
-        <div class="splash__logo">🎣</div>
+        <div class="splash__logo"><svg class="ico ico--hero" aria-hidden="true"><use href="#i-trout"/></svg></div>
         <h1 class="splash__title">TroutMap <span>Europe</span></h1>
         <p class="splash__tagline" data-i18n="splash.tagline">Форелевые водоёмы Европы для ловли в стиле trout&nbsp;area · поймал&nbsp;—&nbsp;отпустил</p>
         <button id="splash-enter" class="btn btn--primary btn--lg" data-i18n="splash.enter">Открыть карту</button>
@@ -35,7 +112,7 @@
     <header class="topbar" id="topbar">
       <div class="topbar__row">
         <button class="topbar__brand" id="brand-btn" data-i18n-aria="about.title" aria-label="О проекте">
-          <span class="topbar__logo">🎣</span>
+          <span class="topbar__logo"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-trout"/></svg></span>
           <span class="topbar__name">TroutMap</span>
         </button>
         <div class="searchbox">
@@ -49,10 +126,10 @@
         </button>
       </div>
       <div class="chips" id="chips" role="toolbar" aria-label="Фильтры">
-        <button class="chip chip--accent" data-filter="cr" data-i18n="chip.cr" aria-pressed="false">🐟 Только C&amp;R</button>
-        <button class="chip" data-filter="year" data-i18n="chip.year" aria-pressed="false">📅 Круглый год</button>
-        <button class="chip" id="chip-country" aria-haspopup="dialog" aria-expanded="false"><span data-i18n="chip.country">🌍 Страна</span> <span id="chip-country-label"></span></button>
-        <button class="chip" id="chip-near" data-i18n="chip.near">📍 Рядом со мной</button>
+        <button class="chip chip--accent" data-filter="cr" aria-pressed="false"><svg class="ico ico--chip" aria-hidden="true"><use href="#i-release"/></svg><span data-i18n="chip.cr">Только C&amp;R</span></button>
+        <button class="chip" data-filter="year" aria-pressed="false"><svg class="ico ico--chip" aria-hidden="true"><use href="#i-cal"/></svg><span data-i18n="chip.year">Круглый год</span></button>
+        <button class="chip" id="chip-country" aria-haspopup="dialog" aria-expanded="false"><svg class="ico ico--chip" aria-hidden="true"><use href="#i-globe"/></svg><span data-i18n="chip.country">Страна</span> <span id="chip-country-label"></span></button>
+        <button class="chip" id="chip-near"><svg class="ico ico--chip" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="chip.near">Рядом со мной</span></button>
       </div>
     </header>
 
@@ -70,7 +147,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
       </button>
       <button class="fab fab--assistant" id="fab-assistant" data-i18n-aria="fab.assistant" aria-label="Помощник">
-        <span class="fab__emoji">🎣</span>
+        <svg class="ico ico--fab" aria-hidden="true"><use href="#i-trout"/></svg>
       </button>
       <button class="fab" id="fab-layers" data-i18n-aria="fab.layers" aria-label="Слой карты" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
@@ -106,7 +183,7 @@
           <div class="lang-row" id="about-lang" role="group" aria-label="Language"></div>
           <p data-i18n="about.p1">TroutMap Europe — независимый гид по коммерческим форелевым водоёмам Европы.</p>
           <p data-i18n="about.p2">Данные собраны из открытых источников. Цены и правила ориентировочные.</p>
-          <button class="btn btn--ghost about__whatsnew" id="btn-whatsnew"><span data-i18n="about.whatsnew">✨ Что нового в</span> <span id="about-version"></span></button>
+          <button class="btn btn--ghost about__whatsnew" id="btn-whatsnew"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span data-i18n="about.whatsnew">Что нового в</span> <span id="about-version"></span></button>
           <p class="about__muted" data-i18n="about.credits">Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Фото — Wikimedia Commons (CC) и AI-иллюстрации</p>
           <p class="about__muted">Gausse Holler Custom Lab · <span id="about-version-full"></span></p>
         </div>
@@ -128,7 +205,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Добавить водоём" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title" data-i18n="add.title">➕ Добавить водоём</h2>
+        <h2 class="modal__title"><svg class="ico ico--title" aria-hidden="true"><use href="#i-plus"/></svg> <span data-i18n="add.title">Добавить водоём</span></h2>
         <p class="form-hint" data-i18n="add.hint">Водоём сохранится на этом устройстве.</p>
         <form id="add-form" novalidate>
           <label class="form-field">
@@ -163,7 +240,7 @@
               <input type="text" id="af-lat" inputmode="decimal" placeholder="Широта, напр. 50.08" data-i18n-ph="add.latPh">
               <input type="text" id="af-lng" inputmode="decimal" placeholder="Долгота, напр. 14.42" data-i18n-ph="add.lngPh">
             </div>
-            <button type="button" class="btn btn--ghost form-pick" id="af-pick" data-i18n="add.pick">🎯 Указать точку на карте</button>
+            <button type="button" class="btn btn--ghost form-pick" id="af-pick"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg><span data-i18n="add.pick">Указать точку на карте</span></button>
           </div>
           <div class="form-row">
             <label class="form-field">
@@ -190,7 +267,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Что нового" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title" data-i18n="whatsnew.title">✨ Что нового</h2>
+        <h2 class="modal__title"><svg class="ico ico--title" aria-hidden="true"><use href="#i-spark"/></svg> <span data-i18n="whatsnew.title">Что нового</span></h2>
         <p class="wn__replay-hint" data-i18n="whatsnew.replay">Показать анимацию версии — коснитесь номера версии</p>
         <div id="whatsnew-list"></div>
         <button class="btn btn--primary wn__ok" data-close data-i18n="whatsnew.ok">Понятно</button>
@@ -202,7 +279,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel actualize" role="dialog" aria-modal="true" data-i18n-aria="act.title" aria-label="Актуализировать" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title" data-i18n="act.title">🔄 Актуализация базы</h2>
+        <h2 class="modal__title"><svg class="ico ico--title" aria-hidden="true"><use href="#i-refresh"/></svg> <span data-i18n="act.title">Актуализация базы</span></h2>
 
         <div id="act-pass">
           <p class="form-hint" data-i18n="act.passHint">Журнал волн обновления и запуск актуализации — по паролю.</p>
@@ -233,7 +310,7 @@
       <div class="modal__backdrop" data-close></div>
       <div class="modal__panel assistant" role="dialog" aria-modal="true" data-i18n-aria="assistant.title" aria-label="Помощник" tabindex="-1">
         <div class="modal__grip"></div>
-        <h2 class="modal__title" data-i18n="assistant.title">🎣 Помощник</h2>
+        <h2 class="modal__title"><svg class="ico ico--title" aria-hidden="true"><use href="#i-trout"/></svg> <span data-i18n="assistant.title">Помощник</span></h2>
         <div class="assistant__log" id="assistant-log" aria-live="polite"></div>
         <div class="assistant__chips" id="assistant-chips"></div>
         <form class="assistant__form" id="assistant-form">

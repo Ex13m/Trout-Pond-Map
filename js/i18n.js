@@ -28,10 +28,10 @@
     'search.placeholder': { ru: 'Водоём, город, страна…', en: 'Water, town, country…', cs: 'Revír, město, země…' },
     'search.clear': { ru: 'Очистить', en: 'Clear', cs: 'Vymazat' },
     'view.toggle': { ru: 'Переключить вид карта/список', en: 'Toggle map / list view', cs: 'Přepnout mapu / seznam' },
-    'chip.cr': { ru: '🐟 Только C&R', en: '🐟 C&R only', cs: '🐟 Jen C&R' },
-    'chip.year': { ru: '📅 Круглый год', en: '📅 Year-round', cs: '📅 Celoročně' },
-    'chip.country': { ru: '🌍 Страна', en: '🌍 Country', cs: '🌍 Země' },
-    'chip.near': { ru: '📍 Рядом со мной', en: '📍 Near me', cs: '📍 V okolí' },
+    'chip.cr': { ru: 'Только C&R', en: 'C&R only', cs: 'Jen C&R' },
+    'chip.year': { ru: 'Круглый год', en: 'Year-round', cs: 'Celoročně' },
+    'chip.country': { ru: 'Страна', en: 'Country', cs: 'Země' },
+    'chip.near': { ru: 'Рядом со мной', en: 'Near me', cs: 'V okolí' },
 
     // Пилюля результатов
     'results.count': { ru: 'Водоёмов:', en: 'Waters:', cs: 'Revírů:' },
@@ -45,17 +45,17 @@
 
     // Слои
     'layers.title': { ru: 'Слой карты', en: 'Map layer', cs: 'Vrstva mapy' },
-    'layer.sat': { ru: '🛰 Спутник', en: '🛰 Satellite', cs: '🛰 Satelit' },
-    'layer.topo': { ru: '⛰ Рельеф', en: '⛰ Terrain', cs: '⛰ Terén' },
-    'layer.scheme': { ru: '🗺 Светлая карта', en: '🗺 Street map', cs: '🗺 Uliční mapa' },
+    'layer.sat': { ru: 'Спутник', en: 'Satellite', cs: 'Satelit' },
+    'layer.topo': { ru: 'Рельеф', en: 'Terrain', cs: 'Terén' },
+    'layer.scheme': { ru: 'Светлая карта', en: 'Street map', cs: 'Uliční mapa' },
 
     // Страны
     'country.title': { ru: 'Страна', en: 'Country', cs: 'Země' },
     'country.all': { ru: 'Все страны', en: 'All countries', cs: 'Všechny země' },
 
     // Карточка водоёма
-    'card.route': { ru: '🧭 Маршрут', en: '🧭 Directions', cs: '🧭 Trasa' },
-    'card.website': { ru: '🌐 Сайт', en: '🌐 Website', cs: '🌐 Web' },
+    'card.route': { ru: 'Маршрут', en: 'Directions', cs: 'Trasa' },
+    'card.website': { ru: 'Сайт', en: 'Website', cs: 'Web' },
     'card.weather': { ru: 'Погода на водоёме', en: 'Weather at the water', cs: 'Počasí na revíru' },
     'card.weatherLoading': { ru: 'Загружаю прогноз…', en: 'Loading forecast…', cs: 'Načítám předpověď…' },
     'card.weatherError': { ru: 'Не удалось загрузить погоду. Проверьте соединение.', en: 'Couldn’t load weather. Check your connection.', cs: 'Počasí se nepodařilo načíst. Zkontrolujte připojení.' },
@@ -72,18 +72,18 @@
     'card.close': { ru: 'Закрыть', en: 'Close', cs: 'Zavřít' },
 
     // C&R бейджи
-    'cr.full': { ru: '✓ Поймал-отпустил', en: '✓ Catch & release', cs: '✓ Chyť a pusť' },
-    'cr.partial': { ru: '◐ C&R частично', en: '◐ Partial C&R', cs: '◐ Částečně C&R' },
+    'cr.full': { ru: 'Поймал-отпустил', en: 'Catch & release', cs: 'Chyť a pusť' },
+    'cr.partial': { ru: 'C&R частично', en: 'Partial C&R', cs: 'Částečně C&R' },
     'cr.none': { ru: 'Изъятие разрешено', en: 'Harvest allowed', cs: 'Ponechání povoleno' },
-    'badge.mine': { ru: '⭐ Моё', en: '⭐ Mine', cs: '⭐ Moje' },
-    'badge.mineFull': { ru: '⭐ Добавлено вами', en: '⭐ Added by you', cs: '⭐ Přidáno vámi' },
-    'badge.community': { ru: '🌐 От сообщества', en: '🌐 Community', cs: '🌐 Od komunity' },
-    'badge.communityShort': { ru: '🌐 Сообщество', en: '🌐 Community', cs: '🌐 Komunita' },
+    'badge.mine': { ru: 'Моё', en: 'Mine', cs: 'Moje' },
+    'badge.mineFull': { ru: 'Добавлено вами', en: 'Added by you', cs: 'Přidáno vámi' },
+    'badge.community': { ru: 'От сообщества', en: 'Community', cs: 'Od komunity' },
+    'badge.communityShort': { ru: 'Сообщество', en: 'Community', cs: 'Komunita' },
 
     // Свои водоёмы
-    'my.propose': { ru: '📮 В общую базу', en: '📮 Submit to base', cs: '📮 Do společné báze' },
+    'my.propose': { ru: 'В общую базу', en: 'Submit to base', cs: 'Do společné báze' },
     'my.inBase': { ru: '✓ В общей базе', en: '✓ In the shared base', cs: '✓ Ve společné bázi' },
-    'my.delete': { ru: '🗑 Удалить', en: '🗑 Delete', cs: '🗑 Smazat' },
+    'my.delete': { ru: 'Удалить', en: 'Delete', cs: 'Smazat' },
     'my.deleteConfirm': { ru: 'Удалить «{name}» с этого устройства?', en: 'Delete “{name}” from this device?', cs: 'Smazat „{name}“ z tohoto zařízení?' },
     'my.deleted': { ru: 'Водоём удалён', en: 'Water removed', cs: 'Revír smazán' },
     'my.added': { ru: 'Водоём добавлен ✓', en: 'Water added ✓', cs: 'Revír přidán ✓' },
@@ -95,7 +95,7 @@
     'my.apiDown': { ru: 'API недоступен — открываю GitHub…', en: 'API unavailable — opening GitHub…', cs: 'API nedostupné — otevírám GitHub…' },
 
     // Форма добавления
-    'add.title': { ru: '➕ Добавить водоём', en: '➕ Add a water', cs: '➕ Přidat revír' },
+    'add.title': { ru: 'Добавить водоём', en: 'Add a water', cs: 'Přidat revír' },
     'add.hint': { ru: 'Водоём сохранится на этом устройстве. Вставьте ссылку на сайт водоёма — или заполните вручную. Потом его можно предложить в общую базу.', en: 'The water is saved on this device. Paste the water’s website — or fill it in manually. You can submit it to the shared base later.', cs: 'Revír se uloží na tomto zařízení. Vložte odkaz na web revíru — nebo vyplňte ručně. Později jej lze poslat do společné báze.' },
     'add.website': { ru: 'Ссылка на сайт водоёма', en: 'Water’s website link', cs: 'Odkaz na web revíru' },
     'add.name': { ru: 'Название *', en: 'Name *', cs: 'Název *' },
@@ -107,7 +107,7 @@
     'add.coords': { ru: 'Координаты *', en: 'Coordinates *', cs: 'Souřadnice *' },
     'add.latPh': { ru: 'Широта, напр. 50.08', en: 'Latitude, e.g. 50.08', cs: 'Šířka, např. 50.08' },
     'add.lngPh': { ru: 'Долгота, напр. 14.42', en: 'Longitude, e.g. 14.42', cs: 'Délka, např. 14.42' },
-    'add.pick': { ru: '🎯 Указать точку на карте', en: '🎯 Pick a point on the map', cs: '🎯 Vybrat bod na mapě' },
+    'add.pick': { ru: 'Указать точку на карте', en: 'Pick a point on the map', cs: 'Vybrat bod na mapě' },
     'add.pricePh': { ru: 'Напр.: 20 € / день', en: 'E.g. €20 / day', cs: 'Např. 20 € / den' },
     'add.seasonPh': { ru: 'Напр.: Круглый год', en: 'E.g. Year-round', cs: 'Např. Celoročně' },
     'add.descPh': { ru: 'Пара предложений о водоёме, правилах, рыбе', en: 'A couple of sentences about the water, rules, fish', cs: 'Pár vět o revíru, pravidlech, rybách' },
@@ -135,18 +135,18 @@
       en: 'Data is gathered from open sources: venue sites, federations and competition calendars. Prices and rules are indicative — check the venue’s site before your trip.',
       cs: 'Data pocházejí z veřejných zdrojů: webů revírů, svazů a kalendářů závodů. Ceny a pravidla jsou orientační — před cestou ověřte na webu revíru.'
     },
-    'about.whatsnew': { ru: '✨ Что нового в', en: '✨ What’s new in', cs: '✨ Co je nového v' },
+    'about.whatsnew': { ru: 'Что нового в', en: 'What’s new in', cs: 'Co je nového v' },
     'about.credits': { ru: 'Погода — Open-Meteo · Карта — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Фото — Wikimedia Commons (CC) и AI-иллюстрации', en: 'Weather — Open-Meteo · Map — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Photos — Wikimedia Commons (CC) and AI illustrations', cs: 'Počasí — Open-Meteo · Mapa — © OpenStreetMap, © CARTO, © Esri, © OpenTopoMap · Fotky — Wikimedia Commons (CC) a AI ilustrace' },
     'about.version': { ru: 'версия', en: 'version', cs: 'verze' },
 
     // Что нового
-    'whatsnew.title': { ru: '✨ Что нового', en: '✨ What’s new', cs: '✨ Co je nového' },
+    'whatsnew.title': { ru: 'Что нового', en: 'What’s new', cs: 'Co je nového' },
     'whatsnew.current': { ru: 'текущая', en: 'current', cs: 'aktuální' },
     'whatsnew.ok': { ru: 'Понятно', en: 'Got it', cs: 'Rozumím' },
     'whatsnew.replay': { ru: 'Показать анимацию версии — коснитесь номера версии', en: 'Replay version animation — tap the version number', cs: 'Přehrát animaci verze — klepněte na číslo verze' },
 
     // Помощник
-    'assistant.title': { ru: '🎣 Помощник', en: '🎣 Assistant', cs: '🎣 Asistent' },
+    'assistant.title': { ru: 'Помощник', en: 'Assistant', cs: 'Asistent' },
     'assistant.greeting': { ru: 'Привет! Я помогу разобраться с картой. Спросите или выберите тему:', en: 'Hi! I’ll help you use the map. Ask me or pick a topic:', cs: 'Ahoj! Pomůžu vám s mapou. Zeptejte se nebo zvolte téma:' },
     'assistant.placeholder': { ru: 'Ваш вопрос…', en: 'Your question…', cs: 'Váš dotaz…' },
     'assistant.send': { ru: 'Отправить', en: 'Send', cs: 'Odeslat' },
@@ -171,7 +171,7 @@
     'wind.dirs': { ru: 'С,СВ,В,ЮВ,Ю,ЮЗ,З,СЗ', en: 'N,NE,E,SE,S,SW,W,NW', cs: 'S,SV,V,JV,J,JZ,Z,SZ' },
 
     // Актуализация
-    'act.title': { ru: '🔄 Актуализация базы', en: '🔄 Database refresh', cs: '🔄 Aktualizace báze' },
+    'act.title': { ru: 'Актуализация базы', en: 'Database refresh', cs: 'Aktualizace báze' },
     'act.passHint': { ru: 'Журнал волн обновления и запуск актуализации — по паролю.', en: 'The refresh journal and manual runs are password-protected.', cs: 'Deník aktualizací a ruční spuštění jsou chráněny heslem.' },
     'act.passPh': { ru: 'Пароль', en: 'Password', cs: 'Heslo' },
     'act.enter': { ru: 'Войти', en: 'Enter', cs: 'Vstoupit' },

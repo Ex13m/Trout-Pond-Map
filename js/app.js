@@ -251,7 +251,7 @@
     function render() {
       grid.innerHTML = Object.keys(BASE_LAYERS).map(function (k) {
         return '<button class="country-btn' + (k === currentLayerKey ? ' is-active' : '') + '" data-layer="' + k + '">' +
-          t(BASE_LAYERS[k].labelKey) + '</button>';
+          ico({sat:'sat',topo:'mount',scheme:'map'}[k]) + ' ' + t(BASE_LAYERS[k].labelKey) + '</button>';
       }).join('');
     }
     fab.addEventListener('click', function () {
@@ -290,7 +290,7 @@
       (selected ? ' pin--selected' : '');
     return L.divIcon({
       className: '',
-      html: '<div class="' + cls + '"><div class="pin__dot"><span>🐟</span></div></div>',
+      html: '<div class="' + cls + '"><div class="pin__dot">' + ico('trout', 'ico--pin') + '</div></div>',
       iconSize: [34, 34], iconAnchor: [17, 30]
     });
   }
@@ -353,9 +353,13 @@
 
   /* ---------- List view ---------- */
   function crBadge(v) {
-    if (v.catchAndRelease === true) return '<span class="badge badge--cr">' + esc(t('cr.full')) + '</span>';
-    if (v.catchAndRelease === 'partial') return '<span class="badge badge--partial">' + esc(t('cr.partial')) + '</span>';
+    if (v.catchAndRelease === true) return '<span class="badge badge--cr">' + ico('release', 'ico--badge') + esc(t('cr.full')) + '</span>';
+    if (v.catchAndRelease === 'partial') return '<span class="badge badge--partial">' + ico('half', 'ico--badge') + esc(t('cr.partial')) + '</span>';
     return '<span class="badge">' + esc(t('cr.none')) + '</span>';
+  }
+
+  function ico(name, cls) {
+    return '<svg class="ico' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#i-' + name + '"/></svg>';
   }
 
   function esc(s) {
@@ -372,17 +376,17 @@
       return;
     }
     els.listContainer.innerHTML = list.map(function (v) {
-      return '<article class="vcard" role="button" tabindex="0" data-id="' + esc(v.id) + '" aria-label="' + esc(v.name) + ', ' + esc(COUNTRY_NAMES[v.country] || v.country) + '">' +
+      return '<article class="vcard' + (v.id === state.selectedId ? ' is-selected' : '') + '" role="button" tabindex="0" data-id="' + esc(v.id) + '" aria-label="' + esc(v.name) + ', ' + esc(COUNTRY_NAMES[v.country] || v.country) + '">' +
         '<div class="vcard__photo ph--' + biomeKey(v) + '">' + imgTag(v, 'loading="lazy" alt=""') +
         '<span class="vcard__flag">' + flagEmoji(v.country) + ' ' + esc(COUNTRY_NAMES[v.country] || v.country) + '</span>' +
         (v._dist != null ? '<span class="vcard__dist">' + Math.round(v._dist) + ' км</span>' : '') +
         '</div>' +
         '<div class="vcard__body">' +
         '<div class="vcard__name">' + esc(v.name) + '</div>' +
-        '<div class="vcard__loc">📍 ' + esc(v.location) + '</div>' +
+        '<div class="vcard__loc">' + ico('pin', 'ico--badge') + esc(v.location) + '</div>' +
         '<div class="vcard__badges">' +
-        (v._user ? '<span class="badge badge--user">' + esc(t('badge.mine')) + '</span>' : '') +
-        (v._community ? '<span class="badge badge--community">' + esc(t('badge.communityShort')) + '</span>' : '') + crBadge(v) +
+        (v._user ? '<span class="badge badge--user">' + ico('star', 'ico--badge') + esc(t('badge.mine')) + '</span>' : '') +
+        (v._community ? '<span class="badge badge--community">' + ico('globe', 'ico--badge') + esc(t('badge.communityShort')) + '</span>' : '') + crBadge(v) +
         (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
         '</div></div></article>';
     }).join('');
@@ -429,29 +433,29 @@
 
       '<div class="vd__head">' +
       '<h2 class="vd__name">' + esc(v.name) + '</h2>' +
-      '<div class="vd__loc">' + flagEmoji(v.country) + ' ' + esc(cn) + ' · 📍 ' + esc(v.location) + '</div>' +
+      '<div class="vd__loc">' + flagEmoji(v.country) + ' ' + esc(cn) + ' · ' + ico('pin', 'ico--badge') + esc(v.location) + '</div>' +
       '</div>' +
 
       '<div class="vd__badges">' +
-      (v._user ? '<span class="badge badge--user">' + esc(t('badge.mineFull')) + '</span>' : '') +
-      (v._community ? '<span class="badge badge--community">' + esc(t('badge.community')) + '</span>' : '') +
+      (v._user ? '<span class="badge badge--user">' + ico('star', 'ico--badge') + esc(t('badge.mineFull')) + '</span>' : '') +
+      (v._community ? '<span class="badge badge--community">' + ico('globe', 'ico--badge') + esc(t('badge.community')) + '</span>' : '') +
       crBadge(v) +
-      (v.price ? '<span class="badge badge--price">💶 ' + esc(v.price) + '</span>' : '') +
-      (v.season ? '<span class="badge">📅 ' + esc(v.season) + '</span>' : '') +
+      (v.price ? '<span class="badge badge--price">' + esc(v.price) + '</span>' : '') +
+      (v.season ? '<span class="badge">' + ico('cal', 'ico--badge') + esc(v.season) + '</span>' : '') +
       '</div>' +
 
       (v.description ? '<p class="vd__desc">' + esc(v.description) + '</p>' : '') +
 
       '<div class="vd__actions">' +
-      '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">' + esc(t('card.route')) + '</a>' +
-      (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">' + esc(t('card.website')) + '</a>' : '') +
+      '<a class="btn btn--route" href="' + gmaps + '" target="_blank" rel="noopener">' + ico('route') + esc(t('card.route')) + '</a>' +
+      (site ? '<a class="btn btn--ghost" href="' + esc(site) + '" target="_blank" rel="noopener">' + ico('link') + esc(t('card.website')) + '</a>' : '') +
       '</div>' +
       (v._user
         ? '<div class="vd__actions">' +
           (v._sentName
             ? '<span class="btn btn--ghost" aria-disabled="true">' + esc(t('my.inBase')) + '</span>'
-            : '<button class="btn btn--ghost" id="vd-propose" type="button">' + esc(t('my.propose')) + '</button>') +
-          '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">' + esc(t('my.delete')) + '</button>' +
+            : '<button class="btn btn--ghost" id="vd-propose" type="button">' + ico('send') + esc(t('my.propose')) + '</button>') +
+          '<button class="btn btn--ghost btn--danger" id="vd-delete" type="button">' + ico('trash') + esc(t('my.delete')) + '</button>' +
           '</div>'
         : '') +
 
@@ -484,7 +488,7 @@
         : '') +
 
       '<p class="vd__source">' +
-      (site ? '<a href="' + esc(site) + '" target="_blank" rel="noopener">' + esc(t('card.website')) + '</a>' : '') +
+      (site ? '<a href="' + esc(site) + '" target="_blank" rel="noopener">' + ico('link') + esc(t('card.website')) + '</a>' : '') +
       '</p>' +
       '</div>';
 
@@ -644,7 +648,7 @@
       '<div class="weather__stat"><b>' + num(cur.cloud_cover, Math.round) + '%</b><span>облачность</span></div>' +
       '</div>' +
       '<div class="weather__days">' + days + '</div>' +
-      '<div class="weather__bite">🎯 ' + esc(t('card.bite')) + ' <b>' + stars + '</b> — ' + esc(bite.label) + '</div>';
+      '<div class="weather__bite">' + ico('target', 'ico--badge') + esc(t('card.bite')) + ' <b>' + stars + '</b> — ' + esc(bite.label) + '</div>';
   }
 
   /* ---------- Bottom sheet mechanics ---------- */
@@ -762,7 +766,7 @@
     var counts = {};
     VENUES.forEach(function (v) { counts[v.country] = (counts[v.country] || 0) + 1; });
     var codes = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">🌍 <span class="name">' + esc(t('country.all')) + '</span><span class="cnt">' + VENUES.length + '</span></button>';
+    var html = '<button class="country-btn' + (!state.filters.country ? ' is-active' : '') + '" data-cc="">' + ico('globe', 'ico--badge') + '<span class="name">' + esc(t('country.all')) + '</span><span class="cnt">' + VENUES.length + '</span></button>';
     codes.forEach(function (cc) {
       html += '<button class="country-btn' + (state.filters.country === cc ? ' is-active' : '') + '" data-cc="' + esc(cc) + '">' +
         flagEmoji(cc) + ' <span class="name">' + esc(COUNTRY_NAMES[cc] || cc.toUpperCase()) + '</span>' +
