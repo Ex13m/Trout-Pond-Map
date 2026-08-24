@@ -1,14 +1,40 @@
 /* TroutMap Europe — анимация справки об обновлении.
-   Рой частиц слетается → кристаллизуется в НАСТОЯЩИЙ чёткий текст →
-   держится (по умолчанию 10 с) с глитч-эффектом → рассыпается обратно
-   в частицы и разлетается. Тап — пропустить.
+   Текст версии собирается из ФОРЕЛЕК, приплывающих со всех сторон:
+   стайка рыбок занимает свои места → кристаллизуется в чёткий текст →
+   держится (5 с) с глитч-эффектом → рассыпается обратно в стайку,
+   которая уплывает. Тап — пропустить.
    API: window.UpdateFX.play({ lines: [{text, size, color}], hold, onDone }) */
 (function () {
   'use strict';
 
+  // Силуэт форели (тот же мотив, что в спрайте иконок)
+  var TROUT_BODY = 'M7 12c2-3.4 5.2-5.4 8.6-5.4 2.9 0 5.3 2 6.9 5.4-1.6 3.4-4 5.4-6.9 5.4-3.4 0-6.6-2-8.6-5.4Z';
+  var TROUT_TAIL = 'M7 12 2.4 8.2c.5 1.5 1 2.7 1.9 3.8-.9 1.1-1.4 2.3-1.9 3.8L7 12Z';
+
+  var spriteCache = {};
+  function troutSprite(color, flip) {
+    var key = color + (flip ? '|f' : '');
+    if (spriteCache[key]) return spriteCache[key];
+    var c = document.createElement('canvas');
+    c.width = 48; c.height = 48;
+    var x = c.getContext('2d');
+    x.translate(24, 24);
+    x.scale(flip ? -1.9 : 1.9, 1.9);
+    x.translate(-12, -12);
+    x.fillStyle = color;
+    if (window.Path2D) {
+      x.fill(new Path2D(TROUT_BODY));
+      x.fill(new Path2D(TROUT_TAIL));
+    } else {
+      x.fillRect(4, 8, 16, 8); // древний браузер — хоть что-то
+    }
+    spriteCache[key] = c;
+    return c;
+  }
+
   function play(opts) {
     var lines = (opts && opts.lines) || [];
-    var hold = (opts && opts.hold) || 10000;
+    var hold = (opts && opts.hold) || 5000;
     var onDone = (opts && opts.onDone) || function () {};
     if (!lines.length || !window.requestAnimationFrame) { onDone(false); return; }
 
@@ -27,7 +53,7 @@
     var ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
 
-    /* --- Офскрин с ЦВЕТНЫМ чётким текстом (он же источник частиц) --- */
+    /* --- Офскрин с ЦВЕТНЫМ чётким текстом --- */
     var off = document.createElement('canvas');
     off.width = W * dpr; off.height = H * dpr;
     var octx = off.getContext('2d');
@@ -52,7 +78,6 @@
       y += size * 1.4 / 2 + pad;
     });
 
-    // Тонированные копии для RGB-расщепления в глитче
     function tinted(color) {
       var c = document.createElement('canvas');
       c.width = off.width; c.height = off.height;
@@ -66,13 +91,13 @@
     var offRed = tinted('#ff4d4d');
     var offCyan = tinted('#33ffe0');
 
-    /* --- Сэмплинг точек для частиц --- */
+    /* --- Сэмплинг мест для форелек --- */
     var img;
     try { img = octx.getImageData(0, 0, off.width, off.height).data; }
     catch (e) { canvas.remove(); onDone(false); return; }
 
-    var MAX = (W < 600 ? 5500 : 8000);
-    var step = 2;
+    var MAX = (W < 600 ? 800 : 1300);
+    var step = 3;
     function collect(st) {
       var pts = [];
       var stD = st * dpr;
@@ -87,29 +112,33 @@
       return pts;
     }
     var targets = collect(step);
-    while (targets.length > MAX && step < 5) { step += 1; targets = collect(step); }
-    if (targets.length < 60) { canvas.remove(); onDone(false); return; }
+    while (targets.length > MAX && step < 9) { step += 1; targets = collect(step); }
+    if (targets.length < 40) { canvas.remove(); onDone(false); return; }
 
-    var parts = targets.map(function (t) {
+    // Стайка: каждая форелька приплывает со своей стороны
+    var fish = targets.map(function (t, i) {
       var edge = Math.random();
       var sx, sy;
-      if (edge < 0.25) { sx = -30 - Math.random() * W; sy = Math.random() * H; }
-      else if (edge < 0.5) { sx = W + 30 + Math.random() * W; sy = Math.random() * H; }
-      else if (edge < 0.75) { sx = Math.random() * W; sy = -30 - Math.random() * H; }
-      else { sx = Math.random() * W; sy = H + 30 + Math.random() * H; }
+      if (edge < 0.25) { sx = -40 - Math.random() * W * 0.6; sy = Math.random() * H; }
+      else if (edge < 0.5) { sx = W + 40 + Math.random() * W * 0.6; sy = Math.random() * H; }
+      else if (edge < 0.75) { sx = Math.random() * W; sy = -40 - Math.random() * H * 0.6; }
+      else { sx = Math.random() * W; sy = H + 40 + Math.random() * H * 0.6; }
       var ang = Math.random() * Math.PI * 2;
-      var v = 3 + Math.random() * 9;
+      var v = 3 + Math.random() * 8;
       return {
         sx: sx, sy: sy, tx: t[0], ty: t[1], color: t[2],
-        delay: Math.random() * 450,
+        delay: Math.random() * 600,
         vx: Math.cos(ang) * v, vy: Math.sin(ang) * v,
-        size: Math.random() < 0.85 ? 1.6 : 2.4
+        size: 7 + Math.random() * 6,          // размер рыбки
+        wamp: 4 + Math.random() * 8,          // амплитуда виляния
+        wfreq: 0.006 + Math.random() * 0.006, // частота виляния
+        phase: Math.random() * Math.PI * 2
       };
     });
 
-    /* --- Фазы: fly → solidify → hold → dissolve+scatter --- */
-    var FLY = 1400, SOLID = 650, SCATTER = 950;
-    var phase = 'fly', phaseStart = null, done = false;
+    /* --- Фазы: swim-in → solidify → hold → text-out + swim-away --- */
+    var SWIM = 1700, SOLID = 650, SCATTER = 1100;
+    var phase = 'swim', phaseStart = null, done = false;
     var glitch = 0, nextGlitch = 800, bands = [];
 
     function ease(x) { return 1 - Math.pow(1 - x, 3); }
@@ -127,30 +156,39 @@
     }
     canvas.addEventListener('click', toScatter);
 
-    function drawParticles(el, mode, alphaMul) {
-      for (var i = 0; i < parts.length; i++) {
-        var p = parts[i], x, y2, a = alphaMul;
-        if (mode === 'fly') {
-          var k = Math.max(0, Math.min(1, (el - p.delay) / FLY));
+    function drawFish(now, el, mode, alphaMul) {
+      for (var i = 0; i < fish.length; i++) {
+        var f = fish[i], x, y2, a = alphaMul, dirRight;
+        if (mode === 'swim') {
+          var k = Math.max(0, Math.min(1, (el - f.delay) / SWIM));
           var e = ease(k);
-          x = p.sx + (p.tx - p.sx) * e;
-          y2 = p.sy + (p.ty - p.sy) * e;
-          a = (0.25 + 0.75 * e) * alphaMul;
-        } else { // scatter
+          x = f.sx + (f.tx - f.sx) * e;
+          y2 = f.sy + (f.ty - f.sy) * e;
+          // виляние поперёк курса, затухает у цели
+          var wig = Math.sin(now * f.wfreq + f.phase) * f.wamp * (1 - e);
+          var dx = f.tx - f.sx, dy = f.ty - f.sy;
+          var len = Math.sqrt(dx * dx + dy * dy) || 1;
+          x += (-dy / len) * wig;
+          y2 += (dx / len) * wig;
+          a = (0.3 + 0.7 * e) * alphaMul;
+          dirRight = dx >= 0;
+        } else { // scatter: уплывают
           var k2 = Math.min(1, el / SCATTER);
-          x = p.tx + p.vx * k2 * 60 * k2;
-          y2 = p.ty + p.vy * k2 * 60 * k2 + 120 * k2 * k2;
+          var e2 = k2 * k2;
+          x = f.tx + f.vx * e2 * 70;
+          y2 = f.ty + f.vy * e2 * 70 + Math.sin(now * f.wfreq + f.phase) * f.wamp * k2;
           a = (1 - k2) * alphaMul;
+          dirRight = f.vx >= 0;
         }
-        if (a <= 0) continue;
+        if (a <= 0.02) continue;
         ctx.globalAlpha = a;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(x, y2, p.size, p.size);
+        var s = troutSprite(f.color, !dirRight);
+        var w = f.size * 2, h = f.size * 2;
+        ctx.drawImage(s, x - w / 2, y2 - h / 2, w, h);
       }
       ctx.globalAlpha = 1;
     }
 
-    // Рисует чёткий текст; во время глитча — с RGB-расщеплением и сдвигом полос
     function drawText(alpha) {
       ctx.globalAlpha = alpha;
       var g = glitch > 0;
@@ -185,13 +223,13 @@
       var el = now - phaseStart;
       ctx.clearRect(0, 0, W, H);
 
-      if (phase === 'fly') {
-        drawParticles(el, 'fly', 1);
-        if (el > FLY + 480) { phase = 'solid'; phaseStart = now; }
+      if (phase === 'swim') {
+        drawFish(now, el, 'swim', 1);
+        if (el > SWIM + 620) { phase = 'solid'; phaseStart = now; }
       } else if (phase === 'solid') {
-        // кристаллизация: частицы гаснут, чёткий текст проявляется
+        // стайка «схлопывается» в чёткий текст
         var k = Math.min(1, el / SOLID);
-        drawParticles(FLY + 500, 'fly', 1 - k);
+        drawFish(now, SWIM + 620, 'swim', 1 - k);
         drawText(k);
         if (k >= 1) { phase = 'hold'; phaseStart = now; nextGlitch = 700; }
       } else if (phase === 'hold') {
@@ -207,10 +245,10 @@
         if (glitch > 0) glitch--;
         drawText(1);
         if (el > hold) toScatter();
-      } else { // scatter: текст растворяется, частицы разлетаются
+      } else { // scatter: текст растворяется, стайка уплывает
         var k3 = Math.min(1, el / SCATTER);
-        if (k3 < 0.35) drawText(1 - k3 / 0.35);
-        drawParticles(el, 'scatter', 1);
+        if (k3 < 0.3) drawText(1 - k3 / 0.3);
+        drawFish(now, el, 'scatter', 1);
         if (el > SCATTER) { finish(); return; }
       }
       requestAnimationFrame(frame);
