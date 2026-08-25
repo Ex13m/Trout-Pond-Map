@@ -11,25 +11,34 @@
   var TROUT_BODY = 'M7 12c2-3.4 5.2-5.4 8.6-5.4 2.9 0 5.3 2 6.9 5.4-1.6 3.4-4 5.4-6.9 5.4-3.4 0-6.6-2-8.6-5.4Z';
   var TROUT_TAIL = 'M7 12 2.4 8.2c.5 1.5 1 2.7 1.9 3.8-.9 1.1-1.4 2.3-1.9 3.8L7 12Z';
 
+  // Кадры виляния хвостом: хвост поворачивается вокруг сустава (7,12)
+  var TAIL_FRAMES = [-0.45, -0.22, 0, 0.22, 0.45]; // радианы
   var spriteCache = {};
-  function troutSprite(color, flip) {
-    var key = color + (flip ? '|f' : '');
-    if (spriteCache[key]) return spriteCache[key];
-    var c = document.createElement('canvas');
-    c.width = 48; c.height = 48;
-    var x = c.getContext('2d');
-    x.translate(24, 24);
-    x.scale(flip ? -1.9 : 1.9, 1.9);
-    x.translate(-12, -12);
-    x.fillStyle = color;
-    if (window.Path2D) {
-      x.fill(new Path2D(TROUT_BODY));
-      x.fill(new Path2D(TROUT_TAIL));
-    } else {
-      x.fillRect(4, 8, 16, 8); // древний браузер — хоть что-то
-    }
-    spriteCache[key] = c;
-    return c;
+  function troutFrames(color) {
+    if (spriteCache[color]) return spriteCache[color];
+    var frames = TAIL_FRAMES.map(function (ang) {
+      var c = document.createElement('canvas');
+      c.width = 48; c.height = 48;
+      var x = c.getContext('2d');
+      x.translate(24, 24);
+      x.scale(1.9, 1.9);
+      x.translate(-12, -12);
+      x.fillStyle = color;
+      if (window.Path2D) {
+        x.fill(new Path2D(TROUT_BODY));
+        x.save();
+        x.translate(7, 12);
+        x.rotate(ang);
+        x.translate(-7, -12);
+        x.fill(new Path2D(TROUT_TAIL));
+        x.restore();
+      } else {
+        x.fillRect(4, 8, 16, 8); // древний браузер — хоть что-то
+      }
+      return c;
+    });
+    spriteCache[color] = frames;
+    return frames;
   }
 
   function play(opts) {
@@ -96,7 +105,7 @@
     try { img = octx.getImageData(0, 0, off.width, off.height).data; }
     catch (e) { canvas.remove(); onDone(false); return; }
 
-    var MAX = (W < 600 ? 800 : 1300);
+    var MAX = (W < 600 ? 700 : 1100);
     var step = 3;
     function collect(st) {
       var pts = [];
@@ -129,9 +138,10 @@
         sx: sx, sy: sy, tx: t[0], ty: t[1], color: t[2],
         delay: Math.random() * 600,
         vx: Math.cos(ang) * v, vy: Math.sin(ang) * v,
-        size: 7 + Math.random() * 6,          // размер рыбки
-        wamp: 4 + Math.random() * 8,          // амплитуда виляния
-        wfreq: 0.006 + Math.random() * 0.006, // частота виляния
+        size: 7 + Math.random() * 6,           // размер рыбки
+        wamp: 4 + Math.random() * 8,           // амплитуда рысканья по курсу
+        wfreq: 0.006 + Math.random() * 0.006,  // частота рысканья
+        wag: 0.014 + Math.random() * 0.01,     // скорость виляния хвостом
         phase: Math.random() * Math.PI * 2
       };
     });
@@ -158,33 +168,47 @@
 
     function drawFish(now, el, mode, alphaMul) {
       for (var i = 0; i < fish.length; i++) {
-        var f = fish[i], x, y2, a = alphaMul, dirRight;
+        var f = fish[i], x, y2, a = alphaMul, hx, hy;
         if (mode === 'swim') {
           var k = Math.max(0, Math.min(1, (el - f.delay) / SWIM));
           var e = ease(k);
           x = f.sx + (f.tx - f.sx) * e;
           y2 = f.sy + (f.ty - f.sy) * e;
-          // виляние поперёк курса, затухает у цели
+          // лёгкое рысканье поперёк курса, затухает у цели
           var wig = Math.sin(now * f.wfreq + f.phase) * f.wamp * (1 - e);
           var dx = f.tx - f.sx, dy = f.ty - f.sy;
           var len = Math.sqrt(dx * dx + dy * dy) || 1;
           x += (-dy / len) * wig;
           y2 += (dx / len) * wig;
           a = (0.3 + 0.7 * e) * alphaMul;
-          dirRight = dx >= 0;
-        } else { // scatter: уплывают
+          hx = dx; hy = dy;               // курс — строго на свою букву
+        } else { // scatter: уплывают наружу
           var k2 = Math.min(1, el / SCATTER);
           var e2 = k2 * k2;
           x = f.tx + f.vx * e2 * 70;
-          y2 = f.ty + f.vy * e2 * 70 + Math.sin(now * f.wfreq + f.phase) * f.wamp * k2;
+          y2 = f.ty + f.vy * e2 * 70;
           a = (1 - k2) * alphaMul;
-          dirRight = f.vx >= 0;
+          hx = f.vx; hy = f.vy;           // курс — направление ухода
         }
         if (a <= 0.02) continue;
-        ctx.globalAlpha = a;
-        var s = troutSprite(f.color, !dirRight);
+        var frames = troutFrames(f.color);
+        // пинг-понг кадров хвоста: 0..N-1..0
+        var fi = Math.floor(now * f.wag + f.phase * 3) % (TAIL_FRAMES.length * 2 - 2);
+        if (fi >= TAIL_FRAMES.length) fi = TAIL_FRAMES.length * 2 - 2 - fi;
+        var spr = frames[fi];
+        var theta = Math.atan2(hy, hx);
         var w = f.size * 2, h = f.size * 2;
-        ctx.drawImage(s, x - w / 2, y2 - h / 2, w, h);
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.translate(x, y2);
+        if (Math.cos(theta) >= 0) {
+          ctx.rotate(theta);              // голова по курсу
+        } else {
+          ctx.scale(-1, 1);               // влево — зеркалим, чтобы не плыть кверху брюхом
+          ctx.rotate(Math.PI - theta);
+        }
+        ctx.drawImage(spr, -w / 2, -h / 2, w, h);
+        ctx.restore();
       }
       ctx.globalAlpha = 1;
     }
