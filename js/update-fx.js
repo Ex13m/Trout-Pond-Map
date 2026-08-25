@@ -14,27 +14,88 @@
   // Кадры виляния хвостом: хвост поворачивается вокруг сустава (7,12)
   var TAIL_FRAMES = [-0.45, -0.22, 0, 0.22, 0.45]; // радианы
   var spriteCache = {};
+
+  function parseRgb(c) {
+    var m = String(c).match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+    return m ? [ +m[1], +m[2], +m[3] ] : [200, 230, 225];
+  }
+  // k > 0 — светлее (к белому), k < 0 — темнее (к чёрному)
+  function shade(c, k) {
+    var r = parseRgb(c);
+    var f = function (x) {
+      return Math.round(k >= 0 ? x + (255 - x) * k : x * (1 + k));
+    };
+    return 'rgb(' + f(r[0]) + ',' + f(r[1]) + ',' + f(r[2]) + ')';
+  }
+
+  // Объёмная форелька: градиентное тело, блик сверху, жаберная дуга,
+  // глаз, плавник — свет сверху-слева
   function troutFrames(color) {
     if (spriteCache[color]) return spriteCache[color];
     var frames = TAIL_FRAMES.map(function (ang) {
       var c = document.createElement('canvas');
-      c.width = 48; c.height = 48;
+      c.width = 96; c.height = 96;
       var x = c.getContext('2d');
-      x.translate(24, 24);
-      x.scale(1.9, 1.9);
+      x.translate(48, 48);
+      x.scale(3.6, 3.6);
       x.translate(-12, -12);
-      x.fillStyle = color;
-      if (window.Path2D) {
-        x.fill(new Path2D(TROUT_BODY));
-        x.save();
-        x.translate(7, 12);
-        x.rotate(ang);
-        x.translate(-7, -12);
-        x.fill(new Path2D(TROUT_TAIL));
-        x.restore();
-      } else {
-        x.fillRect(4, 8, 16, 8); // древний браузер — хоть что-то
-      }
+      if (!window.Path2D) { x.fillStyle = color; x.fillRect(4, 8, 16, 8); return c; }
+
+      var body = new Path2D(TROUT_BODY);
+      var tail = new Path2D(TROUT_TAIL);
+
+      // хвост (затемнённый градиент), повёрнутый вокруг сустава
+      x.save();
+      x.translate(7, 12);
+      x.rotate(ang);
+      x.translate(-7, -12);
+      var tg = x.createLinearGradient(2, 8, 8, 16);
+      tg.addColorStop(0, shade(color, -0.15));
+      tg.addColorStop(1, shade(color, -0.5));
+      x.fillStyle = tg;
+      x.fill(tail);
+      x.restore();
+
+      // тело: свет сверху → тень снизу
+      var bg = x.createLinearGradient(0, 6.4, 0, 17.6);
+      bg.addColorStop(0, shade(color, 0.55));
+      bg.addColorStop(0.45, color);
+      bg.addColorStop(1, shade(color, -0.45));
+      x.fillStyle = bg;
+      x.fill(body);
+
+      // блик по спинке
+      x.save();
+      x.clip(body);
+      x.fillStyle = 'rgba(255,255,255,0.35)';
+      x.beginPath();
+      x.ellipse(14.2, 9.2, 6.2, 1.9, -0.12, 0, Math.PI * 2);
+      x.fill();
+      // грудной плавник
+      x.fillStyle = shade(color, -0.35);
+      x.beginPath();
+      x.moveTo(13.5, 13.2);
+      x.quadraticCurveTo(15.2, 15.6, 13.2, 16.6);
+      x.quadraticCurveTo(12.4, 14.8, 13.5, 13.2);
+      x.fill();
+      // жаберная дуга
+      x.strokeStyle = shade(color, -0.4);
+      x.lineWidth = 0.55;
+      x.beginPath();
+      x.arc(11.2, 12, 4.6, -0.9, 0.9);
+      x.stroke();
+      x.restore();
+
+      // глаз с бликом
+      x.fillStyle = 'rgba(10,25,24,0.95)';
+      x.beginPath();
+      x.arc(17.8, 10.6, 1.05, 0, Math.PI * 2);
+      x.fill();
+      x.fillStyle = 'rgba(255,255,255,0.9)';
+      x.beginPath();
+      x.arc(18.15, 10.25, 0.38, 0, Math.PI * 2);
+      x.fill();
+
       return c;
     });
     spriteCache[color] = frames;
@@ -105,7 +166,7 @@
     try { img = octx.getImageData(0, 0, off.width, off.height).data; }
     catch (e) { canvas.remove(); onDone(false); return; }
 
-    var MAX = (W < 600 ? 700 : 1100);
+    var MAX = (W < 600 ? 130 : 200);  // немного крупных объёмных рыбок
     var step = 3;
     function collect(st) {
       var pts = [];
@@ -121,8 +182,14 @@
       return pts;
     }
     var targets = collect(step);
-    while (targets.length > MAX && step < 9) { step += 1; targets = collect(step); }
-    if (targets.length < 40) { canvas.remove(); onDone(false); return; }
+    while (targets.length > MAX * 6 && step < 9) { step += 1; targets = collect(step); }
+    // случайное прореживание до MAX — рыбки равномерно распределяются по буквам
+    for (var sh = targets.length - 1; sh > 0; sh--) {
+      var rj = Math.floor(Math.random() * (sh + 1));
+      var tmp = targets[sh]; targets[sh] = targets[rj]; targets[rj] = tmp;
+    }
+    if (targets.length > MAX) targets = targets.slice(0, MAX);
+    if (targets.length < 25) { canvas.remove(); onDone(false); return; }
 
     // Стайка: каждая форелька приплывает со своей стороны
     var fish = targets.map(function (t, i) {
@@ -138,7 +205,8 @@
         sx: sx, sy: sy, tx: t[0], ty: t[1], color: t[2],
         delay: Math.random() * 600,
         vx: Math.cos(ang) * v, vy: Math.sin(ang) * v,
-        size: 7 + Math.random() * 6,           // размер рыбки
+        z: 0.62 + Math.random() * 0.55,        // глубина сцены (масштаб/приглушение)
+        size: 15 + Math.random() * 11,         // размер рыбки
         wamp: 4 + Math.random() * 8,           // амплитуда рысканья по курсу
         wfreq: 0.006 + Math.random() * 0.006,  // частота рысканья
         wag: 0.014 + Math.random() * 0.01,     // скорость виляния хвостом
@@ -166,8 +234,14 @@
     }
     canvas.addEventListener('click', toScatter);
 
+    // дальние рисуем первыми — ближние перекрывают их
+    var drawOrder = fish.map(function (_, i) { return i; }).sort(function (a, b) {
+      return fish[a].z - fish[b].z;
+    });
+
     function drawFish(now, el, mode, alphaMul) {
-      for (var i = 0; i < fish.length; i++) {
+      for (var oi = 0; oi < drawOrder.length; oi++) {
+        var i = drawOrder[oi];
         var f = fish[i], x, y2, a = alphaMul, hx, hy;
         if (mode === 'swim') {
           var k = Math.max(0, Math.min(1, (el - f.delay) / SWIM));
@@ -197,9 +271,11 @@
         if (fi >= TAIL_FRAMES.length) fi = TAIL_FRAMES.length * 2 - 2 - fi;
         var spr = frames[fi];
         var theta = Math.atan2(hy, hx);
-        var w = f.size * 2, h = f.size * 2;
+        var scale = f.z;                              // глубина: дальние мельче
+        var w = f.size * 2 * scale, h = f.size * 2 * scale;
+        var roll = 0.86 + 0.14 * Math.sin(now * 0.004 + f.phase); // крен корпуса
         ctx.save();
-        ctx.globalAlpha = a;
+        ctx.globalAlpha = a * (0.55 + 0.45 * ((f.z - 0.62) / 0.55)); // дальние приглушены
         ctx.translate(x, y2);
         if (Math.cos(theta) >= 0) {
           ctx.rotate(theta);              // голова по курсу
@@ -207,6 +283,7 @@
           ctx.scale(-1, 1);               // влево — зеркалим, чтобы не плыть кверху брюхом
           ctx.rotate(Math.PI - theta);
         }
+        ctx.scale(1, roll);               // псевдо-3D покачивание корпуса
         ctx.drawImage(spr, -w / 2, -h / 2, w, h);
         ctx.restore();
       }
